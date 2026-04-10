@@ -1,0 +1,1173 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Customer Care Skills Lab – Altán Redes</title>
+<link href="https://fonts.googleapis.com/css2?family=Khand:wght@600;700&family=Encode+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --ar:#9E1D23;--ar2:#7B0C16;--ar3:#C23038;--ar4:#fdf0f0;
+  --navy:#37758A;--green:#BAD47B;--ag:#ABA5A8;
+  --bg:#F5F4F4;--sf:#fff;--bd:rgba(0,0,0,.09);--tx:#1C1C1C;--mu:#666;
+  --fh:'Khand',sans-serif;--fb:'Encode Sans',sans-serif;
+  --r6:6px;--r10:10px;--r16:16px;--sh:0 2px 14px rgba(0,0,0,.08);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--fb);background:var(--bg);color:var(--tx);min-height:100vh}
+button{cursor:pointer;font-family:var(--fb)}
+.scr{display:none}.scr.on{display:block}
+
+/* TOPBAR */
+#tb{background:var(--ar);position:sticky;top:0;z-index:200;box-shadow:0 2px 12px rgba(158,29,35,.4)}
+.tbi{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:0 1.5rem;height:62px}
+.tlogo{display:flex;align-items:center;gap:12px}
+.tbox{width:40px;height:40px;background:#fff;border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-size:21px;font-weight:700;color:var(--ar)}
+.tnames{display:flex;flex-direction:column;line-height:1.1}
+.tname{font-family:var(--fh);font-size:20px;font-weight:700;color:#fff;letter-spacing:2px}
+.tsub{font-size:10px;color:rgba(255,255,255,.6);letter-spacing:.5px}
+.tright{display:flex;align-items:center;gap:10px}
+.tstat{font-size:11px;color:var(--green);font-weight:600;letter-spacing:.5px}
+.tbk{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);color:#fff;border-radius:var(--r6);padding:5px 14px;font-size:12px;display:none}
+.tbk:hover{background:rgba(255,255,255,.25)}
+
+/* HOME */
+#scr-home{max-width:1200px;margin:0 auto;padding:2.5rem 1.5rem}
+.hero{text-align:center;padding:2rem 0 2.5rem}
+.heye{display:inline-flex;align-items:center;gap:8px;background:#fff;border:1px solid var(--bd);border-radius:20px;padding:5px 16px;font-size:11px;font-weight:600;color:var(--mu);letter-spacing:.5px;margin-bottom:1.2rem}
+.heye b{width:7px;height:7px;border-radius:50%;background:var(--ar);display:inline-block}
+.hero h1{font-family:var(--fh);font-size:clamp(32px,5vw,56px);font-weight:700;line-height:1.05;margin-bottom:.85rem}
+.hero h1 em{color:var(--ar);font-style:normal}
+.hero p{font-size:15px;color:var(--mu);line-height:1.75;max-width:500px;margin:0 auto 2rem}
+.mcards{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-bottom:2.5rem}
+.mc{background:var(--sf);border:1.5px solid var(--bd);border-radius:var(--r16);padding:1.4rem;cursor:pointer;transition:transform .15s,box-shadow .15s,border-color .15s;position:relative;overflow:hidden}
+.mc::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:var(--ar);transform:scaleX(0);transform-origin:left;transition:transform .22s}
+.mc:hover{transform:translateY(-3px);box-shadow:var(--sh);border-color:rgba(158,29,35,.25)}
+.mc:hover::after{transform:scaleX(1)}
+.mico{width:50px;height:50px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px;margin-bottom:12px}
+.mc h3{font-family:var(--fh);font-size:17px;font-weight:600;margin-bottom:4px}
+.mc p{font-size:12px;color:var(--mu);line-height:1.5;margin-bottom:10px}
+.chip0{display:inline-block;font-size:10px;font-weight:600;padding:2px 10px;border-radius:20px;background:var(--ar4);color:var(--ar);border:1px solid rgba(158,29,35,.15)}
+.sech h2{font-family:var(--fh);font-size:22px;font-weight:700;margin-bottom:.3rem}
+.sech p{font-size:13px;color:var(--mu);margin-bottom:1.1rem}
+.qgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:9px}
+.qbtn{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r10);padding:11px 14px;display:flex;align-items:flex-start;gap:10px;cursor:pointer;text-align:left;transition:border-color .15s,background .15s,transform .1s}
+.qbtn:hover{border-color:var(--ar);background:var(--ar4);transform:translateY(-1px)}
+.qico{font-size:19px;flex-shrink:0;margin-top:1px}
+.qinfo strong{display:block;font-size:13px;font-weight:600;margin-bottom:2px}
+.qinfo span{font-size:11px;color:var(--mu)}
+.qchips{display:flex;gap:5px;margin-top:4px;flex-wrap:wrap}
+.chip{font-size:10px;padding:1px 8px;border-radius:10px}
+.ce{background:#fde8e8;color:#9b1c1c}
+.cn{background:#fef3cd;color:#7d5a00}
+.ct{background:#e8f5e9;color:#1b5e20}
+.cl{background:#f3f4f6;color:#374151}
+
+/* SIM SCREEN */
+#scr-sim{height:calc(100vh - 62px);display:none;flex-direction:column}
+#scr-sim.on{display:flex}
+.simwrap{flex:1;display:flex;overflow:hidden;max-width:1200px;margin:0 auto;width:100%;padding:.75rem;gap:.75rem}
+
+/* CHAT PANEL */
+.chatpanel{flex:1;display:flex;flex-direction:column;background:var(--sf);border-radius:var(--r16);border:1px solid var(--bd);overflow:hidden;min-width:0}
+.chdr{padding:10px 14px;border-bottom:1px solid var(--bd);background:#fafafa;display:flex;align-items:center;gap:10px;flex-shrink:0}
+.cav{width:40px;height:40px;border-radius:50%;background:var(--ar);color:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-size:15px;font-weight:700;flex-shrink:0}
+.cmeta{flex:1}
+.cnm{font-size:14px;font-weight:600}
+.cst{font-size:11px;color:var(--mu);display:flex;align-items:center;gap:4px;margin-top:1px}
+.rec{width:7px;height:7px;border-radius:50%;background:#e53e3e;animation:pulse 1.4s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+.ctags{display:flex;gap:5px;margin-left:auto;flex-wrap:wrap}
+.ctag{font-size:10px;padding:3px 9px;border-radius:12px;font-weight:600;border:1px solid}
+.ctag-e{background:#fde8e8;color:#9b1c1c;border-color:#f5c6cb}
+.ctag-n{background:#fef3cd;color:#7d5a00;border-color:#fde68a}
+.ctag-t{background:#e8f5e9;color:#1b5e20;border-color:#a7f3d0}
+.ctag-m{background:#e2f0f7;color:#0c5777;border-color:#b8d9ed}
+.ctag-s{background:#f3f0fb;color:#4c1d95;border-color:#c4b5fd}
+.pbar{height:3px;background:#f0f0f0;flex-shrink:0}
+.pfill{height:3px;background:var(--ar);transition:width .5s;width:0%}
+
+/* MESSAGES */
+.msgs{flex:1;overflow-y:auto;padding:.85rem;display:flex;flex-direction:column;gap:9px;background:#fafafa}
+.msg{display:flex;gap:7px;align-items:flex-end;max-width:88%;animation:fu .25s ease}
+@keyframes fu{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.msg.cl{align-self:flex-start}
+.msg.ag{align-self:flex-end;flex-direction:row-reverse}
+.msg.sy{align-self:center;max-width:100%}
+.msg.sa{align-self:center;max-width:100%}
+.mav{width:28px;height:28px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700}
+.msg.cl .mav{background:var(--ar);color:#fff}
+.msg.ag .mav{background:var(--navy);color:#fff}
+.bbl{padding:9px 13px;border-radius:16px;font-size:13px;line-height:1.56}
+.msg.cl .bbl{background:#fff;border:1px solid var(--bd);border-radius:4px 16px 16px 16px}
+.msg.ag .bbl{background:var(--navy);color:#fff;border-radius:16px 4px 16px 16px}
+.msg.sy .bbl{background:#fffbea;border:1px solid #fde68a;color:#6d4c00;border-radius:8px;font-size:12px;text-align:center;width:100%}
+.msg.sa .bbl{background:#f0f4ff;border:1px solid #c7d4fb;color:#2d3a8c;border-radius:8px;font-size:12px;width:100%}
+.tdots span{width:6px;height:6px;border-radius:50%;background:var(--ag);display:inline-block;animation:bk 1.2s infinite;margin:0 2px}
+.tdots span:nth-child(2){animation-delay:.2s}.tdots span:nth-child(3){animation-delay:.4s}
+@keyframes bk{0%,80%,100%{opacity:.3}40%{opacity:1}}
+
+/* INPUT ZONE */
+.inzone{padding:10px 12px;border-top:1px solid var(--bd);background:#fff;flex-shrink:0}
+.prow{display:flex;align-items:center;gap:7px;margin-bottom:8px;flex-wrap:wrap}
+.pstep{font-size:10px;font-weight:700;color:#fff;background:var(--ar);padding:2px 10px;border-radius:20px}
+.pname{font-size:11px;font-weight:600;color:var(--mu);flex:1}
+.pcat{font-size:10px;background:#f0f0f0;color:#555;padding:2px 8px;border-radius:20px}
+
+/* Opciones múltiples */
+.optgrid{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:6px}
+.obtn{background:var(--sf);border:1.5px solid var(--bd);border-radius:var(--r10);padding:9px 12px;font-size:12px;line-height:1.45;text-align:left;cursor:pointer;transition:border-color .15s,background .15s;color:var(--tx)}
+.obtn:hover:not(:disabled){border-color:var(--ar);background:var(--ar4)}
+.obtn:disabled{cursor:default}
+.obtn.sb{border-color:#28a745!important;background:#d4edda!important;color:#155724!important;border-width:2px!important}
+.obtn.sn{border-color:#ffc107!important;background:#fff3cd!important;color:#856404!important;border-width:2px!important}
+.obtn.sm{border-color:#dc3545!important;background:#f8d7da!important;color:#721c24!important;border-width:2px!important}
+
+/* Input libre */
+.freezone{display:none;margin-bottom:6px}
+.freezone.on{display:block}
+.flabel{font-size:11px;color:var(--mu);margin-bottom:5px;font-weight:600}
+.fkws{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:6px}
+.fkw{font-size:10px;padding:2px 9px;border-radius:12px;background:#f0f4ff;color:#2d3a8c;border:1px solid #c7d4fb;font-weight:600}
+.frow{display:flex;gap:7px}
+.fta{flex:1;border:1.5px solid var(--bd);border-radius:var(--r10);padding:8px 12px;font-size:13px;font-family:var(--fb);outline:none;resize:none;min-height:38px;max-height:80px;line-height:1.45;transition:border-color .15s}
+.fta:focus{border-color:var(--ar)}
+.fsend{background:var(--ar);color:#fff;border:none;border-radius:var(--r10);padding:0 14px;font-size:12px;font-weight:600;min-width:72px;transition:background .15s}
+.fsend:hover{background:var(--ar3)}
+.fsend:disabled{background:var(--ag);cursor:not-allowed}
+.fref{font-size:10px;color:var(--mu);margin-bottom:5px;margin-top:4px}
+.refgrid{display:grid;grid-template-columns:1fr 1fr;gap:5px}
+.rbtn{background:#f8f9fa;border:1px solid #dee2e6;border-radius:var(--r6);padding:7px 10px;font-size:11px;line-height:1.4;text-align:left;cursor:pointer;color:var(--tx);transition:background .15s}
+.rbtn:hover:not(:disabled){background:var(--ar4);border-color:rgba(158,29,35,.3)}
+.rbtn:disabled{cursor:default}
+
+/* Feedback */
+.fbmsg{padding:7px 10px;border-radius:6px;font-size:11px;line-height:1.5;display:none;margin-bottom:6px}
+.fbmsg.on{display:block}
+.fbmsg.b{background:#d4edda;color:#155724}
+.fbmsg.n{background:#fff3cd;color:#856404}
+.fbmsg.m{background:#f8d7da;color:#721c24}
+.btnrow{display:flex;align-items:center;gap:6px}
+.bnext{background:var(--ar);color:#fff;border:none;border-radius:var(--r10);padding:7px 20px;font-size:12px;font-weight:600;display:none;transition:background .15s}
+.bnext:hover{background:var(--ar3)}
+.bnext.on{display:inline-block}
+.bskip{background:transparent;border:1px solid var(--bd);border-radius:var(--r10);padding:7px 14px;font-size:11px;color:var(--mu)}
+.bskip:hover{background:#f5f5f5}
+
+/* SIDEBAR */
+.sidebar{width:285px;flex-shrink:0;display:flex;flex-direction:column;gap:.75rem;overflow-y:auto}
+.stabs{display:flex;background:var(--sf);border-radius:var(--r16);border:1px solid var(--bd);overflow:hidden;flex-shrink:0}
+.stab{flex:1;padding:9px 4px;font-size:11px;font-weight:600;border:none;background:transparent;color:var(--mu);cursor:pointer;text-align:center;transition:background .15s}
+.stab.on{background:var(--ar);color:#fff}
+.spanel{background:var(--sf);border-radius:var(--r16);border:1px solid var(--bd);padding:12px;display:none;overflow-y:auto;max-height:calc(100vh - 210px)}
+.spanel.on{display:block}
+.sttl{font-size:11px;font-weight:700;color:var(--ar);letter-spacing:.3px;margin-bottom:9px;padding-bottom:6px;border-bottom:2px solid var(--ar)}
+
+/* Sistema tools */
+.stool{margin-bottom:6px}
+.stbtn{width:100%;display:flex;align-items:center;gap:7px;padding:7px 10px;border-radius:var(--r6);border:1px solid var(--bd);background:#fafafa;font-size:11px;font-weight:600;color:var(--tx);transition:background .15s,border-color .15s;text-align:left;cursor:pointer}
+.stbtn:hover{background:var(--ar4);border-color:rgba(158,29,35,.3);color:var(--ar)}
+.stbtn.done{border-color:#28a745;background:#f0faf3;color:#155724}
+.stbtn .stck{margin-left:auto;display:none}
+.stbtn.done .stck{display:inline}
+.stres{display:none;background:#f8f9fa;border:1px solid #dee2e6;border-radius:0 0 var(--r6) var(--r6);border-top:none;padding:9px 10px;font-size:11px;line-height:1.7}
+.stres.on{display:block}
+.stres table{width:100%;border-collapse:collapse}
+.stres td{padding:2px 4px}
+.stres td:first-child{color:var(--mu);width:44%;font-size:10px}
+.vok{color:#155724}.verr{color:#721c24;background:#f8d7da;padding:1px 5px;border-radius:3px}
+.vwrn{color:#856404;background:#fff3cd;padding:1px 5px;border-radius:3px}
+.snote{font-size:10px;color:var(--mu);margin-top:5px;font-style:italic;line-height:1.4}
+
+/* TS Checklist */
+.tgrp{font-size:10px;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:.7px;margin:9px 0 4px}
+.tgrp:first-child{margin-top:0}
+.tstep{display:flex;gap:6px;align-items:flex-start;padding:4px 6px;border-radius:5px;margin-bottom:2px;font-size:11px;line-height:1.35;color:var(--mu);transition:all .2s}
+.tstep.done{color:#155724;background:#d4edda}
+.tstep.sdone{color:#0c5777;background:#e2f0f7}
+.tstep.cur{color:var(--ar2);background:var(--ar4);font-weight:600}
+.tsico{flex-shrink:0;width:13px;font-size:11px}
+.stip{font-size:11px;color:var(--ar2);line-height:1.55;margin-top:8px;padding:8px 9px;background:var(--ar4);border-left:3px solid var(--ar);border-radius:4px}
+
+/* RESULTADOS */
+#scr-res{max-width:920px;margin:0 auto;padding:2rem 1.5rem;display:none}
+#scr-res.on{display:block}
+.reshdr{background:var(--sf);border-radius:22px;border:1px solid var(--bd);padding:1.75rem;display:flex;align-items:center;gap:2rem;flex-wrap:wrap;margin-bottom:1.1rem;box-shadow:var(--sh)}
+.sring{position:relative;width:120px;height:120px;flex-shrink:0}
+.sring svg{width:100%;height:100%}
+.sinn{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.snum{font-family:var(--fh);font-size:36px;font-weight:700;color:var(--ar);line-height:1}
+.ssub{font-size:11px;color:var(--mu)}
+.gblk{flex:1}
+.gnm{font-family:var(--fh);font-size:30px;font-weight:700;margin-bottom:4px}
+.gmsg{font-size:14px;color:var(--mu);line-height:1.65;margin-bottom:6px}
+.gmeta{font-size:11px;color:var(--navy)}
+.mrow{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-bottom:1.1rem}
+.mbox{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r10);padding:12px;text-align:center}
+.mval{font-family:var(--fh);font-size:24px;font-weight:700}
+.mbarw{height:4px;background:#f0f0f0;border-radius:2px;margin:5px 0 3px}
+.mbar{height:4px;border-radius:2px;background:var(--ar);transition:width 1.1s ease}
+.mlbl{font-size:11px;color:var(--mu)}
+.rsec{background:var(--sf);border-radius:var(--r16);border:1px solid var(--bd);padding:1.1rem;margin-bottom:.85rem}
+.rsttl{font-size:13px;font-weight:700;margin-bottom:.7rem}
+.ev{padding:7px 10px;border-radius:6px;font-size:13px;line-height:1.5;margin-bottom:5px}
+.ev:last-child{margin-bottom:0}
+.ev.g{background:#d4edda;color:#155724}
+.ev.b{background:#f8d7da;color:#721c24}
+.ev.w{background:#fff3cd;color:#856404}
+.ev.i{background:#e2f0f7;color:#0c5777}
+.ev.t{background:#e8f5e9;color:#1b5e20}
+.chkrow{display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid #f5f5f5;font-size:12px}
+.chkrow:last-child{border-bottom:none}
+.chkb{font-size:10px;padding:2px 8px;border-radius:10px;font-weight:600}
+.cok{background:#d4edda;color:#155724}.cno{background:#f8d7da;color:#721c24}
+.resacts{display:flex;gap:10px;flex-wrap:wrap;margin-top:1.25rem;padding-bottom:2.5rem}
+.bpri{background:var(--ar);color:#fff;border:none;border-radius:var(--r10);padding:11px 26px;font-size:14px;font-weight:600}
+.bpri:hover{background:var(--ar3)}
+.bsec{background:#fff;color:var(--ar);border:1.5px solid var(--ar);border-radius:var(--r10);padding:11px 26px;font-size:14px;font-weight:600}
+.bsec:hover{background:var(--ar4)}
+
+@media(max-width:860px){.sidebar{display:none}.simwrap{padding:.5rem}.mrow{grid-template-columns:1fr 1fr}}
+@media(max-width:480px){.mcards{grid-template-columns:1fr}.qgrid{grid-template-columns:1fr}.optgrid,.refgrid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<header id="tb">
+  <div class="tbi">
+    <div class="tlogo">
+      <div class="tbox">A</div>
+      <div class="tnames"><span class="tname">ALTÁN</span><span class="tsub">Customer Care Skills Lab</span></div>
+    </div>
+    <div class="tright">
+      <span class="tstat">● ENTRENAMIENTO ACTIVO</span>
+      <button class="tbk" id="tbk" onclick="goHome()">↩ Inicio</button>
+    </div>
+  </div>
+</header>
+
+<!-- ═══ HOME ═══ -->
+<div class="scr on" id="scr-home">
+<div id="scr-home-inner" style="max-width:1200px;margin:0 auto;padding:2.5rem 1.5rem">
+  <div class="hero">
+    <div class="heye"><b></b> SIMULADOR DE ENTRENAMIENTO</div>
+    <h1>Bienvenido al <em>Skills Lab</em></h1>
+    <p>Simulador de atención y soporte técnico para agentes de los OMVs. Practica con opciones guiadas y respuesta libre. Flujos oficiales Altán.</p>
+  </div>
+  <div class="mcards">
+    <div class="mc" onclick="launch('s')">
+      <div class="mico" style="background:#fde8e8">🌱</div>
+      <h3>Nivel básico</h3>
+      <p>Ideal para empezar. Opciones guiadas con retroalimentación inmediata en cada paso.</p>
+      <span class="chip0" style="background:#d4edda;color:#155724;border-color:#a3d9a5">Principiante · Con apoyo</span>
+    </div>
+    <div class="mc" onclick="launch('t')">
+      <div class="mico" style="background:#e2f0f7">🚀</div>
+      <h3>Nivel avanzado</h3>
+      <p>Escenarios complejos: SMS A2P, portabilidad, Servicio Total. Sin opciones guiadas.</p>
+      <span class="chip0" style="background:#cce5ff;color:#004085;border-color:#99caff">N2 · Diagnóstico complejo</span>
+    </div>
+    <div class="mc" onclick="launch('e')">
+      <div class="mico" style="background:#fef8e8">🎯</div>
+      <h3>Modo examen</h3>
+      <p>Sin retroalimentación ni palabras clave. Solo texto libre. Evaluación estricta al finalizar.</p>
+      <span class="chip0" style="background:#f8d7da;color:#721c24;border-color:#f5c6cb">Evaluación ciega · Sin apoyo</span>
+    </div>
+  </div>
+  <div class="sech"><h2>Escenarios de práctica</h2><p>Selecciona el caso que quieres trabajar</p>
+    <div class="qgrid" id="qgrid"></div>
+  </div>
+</div>
+</div>
+
+<!-- ═══ SIM ═══ -->
+<div class="scr" id="scr-sim">
+  <div class="simwrap">
+    <div class="chatpanel">
+      <div class="chdr">
+        <div class="cav">CL</div>
+        <div class="cmeta"><div class="cnm">Cliente</div><div class="cst"><span class="rec"></span><span>Llamada en curso</span></div></div>
+        <div class="ctags" id="ctags"></div>
+      </div>
+      <div class="pbar"><div class="pfill" id="pf"></div></div>
+      <div class="msgs" id="msgs"></div>
+      <div class="inzone">
+        <div class="prow">
+          <span class="pstep" id="pst">Paso 1</span>
+          <span class="pname" id="pnm">—</span>
+          <span class="pcat" id="pct"></span>
+        </div>
+        <div class="optgrid" id="og"></div>
+        <div class="freezone" id="fz">
+          <div class="flabel" id="fl">Escribe tu respuesta o pregunta al cliente:</div>
+          <div class="fkws" id="fkw"></div>
+          <div class="frow">
+            <textarea class="fta" id="fta" rows="1" placeholder="Escribe tu respuesta al cliente…"
+              oninput="arTA(this)"
+              onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendFree()}"></textarea>
+            <button class="fsend" id="fsbtn" onclick="sendFree()">Enviar</button>
+          </div>
+          <div class="fref" id="fref-lbl" style="display:none">O elige una referencia:</div>
+          <div class="refgrid" id="rg" style="display:none"></div>
+        </div>
+        <div class="fbmsg" id="fb"></div>
+        <div class="btnrow">
+          <button class="bnext" id="bnext" onclick="nextPh()">Continuar →</button>
+          <button class="bskip" onclick="skipEnd()">Terminar llamada</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="sidebar">
+      <div class="stabs">
+        <button class="stab on" onclick="stab('sis')">🖥️ Sistema</button>
+        <button class="stab" onclick="stab('ts')">📋 Flujo TS</button>
+      </div>
+      <div class="spanel on" id="sp-sis">
+        <div class="sttl">Herramientas del agente</div>
+        <p style="font-size:11px;color:var(--mu);margin-bottom:9px;line-height:1.45">Consulta el sistema cuando lo necesites. Cada consulta queda en tu evaluación.</p>
+        <div id="stools"></div>
+      </div>
+      <div class="spanel" id="sp-ts">
+        <div class="sttl">Flujo TS oficial</div>
+        <div class="tgrp">Sondeo</div><div id="ts-s"></div>
+        <div class="tgrp">4 Validaciones</div><div id="ts-v"></div>
+        <div class="tgrp">TS – Configuraciones</div><div id="ts-c"></div>
+        <div class="tgrp">Escalación (último paso)</div><div id="ts-e"></div>
+        <div class="stip" id="stip"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ RESULTADOS ═══ -->
+<div class="scr" id="scr-res">
+  <div class="reshdr">
+    <div class="sring">
+      <svg viewBox="0 0 120 120">
+        <circle cx="60" cy="60" r="52" fill="none" stroke="#f0f0f0" stroke-width="10"/>
+        <circle cx="60" cy="60" r="52" fill="none" stroke="#9E1D23" stroke-width="10"
+          stroke-dasharray="326.73" stroke-dashoffset="326.73" id="sarc"
+          stroke-linecap="round" transform="rotate(-90 60 60)" style="transition:stroke-dashoffset 1.3s ease"/>
+      </svg>
+      <div class="sinn"><div class="snum" id="rsc">0</div><div class="ssub">/ 100</div></div>
+    </div>
+    <div class="gblk">
+      <div class="gnm" id="rgr">–</div>
+      <div class="gmsg" id="rmsg">–</div>
+      <div class="gmeta" id="rmet">–</div>
+    </div>
+  </div>
+  <div class="mrow">
+    <div class="mbox"><div class="mval" id="mt">–</div><div class="mbarw"><div class="mbar" id="mbt"></div></div><div class="mlbl">Técnica TS</div></div>
+    <div class="mbox"><div class="mval" id="ms">–</div><div class="mbarw"><div class="mbar" id="mbs"></div></div><div class="mlbl">Sistema</div></div>
+    <div class="mbox"><div class="mval" id="me">–</div><div class="mbarw"><div class="mbar" id="mbe"></div></div><div class="mlbl">Sondeo/Empatía</div></div>
+    <div class="mbox"><div class="mval" id="mc2">–</div><div class="mbarw"><div class="mbar" id="mbc2"></div></div><div class="mlbl">Cierre</div></div>
+  </div>
+  <div class="rsec"><div class="rsttl">✅ 4 Validaciones básicas</div><div id="r-val"></div></div>
+  <div class="rsec"><div class="rsttl">🔍 Sondeo inicial</div><div id="r-son"></div></div>
+  <div class="rsec"><div class="rsttl">⚙️ TS – Configuraciones</div><div id="r-ts"></div></div>
+  <div class="rsec"><div class="rsttl">🖥️ Uso del sistema</div><div id="r-sys"></div></div>
+  <div class="rsec" id="r-crw" style="display:none"><div class="rsttl">🚨 Errores críticos</div><div id="r-crit"></div></div>
+  <div class="rsec"><div class="rsttl">💡 Tips y buenas prácticas</div><div id="r-tips"></div></div>
+  <div class="rsec"><div class="rsttl">📈 Cómo mejorar</div><div id="r-ej"></div></div>
+  <div class="resacts">
+    <button class="bpri" onclick="retry()">🔄 Repetir escenario</button>
+    <button class="bsec" onclick="goHome()">🏠 Elegir otro escenario</button>
+  </div>
+</div>
+
+<script>
+/* ═══════════════════════════════════════════════════════════════
+   FASES DEL SIMULADOR
+   tipo: 'opts'  → opciones múltiples
+         'libre' → texto libre con palabras clave (+ opciones ref.)
+         'mixed' → 50% opts / 50% libre aleatoriamente
+   q: 'buena'|'neutra'|'mala'
+   a: 'client'|'system'|'none'
+═══════════════════════════════════════════════════════════════ */
+const PH = {
+
+greeting:{cat:'APERTURA',tipo:'opts',label:'Apertura y presentación',ts:'Identificación al inicio',
+  hint:'Preséntate con nombre e indica el OMV. Solicita el número de línea para comenzar.',
+  opts:[
+    {t:'Gracias por contactar a Tu Telefonía. Mi nombre es [Agente], con gusto le apoyo. ¿Me permite su número de línea para comenzar?',q:'buena',a:'client',fb:'✓ Presentación completa: nombre, OMV y solicitud del número. Correcto.'},
+    {t:'Hola, ¿en qué le puedo ayudar hoy?',q:'neutra',a:'client',fb:'⚠ Falta presentarte por nombre. Siempre identificarse al inicio.'},
+    {t:'¿Ya reinició su equipo? Ese suele ser el problema.',q:'mala',a:'client',fb:'✗ No se propone solución antes de escuchar el problema ni de hacer el sondeo y las validaciones.'},
+    {t:'Dígame su problema rápidamente.',q:'mala',a:'client',fb:'✗ Tono inapropiado y falta presentación. El agente siempre se identifica primero.'},
+  ]},
+
+sondeo_contexto:{cat:'SONDEO',tipo:'libre',label:'Sondeo 1 · Contexto del problema',ts:'Sondeo: cuándo / primera vez / lugar',
+  hint:'Establece el contexto: ¿cuándo comenzó? ¿Es la primera vez? ¿Le pasa en algún lugar específico?',
+  kw:['cuándo','primera vez','lugar','desde','antes','ocurrido','específico','siempre'],
+  kw_label:'Palabras clave: cuándo comenzó · primera vez · lugar específico · desde cuándo',
+  fb_ok:'✓ Correcto. Estableciste el contexto: tiempo, recurrencia y ubicación del problema.',
+  fb_miss:'⚠ Falta preguntar el contexto. Recuerda: ¿cuándo comenzó? ¿Primera vez? ¿Lugar específico?',
+  opts:[
+    {t:'¿Cuándo comenzó el problema? ¿Ha ocurrido antes o es la primera vez? ¿Le pasa en algún lugar en específico?',q:'buena',a:'client',fb:'✓ Las 3 preguntas de contexto del sondeo oficial.'},
+    {t:'¿Desde cuándo tiene esta situación y es algo recurrente?',q:'buena',a:'client',fb:'✓ Correcto. Identificas tiempo y recurrencia.'},
+  ]},
+
+sondeo_tipo:{cat:'SONDEO',tipo:'libre',label:'Sondeo 2 · Tipo y área del problema',ts:'Sondeo: llamadas / datos / SMS / todo',
+  hint:'Identifica qué falla: ¿llamadas, datos, SMS o todo? ¿Hay mensaje de error? ¿Lentitud o sin servicio?',
+  kw:['llamadas','datos','mensajes','sms','error','todo','servicio','navegar','recibir','hacer','lentitud'],
+  kw_label:'Palabras clave: llamadas · datos · mensajes · error · todo el servicio · lentitud',
+  fb_ok:'✓ Correcto. Identificaste el tipo de afectación para orientar el diagnóstico.',
+  fb_miss:'⚠ Falta preguntar el tipo de problema. ¿Afecta llamadas, datos, SMS o todo?',
+  opts:[
+    {t:'¿El problema es con llamadas, datos, mensajes, o con todo el servicio? ¿Le aparece algún mensaje de error?',q:'buena',a:'client',fb:'✓ Correcto. Identificas el tipo de falla y si hay mensaje de error.'},
+    {t:'¿Está sin servicio del todo o es lentitud? ¿Puede hacer algo aunque sea parcialmente?',q:'buena',a:'client',fb:'✓ Correcto. Distinción entre sin servicio total vs. falla parcial.'},
+  ]},
+
+/* ── 4 VALIDACIONES BÁSICAS ── */
+val_equipo:{cat:'VALIDACIÓN 1',tipo:'opts',label:'Validación 1 · Equipo compatible (homologado B28)',ts:'1. Equipo compatible (homologado B28)',
+  hint:'Primero consulta en sistema si el equipo está homologado. Si necesitas el modelo, pídeselo al cliente claramente.',
+  opts:[
+    {t:'Un momento, voy a verificar en sistema si su dispositivo está homologado para nuestra red. Para eso necesito el modelo de su equipo, ¿me lo podría indicar?',q:'buena',a:'system',sys:'equipo',fb:'✓ Correcto. Explicas al cliente para qué pides el dato y consultas el sistema.'},
+    {t:'Permítame un momento, estoy revisando en sistema la compatibilidad de su equipo con la red.',q:'buena',a:'system',sys:'equipo',fb:'✓ Correcto. Le indicas al cliente que estás verificando en sistema.'},
+    {t:'Todos los equipos que vendemos son compatibles, eso no es el problema.',q:'mala',a:'none',fb:'✗ No todos los equipos están homologados para la red B28. Primera validación obligatoria.'},
+    {t:'¿Cuál es su equipo? Si es viejo puede ser el problema.',q:'mala',a:'none',fb:'✗ Diagnóstico sin verificar en sistema y tono inadecuado. Siempre validar en sistema con el modelo exacto.'},
+  ]},
+
+val_oferta:{cat:'VALIDACIÓN 2',tipo:'opts',label:'Validación 2 · Oferta Comercial Vigente',ts:'2. Oferta Comercial vigente',
+  hint:'Verificar en sistema que el plan/oferta esté activo y con recursos. El cliente no lo sabe con certeza.',
+  opts:[
+    {t:'Permítame revisar en sistema que su plan esté activo y con los recursos disponibles para el servicio que reporta.',q:'buena',a:'system',sys:'saldo',fb:'✓ Correcto. Verificas en sistema sin pedir al cliente que adivine el estado de su plan.'},
+    {t:'Estoy verificando su Oferta Comercial en sistema para confirmar que esté vigente y con los recursos correctos.',q:'buena',a:'system',sys:'saldo',fb:'✓ Correcto. Le informas al cliente qué estás revisando mientras lo haces.'},
+    {t:'¿Sabe usted si su plan está vigente?',q:'mala',a:'none',fb:'✗ El cliente no lo sabe con certeza. Esta información se consulta en sistema, no se le pregunta al cliente.'},
+    {t:'Si está al corriente en sus pagos el plan estará activo, continuemos.',q:'mala',a:'none',fb:'✗ No se puede asumir. Los planes pueden vencerse o tener recursos agotados sin morosidad. Siempre verificar.'},
+  ]},
+
+val_sim:{cat:'VALIDACIÓN 3',tipo:'opts',label:'Validación 3 · SIM activa – Estado del servicio',ts:'3. SIM activa (Estado del servicio)',
+  hint:'Consultar en View 360 el estatus real de la línea. El cliente no conoce su estatus en sistema.',
+  opts:[
+    {t:'Estoy consultando en sistema el estado de su línea para confirmar que esté activa y sin restricciones.',q:'buena',a:'system',sys:'view360',fb:'✓ Correcto. Verificas el estatus en View 360 sin asumir nada.'},
+    {t:'Un momento, estoy revisando su línea en el sistema de gestión para ver si tiene alguna afectación.',q:'buena',a:'system',sys:'view360',fb:'✓ Correcto. Le comunicas al cliente qué estás haciendo mientras verificas.'},
+    {t:'¿Su teléfono tiene señal? Si tiene barras, la SIM está activa.',q:'mala',a:'none',fb:'✗ El equipo puede tener señal aunque la línea esté suspendida en sistema. Siempre verificar en View 360.'},
+    {t:'Las líneas solo se suspenden si hay adeudo, lo cual me dijo que no tiene.',q:'mala',a:'none',fb:'✗ Las líneas pueden suspenderse por robo/extravío, cancelación u otras causas. Verificar siempre en sistema.'},
+  ]},
+
+val_cobertura:{cat:'VALIDACIÓN 4',tipo:'libre',label:'Validación 4 · Cobertura Altán',ts:'4. Cobertura Altán (ubicación)',
+  hint:'Necesitas saber dónde está el cliente para verificar cobertura. Pídele su ubicación con claridad y luego confirma en sistema.',
+  kw:['colonia','municipio','ubicación','zona','dónde','lugar','cobertura','interiores','indoor'],
+  kw_label:'Palabras clave: colonia · municipio · dónde se encuentra · zona · verificar cobertura',
+  fb_ok:'✓ Correcto. Solicitas la ubicación exacta para poder verificar la cobertura en sistema.',
+  fb_miss:'⚠ Necesitas preguntar dónde se encuentra el cliente (colonia/municipio) para verificar cobertura Altán en esa zona.'},
+
+/* ═══ TS DATOS ═══ */
+diag_datos:{cat:'DIAGNÓSTICO',tipo:'libre',label:'Diagnóstico · Falla de datos',ts:'¿Todas las apps o una específica?',
+  hint:'Pregunta si el problema es con todas las apps/sitios o con uno en específico. Si falla una sola app, el problema es de esa app, no de la red.',
+  kw:['todas','todas las apps','todas las aplicaciones','en específico','específica','una sola','cualquier','todos los sitios'],
+  kw_label:'Palabras clave: todas las apps · en específico · una sola app · cualquier sitio',
+  fb_ok:'✓ Correcto. Identificas si la falla es general de red o solo de una app/sitio.',
+  fb_miss:'⚠ Pregunta si el problema es con todas las aplicaciones y sitios, o con uno en específico. Eso define si es falla de red o de la app.'},
+
+datos_activar:{cat:'TS · PASO 1',tipo:'libre',label:'TS Datos 1 · Guiar al cliente: datos encendidos',ts:'TS: datos encendidos en terminal',
+  hint:'Instruye al cliente para que verifique y active los datos móviles en su dispositivo. Da la ruta exacta.',
+  kw:['datos móviles','redes móviles','configuración','encienda','active','encender','activar','datos'],
+  kw_label:'Palabras clave: datos móviles · Configuración > Redes móviles · encienda · active los datos',
+  fb_ok:'✓ Correcto. Guías al cliente con la ruta exacta para activar los datos móviles.',
+  fb_miss:'⚠ Indica al cliente la ruta exacta: Configuración > Redes móviles > activar la opción de Datos Móviles. Luego pídele que pruebe.'},
+
+datos_modo_red:{cat:'TS · PASO 2',tipo:'opts',label:'TS Datos 2 · Guiar al cliente: Modo de Red 4G',ts:'TS: Modo de Red Preferido 4G',
+  hint:'Instruye al cliente para que cambie el modo de red a 4G. Da la ruta específica para que pueda hacerlo.',
+  opts:[
+    {t:'Le pido que vaya a Configuración > Redes móviles > Modo de red preferido, y que seleccione la opción 4G o LTE. Luego haga una prueba de navegación.',q:'buena',a:'client',fb:'✓ Instrucción completa con ruta exacta y acción de verificación.'},
+    {t:'Por favor vaya a Configuración, entre a Redes móviles y busque la opción de Modo de red. Cámbielo a 4G que es el recomendado, y pruebe si ya navega.',q:'buena',a:'client',fb:'✓ Correcto. Ruta paso a paso y verificación al final.'},
+    {t:'La red se selecciona automáticamente, no hay nada que cambiar en el equipo.',q:'mala',a:'none',fb:'✗ El modo de red preferido se configura manualmente en el dispositivo. Puede estar en 3G o 2G y limitar el servicio.'},
+    {t:'Si tiene datos encendidos ya debería funcionar en 4G.',q:'mala',a:'none',fb:'✗ No necesariamente. El modo de red puede estar forzado a 3G o 2G. Hay que verificar y corregir.'},
+  ]},
+
+datos_apn:{cat:'TS · PASO 3',tipo:'libre',label:'TS Datos 3 · Guiar al cliente: configurar APN',ts:'TS: APN del OMV configurado',
+  hint:'Guía al cliente para que revise y configure el APN correcto. Da la ruta completa paso a paso. El APN correcto lo indica el OMV.',
+  kw:['configuración','redes móviles','punto de acceso','apn','nombre del punto','modifique','cree','verifique el apn'],
+  kw_label:'Palabras clave: APN · punto de acceso · Configuración > Redes móviles > APN · modifique · cree el APN',
+  fb_ok:'✓ Correcto. Guías al cliente con la ruta exacta para verificar y configurar el APN del OMV.',
+  fb_miss:'⚠ Indica la ruta completa: Configuración > Redes móviles > Nombres de punto de acceso (APN). Guía al cliente para verificar o crear el APN correcto de su operador.'},
+
+datos_restablecer:{cat:'TS · PASO 4',tipo:'opts',label:'TS Datos 4 · Guiar al cliente: restablecer ajustes de red',ts:'TS: restablecer ajustes de red',
+  hint:'Si persisten los problemas, guía al cliente para restablecer ajustes de red. Aclarar que NO borra datos personales.',
+  opts:[
+    {t:'Si después de los ajustes anteriores sigue sin funcionar, le pido que vaya a Configuración > Sistema > Restablecer > Restablecer ajustes de red. Tranquilo, este proceso no borra sus fotos ni datos personales, solo limpia las configuraciones de red.',q:'buena',a:'client',fb:'✓ Instrucción completa con ruta, acción y la aclaración importante de que no borra datos.'},
+    {t:'Vamos a restablecer los ajustes de red de su dispositivo. Vaya a Configuración > Sistema > Restablecer > Restablecer ajustes de red. Sus fotos y aplicaciones no se verán afectadas.',q:'buena',a:'client',fb:'✓ Correcto. Ruta exacta y tranquiliza al cliente sobre sus datos.'},
+    {t:'Haga un restablecimiento de fábrica completo para limpiar todo.',q:'mala',a:'client',fb:'✗ El restablecimiento de fábrica borra todos los datos del cliente. Solo se requiere restablecer ajustes de red.'},
+    {t:'Si nada funciona dígale que lleve el equipo a servicio técnico.',q:'mala',a:'none',fb:'✗ Antes de escalar hay que completar el TS completo incluyendo restablecer ajustes de red.'},
+  ]},
+
+datos_tscheck:{cat:'TS · VERIFICACIÓN',tipo:'opts',label:'Verificación · ¿El TS resolvió los datos?',ts:'Verificar si TS resolvió (antes del ticket)',
+  hint:'ANTES de levantar cualquier ticket, siempre verifica con el cliente si el servicio quedó funcionando.',
+  opts:[
+    {t:'Muy bien, ya aplicamos todos los pasos. Le pido que intente abrir una página o una aplicación ahora mismo y me diga si ya le carga.',q:'buena',a:'client',fb:'✓ Correcto. Pides prueba en vivo inmediata antes de decidir si escalar.'},
+    {t:'¿Puede intentar navegar en este momento? Abra WhatsApp o el navegador y dígame si ya funciona.',q:'buena',a:'client',fb:'✓ Correcto. Prueba específica e inmediata para confirmar el resultado del TS.'},
+    {t:'Con los pasos que hicimos ya debe estar resuelto. Cerramos la llamada.',q:'mala',a:'none',fb:'✗ Nunca asumir que resolvió. Siempre pedir al cliente que haga una prueba antes de cerrar.'},
+    {t:'Voy a levantar el ticket ahora por si acaso.',q:'mala',a:'none',fb:'✗ El ticket solo se levanta si el cliente confirma que el problema persiste después del TS. Primero verificar.'},
+  ]},
+
+datos_ticket:{cat:'ESCALACIÓN',tipo:'opts',label:'Escalación · Ticket Remedy – Falla de Datos',ts:'Ticket Remedy: Falla de Datos',
+  hint:'SOLO si el cliente confirmó que persiste. Ticket en Remedy con categoría correcta y evidencias.',
+  opts:[
+    {t:'Entendido. Ya que el problema persiste después de todos los pasos, voy a generar un ticket en Remedy con categoría Falla de Datos. Voy a necesitar las capturas de: datos encendidos, modo de red y APN de su dispositivo. Le asigno el folio y le informo el tiempo estimado de respuesta.',q:'buena',a:'client',fb:'✓ Ticket Remedy con contexto completo, categoría correcta, capturas requeridas, folio y tiempo estimado.'},
+    {t:'Procedo a escalar su caso. Le genero el folio de seguimiento ahora y el área técnica se comunicará en un plazo de 24 a 48 horas hábiles.',q:'buena',a:'client',fb:'✓ Escalación correcta con folio y tiempo estimado comunicado al cliente.'},
+    {t:'Le levanto el ticket aunque no sé si hay más pasos por hacer.',q:'mala',a:'none',fb:'✗ El ticket se levanta SOLO si se agotó el TS completo y el cliente confirmó que persiste.'},
+    {t:'Le digo que espere unas horas a ver si se resuelve solo.',q:'mala',a:'client',fb:'✗ Si el TS no resolvió, hay que escalar. No decirle que espere sin acción.'},
+  ]},
+
+/* ═══ TS LLAMADAS ═══ */
+diag_llamadas:{cat:'DIAGNÓSTICO',tipo:'libre',label:'Diagnóstico · Falla de llamadas',ts:'¿Entrantes/salientes? ¿operador? ¿número?',
+  hint:'Necesitas saber: ¿falla al hacer llamadas, al recibirlas o en ambas? ¿Con qué operador? ¿Es solo un número o con todos?',
+  kw:['hacer llamadas','recibir','entrantes','salientes','operador','número específico','todos los números'],
+  kw_label:'Palabras clave: hacer llamadas · recibir · entrantes · salientes · operador · número específico',
+  fb_ok:'✓ Correcto. Identificas el sentido de la falla y el alcance para orientar el diagnóstico.',
+  fb_miss:'⚠ Pregunta: ¿el problema es al hacer llamadas, al recibirlas, o en ambas? ¿Con qué operador? ¿Es con un número específico o con todos?'},
+
+llamadas_datos:{cat:'TS · PASO 1',tipo:'libre',label:'TS Llamadas 1 · Explicar y verificar datos para VoLTE',ts:'TS: datos activos para VoLTE',
+  hint:'Explica al cliente por qué los datos son necesarios para VoLTE y pídele que los active si no los tiene.',
+  kw:['datos','volte','requiere','necesita','encienda','redes móviles','datos móviles','llamadas por 4g'],
+  kw_label:'Palabras clave: datos · VoLTE requiere datos · encienda · Redes móviles · llamadas por 4G',
+  fb_ok:'✓ Correcto. Explicas la razón (VoLTE requiere datos) e indicas cómo activarlos.',
+  fb_miss:'⚠ Explica al cliente: "Las llamadas VoLTE funcionan a través de la red de datos. Necesito que verifique que los datos móviles estén activos." Luego da la ruta si no los tiene encendidos.'},
+
+llamadas_volte:{cat:'TS · PASO 2',tipo:'libre',label:'TS Llamadas 2 · Guiar al cliente: activar VoLTE',ts:'TS: VoLTE activo en dispositivo',
+  hint:'Da la ruta exacta según el sistema operativo. Android: Configuración > Redes móviles > Llamadas VoLTE. iPhone: Ajustes > Datos móviles > Opciones > VoLTE.',
+  kw:['volte','configuración','redes móviles','llamadas volte','ajustes','datos móviles','opciones','active','activar'],
+  kw_label:'Palabras clave: VoLTE · Configuración > Redes móviles > Llamadas VoLTE · Ajustes > Datos móviles > Opciones · active',
+  fb_ok:'✓ Correcto. Guías al cliente con la ruta exacta para activar VoLTE en su dispositivo.',
+  fb_miss:'⚠ Android: Configuración > Redes móviles > Llamadas VoLTE > activar. iPhone: Ajustes > Datos móviles > Opciones > VoLTE > activar.'},
+
+llamadas_ims:{cat:'TS · PASO 3',tipo:'opts',label:'TS Llamadas 3 · Guiar al cliente: APN IMS',ts:'TS: APN IMS configurado',
+  hint:'Guía al cliente para verificar o crear el APN IMS con los valores exactos del flujo oficial.',
+  opts:[
+    {t:'Vamos a revisar el APN IMS. Vaya a Configuración > Redes móviles > APN. Ahí debe existir uno de tipo IMS con estos valores: MCC 334, MNC 140, autenticación PAP, protocolo IPV4/IPV6. Si no existe, lo crearemos juntos.',q:'buena',a:'client',fb:'✓ Guías al cliente con ruta y valores exactos del flujo oficial.'},
+    {t:'Le voy a pedir que vaya a Configuración > Redes > APN. Busque si hay algún APN de tipo IMS. Si no lo tiene, vamos a crearlo con los valores MCC 334, MNC 140, tipo IMS, autenticación PAP.',q:'buena',a:'client',fb:'✓ Correcto. Ruta exacta y valores del APN IMS.'},
+    {t:'El APN IMS se configura solo cuando activa VoLTE, no hay que hacer nada.',q:'mala',a:'none',fb:'✗ El APN IMS puede no existir o estar mal configurado. Hay que verificarlo manualmente con los valores del flujo oficial.'},
+    {t:'Si VoLTE ya está activo el APN IMS no importa.',q:'mala',a:'none',fb:'✗ VoLTE activo no garantiza que el APN IMS esté bien configurado. Ambas cosas son necesarias.'},
+  ]},
+
+llamadas_bloqueados:{cat:'TS · PASO 4',tipo:'opts',label:'TS Llamadas 4 · Verificar bloqueados / #31#',ts:'TS: bloqueados / código #31#',
+  hint:'Si es un número específico: guía para revisar la lista de bloqueados. Si son varios: indicar que marque #31# antes del número.',
+  opts:[
+    {t:'Si el problema es con un número específico, le pido que vaya a los contactos o a la configuración de llamadas de su teléfono y verifique que ese número no esté en la lista de bloqueados. Si el problema es con varios números, marque #31# seguido del número y pruebe.',q:'buena',a:'client',fb:'✓ Instrucción diferenciada según si es uno o varios números.'},
+    {t:'Vaya a la configuración de llamadas de su dispositivo y busque la opción de Números bloqueados. Revise si hay algún número ahí que no debería estar. También puede marcar #31# más el número para desbloquear restricciones.',q:'buena',a:'client',fb:'✓ Ruta para revisar bloqueados y uso del código #31#.'},
+    {t:'Los números bloqueados no afectan el servicio de llamadas de la red.',q:'mala',a:'none',fb:'✗ Un número en lista de bloqueados impide recibir llamadas de ese contacto. Es parte del TS oficial.'},
+    {t:'Si VoLTE está activo, ya no hay más nada que revisar.',q:'mala',a:'none',fb:'✗ Faltan pasos del TS: bloqueados, código #31# y modo de red. VoLTE activo no es suficiente.'},
+  ]},
+
+llamadas_modo_red:{cat:'TS · PASO 5',tipo:'libre',label:'TS Llamadas 5 · Guiar al cliente: Modo de Red 4G',ts:'TS: Modo de Red 4G para llamadas',
+  hint:'VoLTE solo funciona en red 4G. Guía al cliente para asegurarse de que el modo de red esté en 4G.',
+  kw:['4g','modo de red','configuración','redes móviles','seleccione 4g','modo preferido','lte'],
+  kw_label:'Palabras clave: 4G · modo de red · Configuración > Redes móviles · seleccione 4G · LTE',
+  fb_ok:'✓ Correcto. Guías al cliente para verificar que el modo de red esté en 4G, necesario para VoLTE.',
+  fb_miss:'⚠ Indica al cliente: Configuración > Redes móviles > Modo de red preferido > seleccione 4G o LTE.'},
+
+llamadas_tscheck:{cat:'TS · VERIFICACIÓN',tipo:'opts',label:'Verificación · ¿El TS resolvió las llamadas?',ts:'Verificar si TS resolvió las llamadas',
+  hint:'Verifica con el cliente si las llamadas funcionan antes de levantar ticket.',
+  opts:[
+    {t:'Ya aplicamos todos los pasos. Le pido que intente hacer una llamada de prueba ahora mismo y me diga qué sucede.',q:'buena',a:'client',fb:'✓ Prueba en vivo antes de decidir si escalar.'},
+    {t:'¿Puede marcar a algún número en este momento para verificar si ya le funciona? Dígame qué mensaje o qué escucha.',q:'buena',a:'client',fb:'✓ Prueba específica con instrucción de qué reportar.'},
+    {t:'Seguramente ya funciona con los cambios que hicimos. Cerramos.',q:'mala',a:'none',fb:'✗ Nunca asumir. El cliente debe confirmar que las llamadas ya funcionan antes de cerrar.'},
+    {t:'Le levanto el ticket aunque no hicimos la prueba.',q:'mala',a:'none',fb:'✗ El ticket solo procede si el cliente confirma que persiste después de verificar.'},
+  ]},
+
+llamadas_ticket:{cat:'ESCALACIÓN',tipo:'opts',label:'Escalación · Ticket Remedy – Falla de Voz',ts:'Ticket Remedy: Falla de Voz',
+  hint:'SOLO si el cliente confirmó que persiste. Ticket con categoría Falla de Voz y evidencias.',
+  opts:[
+    {t:'Entendido. Voy a generar el ticket en Remedy con categoría Falla de Voz, incluyendo el tipo de llamadas afectadas, el operador y las capturas de VoLTE y APN IMS. Le asigno folio y le informo el tiempo estimado.',q:'buena',a:'client',fb:'✓ Ticket completo con categoría, evidencias, folio y tiempo estimado.'},
+    {t:'Procedo a escalar. Le genero el folio de seguimiento y el área técnica estará dando respuesta en 24 a 48 horas hábiles.',q:'buena',a:'client',fb:'✓ Escalación correcta con folio y tiempo estimado.'},
+    {t:'Escalo sin hacer la prueba de llamada primero.',q:'mala',a:'none',fb:'✗ Primero verificar si el TS resolvió. El ticket solo procede si el cliente confirmó que persiste.'},
+    {t:'Le digo que espere a que mejore la red.',q:'mala',a:'client',fb:'✗ Si el TS no resolvió, hay que escalar. No atribuir la falla a la red sin evidencia.'},
+  ]},
+
+/* ═══ TS SMS ═══ */
+diag_sms:{cat:'DIAGNÓSTICO',tipo:'libre',label:'Diagnóstico · Falla de SMS',ts:'¿Envío o recepción? ¿operador? ¿A2P?',
+  hint:'Necesitas saber: ¿falla al enviar o al recibir? ¿Con qué operador? ¿Son mensajes de banco o app (A2P)?',
+  kw:['enviar','recibir','con qué operador','banco','app','a2p','mensajes de texto','sms'],
+  kw_label:'Palabras clave: enviar · recibir · operador · banco · app · A2P · mensajes de texto',
+  fb_ok:'✓ Correcto. Identificas sentido, operador y si son A2P para orientar el diagnóstico.',
+  fb_miss:'⚠ Pregunta: ¿falla al enviar o al recibir? ¿Con qué operador? ¿Son mensajes de banco o aplicación (A2P)?'},
+
+sms_smsc:{cat:'TS · PASO 1',tipo:'libre',label:'TS SMS · Guiar al cliente: Centro de Servicio (SMSC)',ts:'TS: SMSC +525584611810',
+  hint:'Guía al cliente paso a paso para configurar el Centro de Servicio. El número debe ser +525584611810 con el signo +.',
+  kw:['mensajes','ajustes','más ajustes','mensajes de texto','centro de servicio','+525584611810','signo más'],
+  kw_label:'Palabras clave: ajustes de mensajes · más ajustes · Centro de servicio · +525584611810 · signo +',
+  fb_ok:'✓ Correcto. Guías al cliente para configurar el SMSC con la ruta exacta y el número correcto.',
+  fb_miss:'⚠ Ruta: Mensajes > 3 puntos > Ajustes > Más ajustes > Mensajes de texto > Centro de servicio. Debe quedar +525584611810 (con el signo +).'},
+
+sms_ticket:{cat:'ESCALACIÓN',tipo:'opts',label:'Escalación · Ticket Remedy – Falla SMS',ts:'Ticket Remedy: Falla SMS',
+  opts:[
+    {t:'Ya configuramos el SMSC y el problema persiste. Procedo a generar el ticket en Remedy con categoría Falla de SMS, incluyendo el número y operador que origina el SMS y la captura del SMSC configurado.',q:'buena',a:'client',fb:'✓ Ticket SMS con contexto del TS realizado y evidencias requeridas.'},
+    {t:'Voy a escalar el caso con la información del diagnóstico. Le asigno el folio de seguimiento y el tiempo estimado de resolución.',q:'buena',a:'client',fb:'✓ Escalación con folio y tiempo estimado.'},
+    {t:'Le digo que contacte a la otra persona para que le mande el mensaje de otra forma.',q:'mala',a:'client',fb:'✗ No es una solución técnica. Si el SMSC no resolvió, hay que levantar ticket Remedy.'},
+    {t:'Le escalo sin decirle el folio ni cuánto tardará.',q:'mala',a:'none',fb:'✗ Al escalar siempre informar el folio y el tiempo estimado de respuesta al cliente.'},
+  ]},
+
+/* ═══ SMS A2P ═══ */
+a2p_info:{cat:'DIAGNÓSTICO A2P',tipo:'libre',label:'SMS A2P · Recopilar información del caso',ts:'A2P: banco/app/fecha/hora/medio/acción',
+  hint:'Explica al cliente que necesitas datos específicos para escalar correctamente. Pide: banco/app, fecha, hora, tipo de operación y medio (app/web/llamada/sucursal).',
+  kw:['banco','aplicación','fecha','hora','qué operación','por qué medio','app','web','sucursal','nombre del banco'],
+  kw_label:'Palabras clave: banco · aplicación · fecha · hora · qué operación realizaba · por qué medio',
+  fb_ok:'✓ Correcto. Recopilas la información necesaria para escalar el caso A2P correctamente.',
+  fb_miss:'⚠ Necesitas preguntar: ¿cuál banco o app? ¿Fecha y hora del intento? ¿Qué operación realizaba (transferencia, consulta, etc.)? ¿Por qué medio (app, web, sucursal, llamada)?'},
+
+a2p_shortcode:{cat:'TS A2P',tipo:'libre',label:'SMS A2P · Verificar short code y lista negra',ts:'A2P: short code / lista negra SMS',
+  hint:'Guía al cliente para que verifique si el número corto del banco/app está bloqueado en su dispositivo.',
+  kw:['número corto','bloqueados','lista negra','mensajes','configuración','bloqueos','short code'],
+  kw_label:'Palabras clave: número corto · lista de bloqueados · mensajes · configuración de SMS · bloqueos',
+  fb_ok:'✓ Correcto. Guías al cliente para verificar que el número corto no esté en la lista de bloqueados.',
+  fb_miss:'⚠ Indica al cliente: vaya a la configuración de mensajes y busque la lista de números bloqueados. Verifique que el número corto del banco/app no esté ahí.'},
+
+a2p_reporte:{cat:'GESTIÓN A2P',tipo:'libre',label:'SMS A2P · Indicar reporte externo al banco',ts:'A2P: reporte externo banco/entidad',
+  hint:'Explica al cliente que además del ticket interno, también debe reportar con su banco/app. Esto es parte del proceso A2P.',
+  kw:['reporte','banco','también','comunicarse','reportar','aplicación','entidad','coordinación'],
+  kw_label:'Palabras clave: reporte · banco · también reportar · comunicarse con el banco · coordinación',
+  fb_ok:'✓ Correcto. Explicas al cliente que necesita levantar reporte también con su banco/app.',
+  fb_miss:'⚠ Indica al cliente: "Le pedimos que también levante un reporte con su banco o aplicación, ya que la resolución requiere coordinación entre nuestra red y el proveedor del mensaje."'},
+
+a2p_ticket:{cat:'ESCALACIÓN',tipo:'opts',label:'Escalación · Ticket Remedy – SMS A2P',ts:'Ticket Remedy: SMS A2P + capturas',
+  opts:[
+    {t:'Voy a escalar el caso con toda la información: banco/app, tipo de operación, número corto, fecha/hora, medio y las capturas del aplicativo. Le asigno el folio y le informo el tiempo estimado.',q:'buena',a:'client',fb:'✓ Ticket A2P completo con todos los datos requeridos, folio y tiempo estimado.'},
+    {t:'Genero el ticket con categoría Falla SMS A2P incluyendo toda la información que recopilamos. Le doy el folio de seguimiento.',q:'buena',a:'client',fb:'✓ Ticket con categoría correcta, datos completos y folio.'},
+    {t:'Como el cliente ya reportó con el banco, ya no hace falta el ticket interno.',q:'mala',a:'none',fb:'✗ El reporte al banco es complementario. El ticket en Remedy es siempre obligatorio.'},
+    {t:'Escalo sin pedir las capturas del aplicativo al cliente.',q:'mala',a:'none',fb:'✗ Las capturas del aplicativo son evidencia obligatoria en el ticket A2P según el flujo oficial.'},
+  ]},
+
+/* ═══ CIERRE ═══ */
+verificacion:{cat:'VERIFICACIÓN',tipo:'opts',label:'Verificación · Confirmar solución con el cliente',ts:'Verificación con el cliente (prueba en vivo)',
+  hint:'Antes de cerrar, pide siempre una prueba en vivo. Nunca asumir que el problema quedó resuelto.',
+  opts:[
+    {t:'Muy bien. Le pido que haga una prueba ahora mismo: intente [navegar/hacer una llamada/enviar un mensaje] y dígame si ya funciona correctamente.',q:'buena',a:'client',fb:'✓ Prueba en vivo con instrucción específica antes de cerrar.'},
+    {t:'Antes de terminar la llamada, por favor intente usar el servicio que tenía el problema y confírmeme si ya está funcionando.',q:'buena',a:'client',fb:'✓ Verificación explícita antes del cierre.'},
+    {t:'Con los pasos que hicimos ya debe estar resuelto. Cerramos la llamada.',q:'mala',a:'none',fb:'✗ Nunca asumir que resolvió. El cliente debe confirmar con una prueba antes de cerrar.'},
+    {t:'Si hay algún problema nos llama de nuevo.',q:'mala',a:'none',fb:'✗ No cerrar sin verificar. No dejar al cliente con la responsabilidad de detectar si el problema persiste.'},
+  ]},
+
+cierre:{cat:'CIERRE',tipo:'opts',label:'Cierre profesional de llamada',ts:'Cierre con folio y despedida profesional',
+  opts:[
+    {t:'Me da mucho gusto haberle podido apoyar hoy. Le dejo su número de folio de atención: [número de folio]. Si necesita cualquier apoyo adicional no dude en contactarnos. ¡Que tenga excelente día!',q:'buena',a:'client',fb:'✓ Cierre completo: satisfacción, folio, oferta de ayuda adicional, despedida profesional.'},
+    {t:'Quedó atendido su caso con el folio [número de folio]. Cualquier duda adicional con gusto le apoyamos. Buen día.',q:'buena',a:'client',fb:'✓ Cierre profesional con folio y disponibilidad.'},
+    {t:'Listo, ya terminamos. Hasta luego.',q:'mala',a:'none',fb:'✗ El cierre debe incluir el folio de atención y una despedida profesional y cálida.'},
+    {t:'Si vuelve a tener el problema nos llama. Adiós.',q:'mala',a:'none',fb:'✗ No sugerir que el problema puede repetirse. Cierre positivo, con folio y con disposición de ayuda.'},
+  ]},
+};
+
+/* ═══════════════════════════════════════════════════════════════
+   FLUJOS — ticket siempre es el ÚLTIMO paso
+═══════════════════════════════════════════════════════════════ */
+const FLOWS = {
+  datos_equipo:   ['greeting','sondeo_contexto','sondeo_tipo','val_equipo','val_oferta','val_sim','val_cobertura','diag_datos','datos_activar','datos_modo_red','datos_apn','datos_restablecer','datos_tscheck','datos_ticket','verificacion','cierre'],
+  datos_linea:    ['greeting','sondeo_contexto','sondeo_tipo','val_equipo','val_oferta','val_sim','val_cobertura','diag_datos','datos_activar','datos_apn','datos_tscheck','datos_ticket','verificacion','cierre'],
+  llamadas_equipo:['greeting','sondeo_contexto','sondeo_tipo','val_equipo','val_oferta','val_sim','val_cobertura','diag_llamadas','llamadas_datos','llamadas_volte','llamadas_ims','llamadas_bloqueados','llamadas_modo_red','llamadas_tscheck','llamadas_ticket','verificacion','cierre'],
+  llamadas_linea: ['greeting','sondeo_contexto','sondeo_tipo','val_equipo','val_oferta','val_sim','val_cobertura','diag_llamadas','llamadas_datos','llamadas_bloqueados','llamadas_modo_red','llamadas_tscheck','llamadas_ticket','verificacion','cierre'],
+  sms:            ['greeting','sondeo_contexto','sondeo_tipo','val_equipo','val_oferta','val_sim','val_cobertura','diag_sms','sms_smsc','datos_tscheck','sms_ticket','verificacion','cierre'],
+  sms_a2p:        ['greeting','sondeo_contexto','sondeo_tipo','val_equipo','val_oferta','val_sim','val_cobertura','a2p_info','a2p_shortcode','a2p_reporte','a2p_ticket','cierre'],
+};
+
+const QUICK = [
+  {ico:'📶',title:'Falla de datos – sin navegación',sub:'No carga ninguna app ni página web',mood:'enojado',nivel:'Básico',fam:'datos'},
+  {ico:'🔧',title:'Falla de datos – APN incorrecto',sub:'Configuración del punto de acceso incorrecta',mood:'neutro',nivel:'Básico',fam:'datos'},
+  {ico:'📵',title:'Falla de llamadas – entrantes y salientes',sub:'No puede hacer ni recibir llamadas',mood:'enojado',nivel:'Intermedio',fam:'llamadas'},
+  {ico:'📞',title:'Falla de llamadas – solo entrantes',sub:'Puede llamar pero no recibe',mood:'tranquilo',nivel:'Básico',fam:'llamadas'},
+  {ico:'💬',title:'Falla de SMS general',sub:'No puede enviar o recibir mensajes',mood:'neutro',nivel:'Básico',fam:'sms'},
+  {ico:'📨',title:'Falla de SMS A2P',sub:'No recibe NIP ni códigos del banco o apps',mood:'neutro',nivel:'Intermedio',fam:'sms_a2p'},
+  {ico:'📶',title:'Datos lentos – modo de red incorrecto',sub:'Datos activos pero velocidad muy baja',mood:'neutro',nivel:'Básico',fam:'datos'},
+  {ico:'✈️',title:'Llamadas sin servicio – Roaming',sub:'Sin llamadas fuera de cobertura directa',mood:'tranquilo',nivel:'Intermedio',fam:'llamadas'},
+  {ico:'📡',title:'MBB/MiFi – sin datos en router',sub:'El router MiFi no distribuye internet',mood:'enojado',nivel:'Intermedio',fam:'datos'},
+  {ico:'🔴',title:'Línea suspendida – sin servicio',sub:'Sin ningún servicio activo',mood:'enojado',nivel:'Básico',fam:'datos'},
+  {ico:'📱',title:'SMS A2P tras portabilidad',sub:'Se portó y dejó de recibir SMS del banco',mood:'neutro',nivel:'Avanzado',fam:'sms_a2p'},
+  {ico:'📵',title:'Llamadas salientes – VoLTE apagado',sub:'VoLTE desactivado en el dispositivo',mood:'neutro',nivel:'Básico',fam:'llamadas'},
+];
+
+const TS_CFG = {
+  datos:{
+    s:['Contexto: cuándo / primera vez / lugar','Tipo: ¿todas las apps o una específica?'],
+    v:['1. Equipo compatible (homologado B28)','2. Oferta Comercial Vigente','3. SIM activa (Estado del servicio)','4. Cobertura Altán'],
+    c:['TS 1: Datos encendidos en terminal','TS 2: Modo de Red Preferido 4G','TS 3: APN del OMV configurado','TS 4: Restablecer ajustes de red','Verificar si TS resolvió con el cliente'],
+    e:['Ticket Remedy: Falla de Datos (solo si no resolvió)','Capturas: Datos + Modo Red + APN'],
+    tip:'TS Datos: 1.Datos ON → 2.Modo Red 4G → 3.APN OMV → 4.Restablecer red → Verificar con cliente → Ticket SOLO si persiste.',
+  },
+  llamadas:{
+    s:['Contexto: cuándo / primera vez / lugar','Tipo: ¿entrantes/salientes? ¿operador? ¿número?'],
+    v:['1. Equipo compatible (homologado B28)','2. Oferta Comercial Vigente','3. SIM activa (Estado del servicio)','4. Cobertura Altán'],
+    c:['TS 1: Datos activos (VoLTE los necesita)','TS 2: VoLTE activo en dispositivo','TS 3: APN IMS (MCC 334/MNC 140/PAP)','TS 4: Números bloqueados / código #31#','TS 5: Modo de Red Preferido 4G','Verificar si TS resolvió con el cliente'],
+    e:['Ticket Remedy: Falla de Voz (solo si no resolvió)','Capturas: VoLTE + APN IMS + modo red'],
+    tip:'TS Llamadas: 1.Datos ON → 2.VoLTE activo → 3.APN IMS → 4.Bloqueados/#31# → 5.Modo Red 4G → Verificar → Ticket SOLO si persiste.',
+  },
+  sms:{
+    s:['Contexto: cuándo / primera vez','Tipo: ¿envío o recepción? ¿operador? ¿A2P?'],
+    v:['1. Equipo compatible (homologado B28)','2. Oferta Comercial Vigente','3. SIM activa','4. Cobertura Altán'],
+    c:['TS: SMSC Centro de Servicio +525584611810'],
+    e:['Ticket Remedy: Falla SMS (si persiste)','Número/operador origen + evidencia SMSC'],
+    tip:'SMS: configurar SMSC +525584611810 (con signo +). Si persiste → Remedy con evidencia.',
+  },
+  sms_a2p:{
+    s:['Contexto: cuándo comenzó','Tipo: banco/app/fecha/hora/medio/acción'],
+    v:['1. Equipo compatible (homologado B28)','2. Oferta Comercial Vigente','3. SIM activa','4. Cobertura Altán'],
+    c:['Recopilar: banco/app/fecha/hora/medio/acción','Verificar short code / lista negra SMS','Solicitar reporte externo al banco/entidad'],
+    e:['Ticket Remedy: SMS A2P + capturas del aplicativo'],
+    tip:'SMS A2P: recopilar datos → verificar short code → reporte externo al banco → Ticket Remedy con capturas.',
+  },
+};
+
+/* ═══════════════════════════════════════════════════════════════
+   RESPUESTAS LOCALES DEL CLIENTE
+═══════════════════════════════════════════════════════════════ */
+const NOMBRES = ['María Gómez','Carlos López','Ana Pérez','Roberto Sánchez','Lucía Martínez','Jorge Ramírez','Sofía Torres','Miguel Ángel Ruiz'];
+const ZONAS = ['CDMX – Benito Juárez','CDMX – Narvarte','Guadalajara – Zapopan','Monterrey – San Pedro','Puebla – Centro','CDMX – Coyoacán'];
+
+function rOf(a){return a[Math.floor(Math.random()*a.length)];}
+function rn(n){return String(Math.floor(Math.random()*Math.pow(10,n))).padStart(n,'0');}
+
+function genSys(fam,src){
+  const dev=rOf(['Samsung Galaxy A54','Motorola Moto G84','iPhone 14','Xiaomi Redmi Note 13','OPPO A78','Samsung Galaxy S23']);
+  const zona=rOf(ZONAS);
+  const b={
+    view360:{estatus:'Activo',producto:'Pospago',msisdn:'55'+rn(8),imsi:'334140'+rn(9),activacion:'2023-'+rn(2)+'-'+rn(2)},
+    saldo:{vigente:true,paquete:'Plan '+rOf([10,15,20,30])+' GB',corte:rOf([5,10,15,20,25])+' de cada mes',gb:(Math.random()*15+2).toFixed(1)+' GB'},
+    equipo:{modelo:dev,imei:'35'+rn(12),compatible:true,so:dev.includes('iPhone')?'iOS 17':'Android 14',volte:true},
+    red:{apn:'APN-OMV-correspondiente',volte:true,ims:true,modo:'4G/LTE',red:'334140'},
+    cobertura:{zona,nivel:'Buena ('+rOf([3,4,5])+' barras)',tipo:'Outdoor',reportes:'Sin incidencias'},
+    nota:'',
+  };
+  if(fam==='datos'&&src==='equipo'){b.red.apn='internet.otro-operador.mx';b.red.volte=false;b.nota='DISPOSITIVO: APN incorrecto. Guiar al cliente para corregirlo en Configuración > Redes > APN.';}
+  else if(fam==='datos'&&src==='linea'){b.view360.estatus='Activo – Sin oferta de datos';b.saldo.vigente=false;b.saldo.paquete='Sin datos – oferta vencida';b.nota='LÍNEA: oferta de datos vencida. Necesita renovar o adquirir paquete.';}
+  else if(fam==='llamadas'&&src==='equipo'){b.red.volte=false;b.red.ims=false;b.nota='DISPOSITIVO: VoLTE e IMS desactivados. Activarlos y verificar APN IMS.';}
+  else if(fam==='llamadas'&&src==='linea'){b.view360.estatus='Activo – Barring Saliente';b.nota='LÍNEA: restricción activa (Barring saliente). Impide realizar llamadas.';}
+  else if(fam==='sms'){b.red.smsc='Sin configurar';b.nota='SMS: SMSC sin configurar. Guiar al cliente: +525584611810 (con signo +).';}
+  else if(fam==='sms_a2p'){b.a2p={banco:rOf(['BBVA','Banorte','HSBC']),estado:'Integrado con agregador',sc:'226622',ult:'Hace 3 días'};b.nota='A2P: banco integrado. Falla selectiva. Recopilar datos y escalar con capturas.';}
+  return b;
+}
+
+function clientReply(phKey){
+  const sd=G.sd||{};const fam=G.fam;const src=G.src;const mood=G.mood;
+  const n=rOf(NOMBRES); const msisdn=sd.view360?.msisdn||'5512345678';
+  switch(phKey){
+    case 'greeting': return {
+      enojado:[`¡Llevo rato con este problema y nadie me soluciona! Soy ${n}, número ${msisdn}.`,`Buenas. ${n}, número ${msisdn}. Estoy muy molesto, ya llamé varias veces.`],
+      neutro:[`Hola, soy ${n}. Mi número es ${msisdn}. Tengo un problema con el servicio.`,`Buenos días, ${n}, número ${msisdn}. Necesito apoyo.`],
+      tranquilo:[`Hola, ${n}. Mi línea es ${msisdn}. Tengo una situación con el servicio.`,`Muy buenas, ${n}. Número ${msisdn}. ¿Me pueden apoyar?`],
+    }[mood]||[];
+    case 'sondeo_contexto': return [`Desde ${rOf(['ayer','hace dos días','esta mañana','anoche','hace una semana'])} empezó el problema. ${rOf(['Es la primera vez que me pasa.','Ya me había pasado antes pero se resolvía solo.'])} ${fam==='datos'?'Me pasa en mi casa y en el trabajo.':'Me pasa en todos lados.'}`];
+    case 'sondeo_tipo': return {
+      datos:{enojado:['¡No me carga nada! WhatsApp, el navegador, ninguna app funciona. Los datos están encendidos.'],neutro:['El problema es con los datos. No puedo navegar en ninguna app. Las llamadas sí funcionan.'],tranquilo:['No me funcionan los datos. No carga ninguna app.']},
+      llamadas:{enojado:['¡No puedo hacer llamadas! Tampoco me entran. Es con todo.'],neutro:['El problema es con las llamadas. No puedo hacer ni recibir. Los datos sí los tengo.'],tranquilo:['Las llamadas no funcionan. Ni entran ni salen.']},
+      sms:{enojado:['¡No me llegan los mensajes! Nada.'],neutro:['No puedo enviar ni recibir mensajes de texto.'],tranquilo:['Los mensajes no llegan ni salen.']},
+      sms_a2p:{enojado:['¡No me llegan los códigos del banco! Necesito el NIP urgente.'],neutro:['No recibo los mensajes del banco para confirmar operaciones.'],tranquilo:['El banco me manda un código por mensaje y no me llega.']},
+    }[fam]?.[mood]||[];
+    case 'val_equipo': return [`Es un ${sd.equipo?.modelo||'teléfono Android'}.`];
+    case 'val_oferta': return ['Sí, tengo un plan activo. Pago mensualmente. ¿Hay algún problema con mi plan?'];
+    case 'val_sim': return [sd.view360?.estatus&&sd.view360.estatus!=='Activo'?'No sé por qué estaría suspendida. Yo pago al corriente. ¿Qué pasó?':'Sí, la SIM está bien puesta. Es la misma que siempre he tenido.'];
+    case 'val_cobertura': return [`Estoy en ${sd.cobertura?.zona||'la ciudad'}. Normalmente tengo buena señal aquí.`];
+    case 'diag_datos': return ['En todas las aplicaciones. WhatsApp no carga, el navegador tampoco. Nada de internet.'];
+    case 'datos_activar': return ['Sí, los datos los tengo encendidos. El ícono está activo en la barra de notificaciones.'];
+    case 'datos_modo_red': return [src==='equipo'?'Ahorita revisé y está en modo 3G. ¿Lo cambio a 4G?':'Está en 4G/LTE. ¿Está bien así?'];
+    case 'datos_apn': return [src==='equipo'?'Entré a Configuración > Redes > APN. Veo un APN que dice "internet.otro-operador.mx". ¿Ese es el correcto?':'Entré a Configuración > Redes > APN. ¿Qué valor debe ir ahí exactamente?'];
+    case 'datos_restablecer': return ['Listo, restablecí los ajustes de red. Ya lo hice.'];
+    case 'datos_tscheck': return [src==='equipo'?'¡Sí! Ya cargó WhatsApp y el navegador también. ¡Ya funciona! Muchas gracias.':'No, todavía no funciona. Sigue sin cargar nada de internet.'];
+    case 'datos_ticket': return ['Entendido. ¿En cuánto tiempo se resolverá? ¿Me llega algún aviso?'];
+    case 'diag_llamadas': return [src==='linea'?'Las salientes no puedo hacer. Las entrantes tampoco llegan. Con todos los operadores.':'No puedo hacer llamadas. Cuando marco no conecta o me dice que no se puede realizar la llamada.'];
+    case 'llamadas_datos': return ['Sí, mis datos están encendidos. De hecho estoy navegando por ahí ahorita.'];
+    case 'llamadas_volte': return [src==='equipo'?'Busqué la opción de VoLTE y estaba desactivada. La activé. ¿Hago una prueba?':'Revisé y el VoLTE ya estaba activo. Siempre lo ha estado.'];
+    case 'llamadas_ims': return [src==='equipo'?'No tenía configurado ningún APN de tipo IMS. ¿Cómo lo creo?':'Veo un APN de tipo IMS. ¿Está configurado correctamente?'];
+    case 'llamadas_bloqueados': return ['Revisé los bloqueados y no hay ninguno. También usé el #31# y sigue sin funcionar.'];
+    case 'llamadas_modo_red': return ['Ya lo cambié a 4G. ¿Hago una prueba de llamada?'];
+    case 'llamadas_tscheck': return [src==='equipo'?'¡Sí! Ya pude hacer una llamada. ¡Funciona! Muchas gracias.':'No, todavía no funciona. Sigo sin poder llamar.'];
+    case 'llamadas_ticket': return ['¿En cuánto tiempo me resuelven esto? ¿Me llaman de regreso?'];
+    case 'diag_sms': return ['No puedo ni enviar ni recibir mensajes. Con todos los contactos.'];
+    case 'sms_smsc': return ['Entré a Mensajes, luego a los tres puntos y a Ajustes. Encontré Centro de servicio. ¿Qué número debo poner?'];
+    case 'sms_ticket': return ['Entendido. ¿Cuánto tarda?'];
+    case 'a2p_info': return [`Es ${sd.a2p?.banco||'BBVA'}. Me manda un código cuando hago una transferencia. La última vez fue ayer como a las 3 pm desde la aplicación del banco.`];
+    case 'a2p_shortcode': return ['El número del que venía el mensaje era el '+( sd.a2p?.sc||'226622')+'. No lo tengo bloqueado que yo sepa.'];
+    case 'a2p_reporte': return ['Sí, ya hablé con el banco y dijeron que el mensaje sí fue enviado desde su lado.'];
+    case 'a2p_ticket': return ['¿Cuánto tardará? Necesito ese código para operaciones urgentes.'];
+    case 'verificacion': return [src==='equipo'||fam==='sms'?'¡Sí, ya funciona! Muchas gracias por la atención.':'Sí, ya lo verifiqué y funciona. Gracias.'];
+    case 'cierre': return {enojado:['Está bien. Espero que se resuelva rápido esta vez.','De acuerdo. Gracias.'],neutro:['Muchas gracias por su ayuda. Hasta luego.','Perfecto, buen día.'],tranquilo:['Muy amable, muchas gracias. Hasta luego.','Gracias por la atención. Buen día.']}[mood]||[];
+  }
+  return {enojado:['¿Y eso cuánto tiempo va a tardar?','¿Por qué pasa esto?'],neutro:['Entendido. ¿Y qué sigue?','De acuerdo.'],tranquilo:['Perfecto, ¿qué más necesito?','Entendido. Gracias.']}[mood]||[];
+}
+
+function getClientReply(phKey){
+  const opts=clientReply(phKey);
+  if(!opts||!opts.length) return '...';
+  return rOf(opts);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   EVALUACIÓN LOCAL — sin API
+═══════════════════════════════════════════════════════════════ */
+function calcEval(){
+  const opts=G.sel; const total=opts.length||1;
+  const good=opts.filter(o=>o.q==='buena').length;
+  const bad=opts.filter(o=>o.q==='mala').length;
+  const neu=opts.filter(o=>o.q==='neutra').length;
+
+  const techOpts=opts.filter(o=>/CONFIG|DIAGNÓSTICO|ESCALACIÓN|TS|VERIFICACIÓN/.test(o.cat||''));
+  const tech=techOpts.length?Math.round(techOpts.filter(o=>o.q==='buena').length/techOpts.length*100):65;
+  const sys=Math.min(100,Math.round(G.tools.size/4*100));
+  const sonOpts=opts.filter(o=>/SONDEO|APERTURA/.test(o.cat||''));
+  const emp=sonOpts.length?Math.round(sonOpts.filter(o=>o.q==='buena').length/sonOpts.length*100):60;
+  const clOpts=opts.filter(o=>/CIERRE|VERIFICACIÓN/.test(o.cat||''));
+  const clo=clOpts.length?Math.round(clOpts.filter(o=>o.q==='buena').length/clOpts.length*100):60;
+  const overall=Math.round(tech*.40+sys*.20+emp*.20+clo*.20);
+  const grade=overall>=85?'Experto':overall>=70?'Avanzado':overall>=55?'Intermedio':'Básico';
+
+  const gm={Experto:'Excelente desempeño. Seguiste el flujo oficial completo con precisión técnica y comunicacional.',Avanzado:'Buen desempeño. Dominas el flujo pero hay pasos que puedes afinar.',Intermedio:'Desempeño aceptable. Cubre lo básico pero omite pasos importantes del TS oficial.',Básico:'Necesitas practicar el flujo completo. Revisa el orden del TS y las validaciones básicas.'};
+
+  const comm_good=[];
+  if(sonOpts.some(o=>o.q==='buena')) comm_good.push('Realizaste el sondeo inicial correctamente.');
+  if(G.tools.has('view360')) comm_good.push('Verificaste el estado de la línea en View 360 (validación 3).');
+  if(G.tools.has('saldo')) comm_good.push('Confirmaste la Oferta Comercial Vigente en sistema (validación 2).');
+  if(clOpts.some(o=>o.q==='buena')) comm_good.push('El cierre incluyó folio y verificación con el cliente.');
+  if(!comm_good.length) comm_good.push('Completaste la llamada hasta el final.');
+
+  const comm_improve=[];
+  if(!sonOpts.length||sonOpts.every(o=>o.q!=='buena')) comm_improve.push('El sondeo inicial fue omitido o incompleto. Siempre establecer contexto antes del diagnóstico.');
+  if(!G.tools.has('view360')) comm_improve.push('No verificaste el estado de la SIM en View 360 (validación 3 obligatoria).');
+  if(!G.tools.has('saldo')) comm_improve.push('No confirmaste la Oferta Comercial Vigente en sistema (validación 2 obligatoria).');
+  if(bad>0) comm_improve.push(`Tuviste ${bad} respuesta(s) incorrecta(s). Revisa el feedback de cada paso.`);
+  if(sys<50) comm_improve.push('Consultaste pocas herramientas del sistema. Usa View 360, Saldo y Red/APN en cada llamada.');
+
+  const critical=opts.filter(o=>o.q==='mala').map(o=>`${o.lbl}: "${o.text.substring(0,60)}"`);
+
+  const tips_map={
+    datos:['TS Datos: 1.Datos encendidos → 2.Modo Red 4G → 3.APN del OMV → 4.Restablecer red → Verificar → Ticket SOLO si persiste.','El APN corresponde al OMV del cliente, no es el mismo para todos.','Verifica con el cliente si el TS resolvió ANTES de levantar el ticket Remedy.'],
+    llamadas:['TS Llamadas: 1.Datos ON (VoLTE los necesita) → 2.VoLTE activo → 3.APN IMS → 4.Bloqueados/#31# → 5.Modo Red 4G → Verificar → Ticket SOLO si persiste.','VoLTE requiere datos móviles activos. Sin datos, las llamadas VoLTE no funcionan.','APN IMS: MCC 334, MNC 140, tipo IMS, autenticación PAP, protocolo IPV4/IPV6.'],
+    sms:['SMSC: +525584611810 siempre con el signo +. Mensajes > 3 puntos > Ajustes > Más ajustes > Mensajes de texto > Centro de servicio.','Si persiste → Remedy con número/operador origen y evidencia del SMSC.'],
+    sms_a2p:['SMS A2P: recopilar banco/app + fecha/hora + medio + acción → verificar short code → reporte externo → Remedy con capturas.','El reporte al banco es COMPLEMENTARIO al ticket interno, no lo reemplaza.'],
+  };
+  const examples=['En lugar de ir directo al APN, primero verifica que los datos móviles estén encendidos (paso 1 del flujo oficial).','En lugar de escalar sin verificar, pregunta: "¿Puede hacer una prueba ahora para confirmar si quedó resuelto?"','En lugar de asumir el estatus de la línea, consúltalo en View 360: "Verifico en sistema el estado de su línea."'];
+
+  return {overall,grade,gm:gm[grade],tech,sys,emp,clo,good,bad,neu,total,comm_good,comm_improve,critical,tips:tips_map[G.fam]||tips_map.datos,examples};
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   ESTADO GLOBAL
+═══════════════════════════════════════════════════════════════ */
+let G={mode:'',fam:'',src:'',mood:'',flowKey:'',seq:[],idx:0,sd:null,sel:[],tools:new Set(),exam:false,ending:false,lm:'',lf:''};
+const SF=['datos','llamadas'];
+
+/* NAVEGACIÓN */
+function showScr(id){document.querySelectorAll('.scr').forEach(s=>s.classList.remove('on'));document.getElementById('scr-'+id).classList.add('on');document.getElementById('tbk').style.display=id==='home'?'none':'inline-block';window.scrollTo(0,0);}
+function goHome(){G.ending=false;showScr('home');}
+function stab(t){document.querySelectorAll('.stab').forEach(b=>b.classList.remove('on'));document.querySelectorAll('.spanel').forEach(p=>p.classList.remove('on'));document.querySelector('.stab[onclick*="'+t+'"]').classList.add('on');document.getElementById('sp-'+t).classList.add('on');}
+
+/* HOME */
+function buildHome(){
+  const mc=m=>m==='enojado'?'ce':m==='tranquilo'?'ct':'cn';
+  document.getElementById('qgrid').innerHTML=QUICK.map((s,i)=>`
+    <button class="qbtn" onclick="lq(${i})">
+      <span class="qico">${s.ico}</span>
+      <div class="qinfo"><strong>${s.title}</strong><span>${s.sub}</span>
+        <div class="qchips"><span class="chip ${mc(s.mood)}">${s.mood[0].toUpperCase()+s.mood.slice(1)}</span><span class="chip cl">${s.nivel}</span></div>
+      </div>
+    </button>`).join('');
+}
+function launch(m){
+  G.exam=m==='e';
+  if(m==='s') launchSim('simulacion','datos','neutro');
+  else if(m==='t'){
+    // Avanzado: escenario aleatorio de mayor dificultad
+    const adv=['sms_a2p','llamadas','sms'];
+    launchSim('tecnica',adv[Math.floor(Math.random()*adv.length)],'enojado');
+  } else {
+    // Examen: aleatorio completo
+    const all=['datos','llamadas','sms','sms_a2p'];
+    launchSim('examen',all[Math.floor(Math.random()*all.length)],['neutro','enojado','tranquilo'][Math.floor(Math.random()*3)]);
+  }
+}
+function lq(i){const s=QUICK[i];launchSim('simulacion',s.fam,s.mood);}
+
+/* LANZAR SIMULACIÓN */
+function launchSim(mode,fam,mood){
+  G.mode=mode;G.fam=fam;G.mood=mood||'neutro';G.lm=mode;G.lf=fam;G.exam=mode==='examen';
+  G.ending=false;G.sel=[];G.tools=new Set();G.idx=0;
+  G.src=SF.includes(fam)?(Math.random()<.5?'equipo':'linea'):'linea';
+  const fk=SF.includes(fam)?fam+'_'+G.src:fam;
+  G.flowKey=FLOWS[fk]?fk:fam; if(!FLOWS[G.flowKey])G.flowKey='datos_equipo';
+  G.seq=FLOWS[G.flowKey]; G.sd=genSys(fam,G.src);
+
+  buildTsUI(); buildSysTools();
+
+  const mc=mood==='enojado'?'ctag-e':mood==='tranquilo'?'ctag-t':'ctag-n';
+  const ml={simulacion:'🌱 Nivel Básico',tecnica:'🚀 Nivel Avanzado',examen:'🎯 Modo Examen'}[mode]||mode;
+  document.getElementById('ctags').innerHTML=
+    `<span class="ctag ${mc}">${mood[0].toUpperCase()+mood.slice(1)}</span>
+     <span class="ctag ctag-m">${ml}</span>`+
+    (SF.includes(fam)&&!G.exam?`<span class="ctag ctag-s">Fuente: ${G.src}</span>`:'');
+
+  document.getElementById('msgs').innerHTML='';
+  document.getElementById('pf').style.width='0%';
+  document.getElementById('bnext').classList.remove('on');
+  hideFB(); hideInputs();
+  showScr('sim');
+
+  addSM('📞 Llamada entrante — conectando...');
+  setTimeout(()=>{
+    const r=getClientReply('greeting');
+    addMsg('cl',r);
+    renderPhase();
+  },900);
+}
+
+/* RENDER FASE */
+function renderPhase(){
+  const phKey=G.seq[G.idx]; const ph=PH[phKey];
+  if(!ph){endFlow();return;}
+  const total=G.seq.length;
+  document.getElementById('pst').textContent=`Paso ${G.idx+1} de ${total}`;
+  document.getElementById('pnm').textContent=ph.label;
+  document.getElementById('pct').textContent=ph.cat||'';
+  document.getElementById('pf').style.width=(G.idx/total*100)+'%';
+  document.getElementById('bnext').classList.remove('on');
+  hideFB(); hideInputs(); markCurTs(ph.ts);
+  if(!G.exam&&ph.hint) document.getElementById('stip').textContent=ph.hint;
+
+  // mixed siempre muestra libre (con refs abajo). Básico: opts. Avanzado: libre sin refs. Examen: libre sin refs ni kws.
+  const tipo = ph.tipo==='mixed' ? 'libre' : ph.tipo;
+  if(tipo==='libre') renderFree(ph);
+  else renderOpts(ph);
+}
+
+function hideInputs(){
+  document.getElementById('og').innerHTML='';
+  document.getElementById('fz').classList.remove('on');
+}
+
+/* OPCIONES MÚLTIPLES */
+function renderOpts(ph){
+  const sh=[...ph.opts.map((o,i)=>({...o,oi:i}))].sort(()=>Math.random()-.5);
+  document.getElementById('og').innerHTML=sh.map(o=>
+    `<button class="obtn" onclick="selOpt(${o.oi})" data-i="${o.oi}">${o.t}</button>`
+  ).join('');
+}
+
+function selOpt(idx){
+  const phKey=G.seq[G.idx]; const ph=PH[phKey]; const opt=ph.opts[idx]; if(!opt)return;
+  document.querySelectorAll('.obtn').forEach(b=>b.disabled=true);
+  const btn=document.querySelector('.obtn[data-i="'+idx+'"]');
+  if(btn) btn.classList.add(opt.q==='buena'?'sb':opt.q==='mala'?'sm':'sn');
+  if(!G.exam) showFB(opt.q,opt.fb||'');
+  G.sel.push({phase:phKey,cat:ph.cat||'',lbl:ph.label,q:opt.q,text:opt.t,ts:ph.ts});
+  if(ph.ts) markTs(ph.ts,'done','✓');
+  if(opt.a==='system'&&opt.sys){
+    consultTool(opt.sys,true); // siempre llamar - internamente ya no regenera si existe
+    addMsg('ag',opt.t);
+  }
+  else if(opt.a!=='none'){addMsg('ag',opt.t);sendClientReply(phKey);}
+  else addMsg('ag',opt.t);
+  document.getElementById('bnext').classList.add('on');
+}
+
+/* INPUT LIBRE */
+function renderFree(ph){
+  const fz=document.getElementById('fz'); fz.classList.add('on');
+  document.getElementById('fl').textContent=ph.hint||'Escribe tu respuesta al cliente:';
+  const kw=document.getElementById('fkw');
+  // Mostrar palabras clave SOLO en nivel básico Y si la fase las tiene
+  const phHasKw = ph.kw && ph.kw.length > 0;
+  const showKw = !G.exam && G.mode==='simulacion' && phHasKw;
+  kw.innerHTML=(ph.kw||[]).map(k=>`<span class="fkw">${k}</span>`).join('');
+  kw.style.display=showKw?'flex':'none';
+  const ta=document.getElementById('fta');ta.value='';ta.disabled=false;arTA(ta);
+  document.getElementById('fsbtn').disabled=false;
+
+  // Las fases tipo:'libre' ya no tienen opts de referencia
+  const rg=document.getElementById('rg'); const rl=document.getElementById('fref-lbl');
+  rl.style.display='none'; rg.style.display='none';
+}
+
+function sendFree(){
+  const phKey=G.seq[G.idx]; const ph=PH[phKey];
+  const ta=document.getElementById('fta');const val=ta.value.trim();if(!val)return;
+  ta.disabled=true; document.getElementById('fsbtn').disabled=true;
+  document.querySelectorAll('.rbtn').forEach(b=>b.disabled=true);
+  const kws=ph.kw||[]; const vl=val.toLowerCase();
+
+  // Detectar si el agente menciona consultar el sistema → abrir herramienta automáticamente
+  const sysKeywords=['verifico en sistema','reviso en sistema','consulto en sistema','voy a revisar en sistema','reviso en el sistema','verificar en sistema','consultar en sistema','reviso el sistema'];
+  const sysMap={equipo:['equipo','imei','modelo','compatible','homologado'],saldo:['oferta','saldo','plan','paquete','vigente'],view360:['sim','línea','activa','estado','suspendida','línea activa','view 360'],red:['apn','volte','ims','red','modo de red'],cobertura:['cobertura','zona','señal']};
+  if(sysKeywords.some(k=>vl.includes(k))){
+    // Detectar qué herramienta menciona
+    let toolFound=null;
+    for(const[tid,tkws] of Object.entries(sysMap)){if(tkws.some(k=>vl.includes(k))){toolFound=tid;break;}}
+    if(toolFound&&!G.tools.has(toolFound)){setTimeout(()=>consultTool(toolFound,false),400);}
+  }
+
+  const hit=kws.some(k=>vl.includes(k.toLowerCase()));
+  const q=hit?'buena':'neutra';
+  const fb=hit?(ph.fb_ok||'✓ Correcto.'):(ph.fb_miss||'⚠ Revisa las palabras clave del proceso correcto.');
+  if(!G.exam) showFB(q,fb);
+  G.sel.push({phase:phKey,cat:ph.cat||'',lbl:ph.label,q,text:val,ts:ph.ts});
+  if(ph.ts) markTs(ph.ts,'done','✓');
+  addMsg('ag',val); sendClientReply(phKey);
+  document.getElementById('bnext').classList.add('on');
+}
+
+function selRef(idx){
+  const phKey=G.seq[G.idx]; const ph=PH[phKey]; const opt=ph.opts[idx]; if(!opt)return;
+  const ta=document.getElementById('fta');ta.value=opt.t;ta.disabled=true;
+  document.getElementById('fsbtn').disabled=true;
+  document.querySelectorAll('.rbtn').forEach(b=>{b.disabled=true;if(parseInt(b.dataset.ri)===idx) b.style.background='#d4edda';});
+  if(!G.exam) showFB(opt.q,opt.fb||'');
+  G.sel.push({phase:phKey,cat:ph.cat||'',lbl:ph.label,q:opt.q,text:opt.t,ts:ph.ts});
+  if(ph.ts) markTs(ph.ts,'done','✓');
+  if(opt.a==='system'&&opt.sys){
+    consultTool(opt.sys,true);
+    addMsg('ag',opt.t);
+  }
+  else if(opt.a!=='none'){addMsg('ag',opt.t);sendClientReply(phKey);}
+  else addMsg('ag',opt.t);
+  document.getElementById('bnext').classList.add('on');
+}
+
+function sendClientReply(phKey){
+  setTimeout(()=>{
+    const r=getClientReply(phKey);
+    if(r&&r!=='...') addMsg('cl',r);
+  },700+Math.random()*500);
+}
+
+function nextPh(){
+  G.idx++;
+  document.getElementById('bnext').classList.remove('on');
+  hideFB();
+  document.querySelectorAll('.obtn').forEach(b=>{b.disabled=false;b.className='obtn';});
+  if(G.idx>=G.seq.length) endFlow(); else renderPhase();
+}
+function skipEnd(){if(G.ending)return;G.ending=true;hideInputs();document.getElementById('bnext').classList.remove('on');endFlow();}
+
+function endFlow(){
+  G.ending=true;
+  addSM('📊 Llamada finalizada — generando evaluación...');
+  document.getElementById('og').innerHTML='';
+  document.getElementById('pnm').textContent='Evaluando desempeño...';
+  setTimeout(()=>renderResults(calcEval()),600);
+}
+
+/* PANEL SISTEMA */
+const TOOLS=[
+  {id:'view360',lbl:'View 360 – Estado de la línea',ico:'🖥️'},
+  {id:'saldo',lbl:'Oferta Comercial / Saldo',ico:'💰'},
+  {id:'equipo',lbl:'Equipo / IMEI / Homologado B28',ico:'📱'},
+  {id:'red',lbl:'Red / APN / VoLTE / IMS',ico:'📶'},
+  {id:'cobertura',lbl:'Cobertura / Zona de servicio',ico:'🗺️'},
+  {id:'a2p',lbl:'Estado A2P – SMS Banco/App',ico:'📨'},
+];
+function buildSysTools(){
+  const sd=G.sd; const c=document.getElementById('stools');c.innerHTML='';
+  TOOLS.filter(t=>t.id!=='a2p'||!!sd.a2p).forEach(tool=>{
+    const d=document.createElement('div');d.className='stool';
+    d.innerHTML=`<button class="stbtn" id="stb-${tool.id}" onclick="consultTool('${tool.id}')"><span style="font-size:15px">${tool.ico}</span><span>${tool.lbl}</span><span class="stck">✓</span></button><div class="stres" id="str-${tool.id}"></div>`;
+    c.appendChild(d);
+  });
+}
+function consultTool(id,auto=false){
+  const btn=document.getElementById('stb-'+id); const res=document.getElementById('str-'+id);
+  if(!btn||!res)return; btn.classList.add('done');
+  // Toggle manual; siempre expandir si viene de selOpt/auto
+  if(!auto){ res.classList.toggle('on'); } else { res.classList.add('on'); }
+  G.tools.add(id);
+  // Si ya tiene contenido, solo mostrar (no regenerar)
+  if(res.innerHTML.trim()) return;
+  const sd=G.sd;
+  const row=(l,v,c='')=>`<tr><td>${l}</td><td>${c?`<span class="${c}">${v}</span>`:v}</td></tr>`;
+  let h='<table>';
+  if(id==='view360'&&sd.view360){const v=sd.view360;const ec=v.estatus==='Activo'?'vok':v.estatus.includes('Barring')||v.estatus.includes('Suspendido')?'verr':'vwrn';h+=row('Estatus',v.estatus,ec);h+=row('Producto',v.producto);h+=row('MSISDN',v.msisdn);h+=row('IMSI',v.imsi);h+=row('Activación',v.activacion);}
+  else if(id==='saldo'&&sd.saldo){const s=sd.saldo;h+=row('Oferta',s.vigente?s.paquete:'Sin oferta vigente',s.vigente?'':'verr');h+=row('GB restantes',s.gb||'–');h+=row('Corte',s.corte);}
+  else if(id==='equipo'&&sd.equipo){const e=sd.equipo;h+=row('Modelo',e.modelo);h+=row('IMEI',e.imei);h+=row('Homologado B28',e.compatible?'✓ Sí':'✗ No',e.compatible?'vok':'verr');h+=row('Sistema',e.so||'–');h+=row('VoLTE apto',e.volte?'Sí':'No',e.volte?'vok':'vwrn');}
+  else if(id==='red'&&sd.red){const r=sd.red;const ae=r.apn&&(r.apn.includes('otro')||r.apn.includes('INCORRECTO'));h+=row('APN',r.apn,ae?'verr':'');if(r.volte!==undefined)h+=row('VoLTE',r.volte?'Activo':'DESACTIVADO',r.volte?'vok':'verr');if(r.ims!==undefined)h+=row('IMS',r.ims?'Activo':'DESACTIVADO',r.ims?'vok':'verr');h+=row('Modo red',r.modo||'–');if(r.smsc)h+=row('SMSC',r.smsc,'vwrn');}
+  else if(id==='cobertura'&&sd.cobertura){const c=sd.cobertura;h+=row('Zona',c.zona);h+=row('Señal',c.nivel);h+=row('Tipo',c.tipo);h+=row('Reportes',c.reportes);}
+  else if(id==='a2p'&&sd.a2p){const a=sd.a2p;h+=row('Banco/App',a.banco);h+=row('Integración',a.estado,'vok');h+=row('Short code',a.sc);h+=row('Último SMS',a.ult);}
+  else{h+=`<tr><td colspan="2" style="color:var(--mu)">No aplica para este escenario</td></tr>`;}
+  h+='</table>'; if(sd.nota)h+=`<div class="snote">💡 ${sd.nota}</div>`; res.innerHTML=h;
+  const am={view360:['3. SIM activa (Estado del servicio)'],saldo:['2. Oferta Comercial Vigente'],equipo:['1. Equipo compatible (homologado B28)'],cobertura:['4. Cobertura Altán']};
+  (am[id]||[]).forEach(s=>markTs(s,'sdone','◈'));
+  // Mensaje en chat para el agente
+  const toolLbl = TOOLS.find(t=>t.id===id)?.lbl||id;
+  if(auto){
+    addSA('🖥️ Agente consultó sistema: <strong>'+toolLbl+'</strong> — ver resultado en sidebar 📋');
+  } else {
+    addSA('🖥️ Sistema consultado: <strong>'+toolLbl+'</strong> — ver datos en sidebar');
+  }
+}
+
+/* CHECKLIST TS */
+function buildTsUI(){
+  const d=TS_CFG[G.fam]||TS_CFG.datos;
+  const r=(arr,el)=>{document.getElementById(el).innerHTML=arr.map(s=>`<div class="tstep" data-s="${s}"><span class="tsico">○</span><span>${s}</span></div>`).join('');};
+  r(d.s,'ts-s');r(d.v,'ts-v');r(d.c,'ts-c');r(d.e,'ts-e');
+  document.getElementById('stip').textContent=d.tip||'';
+}
+function markTs(step,cls,ico){const el=document.querySelector(`.tstep[data-s="${step}"]`);if(el&&!el.classList.contains('done')&&!el.classList.contains('sdone')){el.classList.add(cls);el.querySelector('.tsico').textContent=ico;}}
+function markCurTs(step){document.querySelectorAll('.tstep.cur').forEach(e=>e.classList.remove('cur'));if(step){const el=document.querySelector(`.tstep[data-s="${step}"]`);if(el&&!el.classList.contains('done'))el.classList.add('cur');}}
+
+/* RESULTADOS */
+function renderResults(ev){
+  document.getElementById('rsc').textContent=ev.overall;
+  setTimeout(()=>document.getElementById('sarc').setAttribute('stroke-dashoffset',326.73-(ev.overall/100)*326.73),300);
+  const gc={Experto:'#7B0C16',Avanzado:'#1b5e20',Intermedio:'#0c5777',Básico:'#856404'};
+  document.getElementById('rgr').textContent=ev.grade; document.getElementById('rgr').style.color=gc[ev.grade]||'var(--tx)';
+  document.getElementById('rmsg').textContent=ev.gm||'';
+  document.getElementById('rmet').textContent=`Modo: ${G.mode} · Flujo: ${G.fam} · Fuente: ${G.src} · Sistema: ${G.tools.size} herramientas`;
+  [['mt','mbt',ev.tech],['ms','mbs',ev.sys],['me','mbe',ev.emp],['mc2','mbc2',ev.clo]].forEach(([id,bar,v])=>{
+    document.getElementById(id).textContent=(v||0)+'%';
+    setTimeout(()=>{document.getElementById(bar).style.width=(v||0)+'%';},400);
+  });
+
+  /* 4 Validaciones */
+  const rv=document.getElementById('r-val');rv.innerHTML='';
+  const vm={val_equipo:'1. Equipo compatible (homologado B28)',val_oferta:'2. Oferta Comercial Vigente',val_sim:'3. SIM activa (Estado del servicio)',val_cobertura:'4. Cobertura Altán'};
+  Object.entries(vm).forEach(([vp,lbl])=>{const s=G.sel.find(o=>o.phase===vp);const ok=s?.q==='buena';rv.innerHTML+=`<div class="chkrow"><span>${lbl}</span><span class="chkb ${ok?'cok':'cno'}">${ok?'✓ Cubierta':'✗ Omitida o incorrecta'}</span></div>`;});
+
+  /* Sondeo */
+  const rs=document.getElementById('r-son');rs.innerHTML='';
+  const son=G.sel.filter(o=>/SONDEO/.test(o.cat));
+  if(son.length) son.forEach(s=>addEv(rs,s.q==='buena'?'g':s.q==='mala'?'b':'w',`${s.q==='buena'?'✓':'⚠'} <strong>${s.lbl}:</strong> "${s.text.substring(0,70)}"`));
+  else addEv(rs,'b','✗ No se realizó el sondeo inicial. El sondeo es el primer paso del flujo oficial.');
+
+  /* TS */
+  const rt=document.getElementById('r-ts');rt.innerHTML='';
+  const tss=G.sel.filter(o=>!/SONDEO|APERTURA|CIERRE|VERIFICACIÓN/.test(o.cat||'')&&!/VALIDACIÓN/.test(o.cat||''));
+  if(tss.length) tss.forEach(s=>addEv(rt,s.q==='buena'?'g':s.q==='mala'?'b':'w',`${s.q==='buena'?'✓':s.q==='mala'?'✗':'⚠'} <strong>${s.lbl}:</strong> "${s.text.substring(0,80)}"`));
+  else addEv(rt,'i','No se completaron fases de diagnóstico y configuración.');
+
+  /* Sistema */
+  const rsy=document.getElementById('r-sys');rsy.innerHTML='';
+  const tLbl={view360:'View 360',saldo:'Oferta/Saldo',equipo:'Equipo/IMEI',red:'Red/APN/VoLTE',cobertura:'Cobertura',a2p:'Estado A2P'};
+  const con=[...G.tools].map(t=>tLbl[t]||t);
+  if(con.length) addEv(rsy,'g','✓ Herramientas consultadas: '+con.join(', '));
+  else addEv(rsy,'b','✗ No se consultó ninguna herramienta del sistema. Diagnóstico sin datos verificados.');
+  if(!G.tools.has('view360')) addEv(rsy,'w','📌 No verificaste el estado de la línea en View 360 (validación 3).');
+  if(!G.tools.has('saldo')) addEv(rsy,'w','📌 No confirmaste la Oferta Comercial en sistema (validación 2).');
+  ev.comm_good.forEach(c=>addEv(rsy,'g','✓ '+c));
+  ev.comm_improve.forEach(c=>addEv(rsy,'w','📌 '+c));
+
+  /* Errores críticos */
+  const rc=document.getElementById('r-crit');const rcw=document.getElementById('r-crw');rc.innerHTML='';
+  if(ev.critical.length){rcw.style.display='block';ev.critical.forEach(c=>addEv(rc,'b','🚨 '+c));}
+  else rcw.style.display='none';
+
+  /* Tips */
+  const rti=document.getElementById('r-tips');rti.innerHTML='';
+  ev.tips.forEach(t=>addEv(rti,'t','💡 '+t));
+
+  /* Ejemplos */
+  const rej=document.getElementById('r-ej');rej.innerHTML='';
+  ev.examples.forEach(e=>addEv(rej,'i','📝 '+e));
+
+  showScr('res');
+}
+
+function addEv(el,cls,html){const d=document.createElement('div');d.className='ev '+cls;d.innerHTML=html;el.appendChild(d);}
+function retry(){launchSim(G.lm,G.lf,G.mood);}
+
+/* UI HELPERS */
+function addMsg(r,t){const w=document.getElementById('msgs');const d=document.createElement('div');d.className='msg '+r;d.innerHTML=`<div class="mav">${r==='ag'?'AG':'CL'}</div><div class="bbl">${t}</div>`;w.appendChild(d);w.scrollTop=w.scrollHeight;}
+function addSM(t){const w=document.getElementById('msgs');const d=document.createElement('div');d.className='msg sy';d.innerHTML=`<div class="bbl">${t}</div>`;w.appendChild(d);w.scrollTop=w.scrollHeight;}
+function addSA(h){const w=document.getElementById('msgs');const d=document.createElement('div');d.className='msg sa';d.innerHTML=`<div class="bbl">${h}</div>`;w.appendChild(d);w.scrollTop=w.scrollHeight;}
+function showFB(q,t){if(G.exam)return;const f=document.getElementById('fb');f.textContent=t;f.className='fbmsg on '+(q==='buena'?'b':q==='mala'?'m':'n');}
+function hideFB(){const f=document.getElementById('fb');f.className='fbmsg';f.textContent='';}
+function arTA(el){el.style.height='auto';el.style.height=Math.min(el.scrollHeight,80)+'px';}
+
+document.addEventListener('DOMContentLoaded',()=>{buildHome();showScr('home');});
+</script>
+</body>
+</html>
