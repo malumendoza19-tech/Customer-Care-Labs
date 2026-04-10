@@ -256,22 +256,22 @@ button{cursor:pointer;font-family:var(--fb)}
   </div>
   <div class="mcards">
     <div class="mc" onclick="launch('s')">
-      <div class="mico" style="background:#fde8e8">📞</div>
-      <h3>Simulación con cliente</h3>
-      <p>Sondeo → 4 validaciones → TS configuraciones → Ticket solo al final si persiste.</p>
-      <span class="chip0">Guiado · Opciones + texto libre</span>
+      <div class="mico" style="background:#fde8e8">🌱</div>
+      <h3>Nivel básico</h3>
+      <p>Ideal para empezar. Opciones guiadas con retroalimentación inmediata en cada paso.</p>
+      <span class="chip0" style="background:#d4edda;color:#155724;border-color:#a3d9a5">Principiante · Con apoyo</span>
     </div>
     <div class="mc" onclick="launch('t')">
-      <div class="mico" style="background:#e2f0f7">⚙️</div>
-      <h3>Técnica avanzada</h3>
-      <p>SMS A2P, Servicio Total, Portabilidad. Diagnóstico profundo N2.</p>
-      <span class="chip0">N2 · Casos complejos</span>
+      <div class="mico" style="background:#e2f0f7">🚀</div>
+      <h3>Nivel avanzado</h3>
+      <p>Escenarios complejos: SMS A2P, portabilidad, Servicio Total. Sin opciones guiadas.</p>
+      <span class="chip0" style="background:#cce5ff;color:#004085;border-color:#99caff">N2 · Diagnóstico complejo</span>
     </div>
     <div class="mc" onclick="launch('e')">
-      <div class="mico" style="background:#fef8e8">📝</div>
+      <div class="mico" style="background:#fef8e8">🎯</div>
       <h3>Modo examen</h3>
-      <p>Sin retroalimentación durante la llamada. Evaluación al finalizar.</p>
-      <span class="chip0">Evaluación ciega</span>
+      <p>Sin retroalimentación ni palabras clave. Solo texto libre. Evaluación estricta al finalizar.</p>
+      <span class="chip0" style="background:#f8d7da;color:#721c24;border-color:#f5c6cb">Evaluación ciega · Sin apoyo</span>
     </div>
   </div>
   <div class="sech"><h2>Escenarios de práctica</h2><p>Selecciona el caso que quieres trabajar</p>
@@ -420,320 +420,232 @@ sondeo_tipo:{cat:'SONDEO',tipo:'libre',label:'Sondeo 2 · Tipo y área del probl
   ]},
 
 /* ── 4 VALIDACIONES BÁSICAS ── */
-val_equipo:{cat:'VALIDACIÓN 1',tipo:'mixed',label:'Equipo compatible – Homologado B28',ts:'1. Equipo compatible (homologado B28)',
-  hint:'Verifica en sistema que el dispositivo esté en la lista de equipos homologados para la red Altán B28.',
-  kw:['modelo','equipo','homologado','compatible','sistema','B28','verificar','lista','dispositivo'],
-  kw_label:'Palabras clave: modelo · equipo · homologado B28 · compatible · verificar en sistema',
-  fb_ok:'✓ Correcto. Verificar el equipo homologado B28 en sistema es la primera validación.',
-  fb_miss:'⚠ Recuerda: primera validación es verificar en sistema si el equipo está homologado para la red Altán B28.',
+val_equipo:{cat:'VALIDACIÓN 1',tipo:'opts',label:'Validación 1 · Equipo compatible (homologado B28)',ts:'1. Equipo compatible (homologado B28)',
+  hint:'Primero consulta en sistema si el equipo está homologado. Si necesitas el modelo, pídeselo al cliente claramente.',
   opts:[
-    {t:'Verifico en sistema si su dispositivo está homologado para nuestra red. ¿Me indica el modelo de su equipo?',q:'buena',a:'system',sys:'equipo',fb:'✓ Correcto. La primera validación básica: equipo compatible con la red B28.'},
-    {t:'¿Cuál es el modelo de su teléfono? Necesito verificar que sea compatible con la red.',q:'buena',a:'client',fb:'✓ Correcto. Solicitas modelo para validarlo en sistema.'},
-    {t:'Todos los equipos actuales son compatibles, no es necesario verificarlo.',q:'mala',a:'none',fb:'✗ No todos los equipos están homologados. Es la primera validación obligatoria.'},
-    {t:'La compatibilidad del equipo no importa para este tipo de falla.',q:'mala',a:'none',fb:'✗ La compatibilidad del equipo es siempre la primera validación básica.'},
+    {t:'Un momento, voy a verificar en sistema si su dispositivo está homologado para nuestra red. Para eso necesito el modelo de su equipo, ¿me lo podría indicar?',q:'buena',a:'system',sys:'equipo',fb:'✓ Correcto. Explicas al cliente para qué pides el dato y consultas el sistema.'},
+    {t:'Permítame un momento, estoy revisando en sistema la compatibilidad de su equipo con la red.',q:'buena',a:'system',sys:'equipo',fb:'✓ Correcto. Le indicas al cliente que estás verificando en sistema.'},
+    {t:'Todos los equipos que vendemos son compatibles, eso no es el problema.',q:'mala',a:'none',fb:'✗ No todos los equipos están homologados para la red B28. Primera validación obligatoria.'},
+    {t:'¿Cuál es su equipo? Si es viejo puede ser el problema.',q:'mala',a:'none',fb:'✗ Diagnóstico sin verificar en sistema y tono inadecuado. Siempre validar en sistema con el modelo exacto.'},
   ]},
 
-val_oferta:{cat:'VALIDACIÓN 2',tipo:'mixed',label:'Oferta Comercial Vigente',ts:'2. Oferta Comercial vigente',
-  hint:'Verificar en sistema que el cliente tenga una Oferta Comercial activa y vigente con recursos disponibles.',
-  kw:['plan','oferta','vigente','saldo','recursos','paquete','activo','datos','minutos','sistema'],
-  kw_label:'Palabras clave: plan · oferta · vigente · recursos · paquete activo · verificar en sistema',
-  fb_ok:'✓ Correcto. Verificar la Oferta Comercial Vigente en sistema es la segunda validación.',
-  fb_miss:'⚠ Segunda validación: confirmar en sistema que el plan/oferta esté activo y vigente.',
+val_oferta:{cat:'VALIDACIÓN 2',tipo:'opts',label:'Validación 2 · Oferta Comercial Vigente',ts:'2. Oferta Comercial vigente',
+  hint:'Verificar en sistema que el plan/oferta esté activo y con recursos. El cliente no lo sabe con certeza.',
   opts:[
-    {t:'Verifico en sistema si la Oferta Comercial está activa y vigente con los recursos correctos.',q:'buena',a:'system',sys:'saldo',fb:'✓ Correcto. Segunda validación: Oferta Comercial Vigente.'},
-    {t:'Permítame confirmar que su plan tiene vigencia activa y recursos disponibles.',q:'buena',a:'client',fb:'✓ Correcto. Confirmar vigencia y recursos.'},
-    {t:'Si está pagando mensualmente, la oferta siempre está vigente.',q:'mala',a:'none',fb:'✗ Los planes pueden vencerse o tener recursos agotados. Siempre verificar.'},
-    {t:'El plan no afecta este tipo de falla, continuamos.',q:'mala',a:'none',fb:'✗ Sin Oferta Comercial Vigente no hay servicio. Segunda validación obligatoria.'},
+    {t:'Permítame revisar en sistema que su plan esté activo y con los recursos disponibles para el servicio que reporta.',q:'buena',a:'system',sys:'saldo',fb:'✓ Correcto. Verificas en sistema sin pedir al cliente que adivine el estado de su plan.'},
+    {t:'Estoy verificando su Oferta Comercial en sistema para confirmar que esté vigente y con los recursos correctos.',q:'buena',a:'system',sys:'saldo',fb:'✓ Correcto. Le informas al cliente qué estás revisando mientras lo haces.'},
+    {t:'¿Sabe usted si su plan está vigente?',q:'mala',a:'none',fb:'✗ El cliente no lo sabe con certeza. Esta información se consulta en sistema, no se le pregunta al cliente.'},
+    {t:'Si está al corriente en sus pagos el plan estará activo, continuemos.',q:'mala',a:'none',fb:'✗ No se puede asumir. Los planes pueden vencerse o tener recursos agotados sin morosidad. Siempre verificar.'},
   ]},
 
-val_sim:{cat:'VALIDACIÓN 3',tipo:'mixed',label:'SIM activa – Estado del servicio',ts:'3. SIM activa (Estado del servicio)',
-  hint:'Consultar en View 360 el estatus de la línea. Puede estar activa, suspendida, barring, etc.',
-  kw:['sim','línea','activa','sistema','estado','suspendida','view','barring','verificar','estatus'],
-  kw_label:'Palabras clave: SIM · línea · activa · estado · suspendida · View 360 · verificar',
-  fb_ok:'✓ Correcto. Verificar el estado de la SIM en View 360 es la tercera validación.',
-  fb_miss:'⚠ Tercera validación: verificar en sistema (View 360) si la línea está activa.',
+val_sim:{cat:'VALIDACIÓN 3',tipo:'opts',label:'Validación 3 · SIM activa – Estado del servicio',ts:'3. SIM activa (Estado del servicio)',
+  hint:'Consultar en View 360 el estatus real de la línea. El cliente no conoce su estatus en sistema.',
   opts:[
-    {t:'Consulto en sistema el estado del servicio de su línea para confirmar que esté activa.',q:'buena',a:'system',sys:'view360',fb:'✓ Tercera validación: estado de la SIM en sistema.'},
-    {t:'Reviso en el sistema de gestión si la línea aparece activa o tiene alguna suspensión.',q:'buena',a:'system',sys:'view360',fb:'✓ Correcto. View 360 muestra el estatus real de la línea.'},
-    {t:'Si hay barras de señal la SIM está activa, podemos continuar.',q:'mala',a:'none',fb:'✗ El equipo puede mostrar señal aunque la SIM esté suspendida en sistema.'},
-    {t:'Las líneas no se desactivan solas, omitimos esa validación.',q:'mala',a:'none',fb:'✗ Las líneas pueden suspenderse por morosidad, robo o cancelación. Validación obligatoria.'},
+    {t:'Estoy consultando en sistema el estado de su línea para confirmar que esté activa y sin restricciones.',q:'buena',a:'system',sys:'view360',fb:'✓ Correcto. Verificas el estatus en View 360 sin asumir nada.'},
+    {t:'Un momento, estoy revisando su línea en el sistema de gestión para ver si tiene alguna afectación.',q:'buena',a:'system',sys:'view360',fb:'✓ Correcto. Le comunicas al cliente qué estás haciendo mientras verificas.'},
+    {t:'¿Su teléfono tiene señal? Si tiene barras, la SIM está activa.',q:'mala',a:'none',fb:'✗ El equipo puede tener señal aunque la línea esté suspendida en sistema. Siempre verificar en View 360.'},
+    {t:'Las líneas solo se suspenden si hay adeudo, lo cual me dijo que no tiene.',q:'mala',a:'none',fb:'✗ Las líneas pueden suspenderse por robo/extravío, cancelación u otras causas. Verificar siempre en sistema.'},
   ]},
 
-val_cobertura:{cat:'VALIDACIÓN 4',tipo:'libre',label:'Cobertura Altán',ts:'4. Cobertura Altán (ubicación)',
-  hint:'Pregunta la ubicación del cliente para verificar cobertura Altán. Si está en interiores puede haber atenuación.',
-  kw:['colonia','municipio','ubicación','zona','dónde','lugar','cobertura','interior','indoor','interiores'],
-  kw_label:'Palabras clave: colonia · municipio · ubicación · dónde está · zona · cobertura',
-  fb_ok:'✓ Correcto. Solicitas la ubicación para verificar cobertura Altán.',
-  fb_miss:'⚠ Falta preguntar la ubicación. Necesitas saber dónde está el cliente para verificar cobertura.',
+val_cobertura:{cat:'VALIDACIÓN 4',tipo:'libre',label:'Validación 4 · Cobertura Altán',ts:'4. Cobertura Altán (ubicación)',
+  hint:'Necesitas saber dónde está el cliente para verificar cobertura. Pídele su ubicación con claridad y luego confirma en sistema.',
+  kw:['colonia','municipio','ubicación','zona','dónde','lugar','cobertura','interiores','indoor'],
+  kw_label:'Palabras clave: colonia · municipio · dónde se encuentra · zona · verificar cobertura',
+  fb_ok:'✓ Correcto. Solicitas la ubicación exacta para poder verificar la cobertura en sistema.',
+  fb_miss:'⚠ Necesitas preguntar dónde se encuentra el cliente (colonia/municipio) para verificar cobertura Altán en esa zona.'},
+
+/* ═══ TS DATOS ═══ */
+diag_datos:{cat:'DIAGNÓSTICO',tipo:'libre',label:'Diagnóstico · Falla de datos',ts:'¿Todas las apps o una específica?',
+  hint:'Pregunta si el problema es con todas las apps/sitios o con uno en específico. Si falla una sola app, el problema es de esa app, no de la red.',
+  kw:['todas','todas las apps','todas las aplicaciones','en específico','específica','una sola','cualquier','todos los sitios'],
+  kw_label:'Palabras clave: todas las apps · en específico · una sola app · cualquier sitio',
+  fb_ok:'✓ Correcto. Identificas si la falla es general de red o solo de una app/sitio.',
+  fb_miss:'⚠ Pregunta si el problema es con todas las aplicaciones y sitios, o con uno en específico. Eso define si es falla de red o de la app.'},
+
+datos_activar:{cat:'TS · PASO 1',tipo:'libre',label:'TS Datos 1 · Guiar al cliente: datos encendidos',ts:'TS: datos encendidos en terminal',
+  hint:'Instruye al cliente para que verifique y active los datos móviles en su dispositivo. Da la ruta exacta.',
+  kw:['datos móviles','redes móviles','configuración','encienda','active','encender','activar','datos'],
+  kw_label:'Palabras clave: datos móviles · Configuración > Redes móviles · encienda · active los datos',
+  fb_ok:'✓ Correcto. Guías al cliente con la ruta exacta para activar los datos móviles.',
+  fb_miss:'⚠ Indica al cliente la ruta exacta: Configuración > Redes móviles > activar la opción de Datos Móviles. Luego pídele que pruebe.'},
+
+datos_modo_red:{cat:'TS · PASO 2',tipo:'opts',label:'TS Datos 2 · Guiar al cliente: Modo de Red 4G',ts:'TS: Modo de Red Preferido 4G',
+  hint:'Instruye al cliente para que cambie el modo de red a 4G. Da la ruta específica para que pueda hacerlo.',
   opts:[
-    {t:'¿Me indica su colonia o municipio para verificar si su zona tiene cobertura Altán disponible?',q:'buena',a:'client',fb:'✓ Solicitas ubicación específica para verificar cobertura.'},
-    {t:'Verifico en el mapa de cobertura si su zona tiene señal Altán.',q:'buena',a:'system',sys:'cobertura',fb:'✓ Verificas cobertura en sistema con la ubicación del cliente.'},
+    {t:'Le pido que vaya a Configuración > Redes móviles > Modo de red preferido, y que seleccione la opción 4G o LTE. Luego haga una prueba de navegación.',q:'buena',a:'client',fb:'✓ Instrucción completa con ruta exacta y acción de verificación.'},
+    {t:'Por favor vaya a Configuración, entre a Redes móviles y busque la opción de Modo de red. Cámbielo a 4G que es el recomendado, y pruebe si ya navega.',q:'buena',a:'client',fb:'✓ Correcto. Ruta paso a paso y verificación al final.'},
+    {t:'La red se selecciona automáticamente, no hay nada que cambiar en el equipo.',q:'mala',a:'none',fb:'✗ El modo de red preferido se configura manualmente en el dispositivo. Puede estar en 3G o 2G y limitar el servicio.'},
+    {t:'Si tiene datos encendidos ya debería funcionar en 4G.',q:'mala',a:'none',fb:'✗ No necesariamente. El modo de red puede estar forzado a 3G o 2G. Hay que verificar y corregir.'},
   ]},
 
-/* ═══ TS DATOS — el ticket es SIEMPRE el ÚLTIMO paso ═══ */
-diag_datos:{cat:'DIAGNÓSTICO',tipo:'libre',label:'Diagnóstico · ¿Todas las apps o una específica?',ts:'¿Todas las apps o una específica?',
-  hint:'Si solo falla una app: el problema es de esa app, no de la red. Si fallan todas: continúa el TS de configuración.',
-  kw:['todas','aplicaciones','apps','sitios','específica','una sola','whatsapp','navegador','google'],
-  kw_label:'Palabras clave: todas las apps · una específica · sitios web · WhatsApp · navegador',
-  fb_ok:'✓ Correcto. Identificas si la falla es general de red o de una app específica.',
-  fb_miss:'⚠ Debes preguntar: ¿el problema es con todas las apps y sitios, o con uno en específico?',
+datos_apn:{cat:'TS · PASO 3',tipo:'libre',label:'TS Datos 3 · Guiar al cliente: configurar APN',ts:'TS: APN del OMV configurado',
+  hint:'Guía al cliente para que revise y configure el APN correcto. Da la ruta completa paso a paso. El APN correcto lo indica el OMV.',
+  kw:['configuración','redes móviles','punto de acceso','apn','nombre del punto','modifique','cree','verifique el apn'],
+  kw_label:'Palabras clave: APN · punto de acceso · Configuración > Redes móviles > APN · modifique · cree el APN',
+  fb_ok:'✓ Correcto. Guías al cliente con la ruta exacta para verificar y configurar el APN del OMV.',
+  fb_miss:'⚠ Indica la ruta completa: Configuración > Redes móviles > Nombres de punto de acceso (APN). Guía al cliente para verificar o crear el APN correcto de su operador.'},
+
+datos_restablecer:{cat:'TS · PASO 4',tipo:'opts',label:'TS Datos 4 · Guiar al cliente: restablecer ajustes de red',ts:'TS: restablecer ajustes de red',
+  hint:'Si persisten los problemas, guía al cliente para restablecer ajustes de red. Aclarar que NO borra datos personales.',
   opts:[
-    {t:'¿El problema se presenta en todas las aplicaciones y páginas web, o es en alguna en específico?',q:'buena',a:'client',fb:'✓ Correcto. Determinas si es falla de red o de la app.'},
-    {t:'¿Puede intentar abrir WhatsApp y también el navegador para ver si falla en ambos?',q:'buena',a:'client',fb:'✓ Correcto. Pedirle que compruebe en dos apps distintas para confirmar.'},
+    {t:'Si después de los ajustes anteriores sigue sin funcionar, le pido que vaya a Configuración > Sistema > Restablecer > Restablecer ajustes de red. Tranquilo, este proceso no borra sus fotos ni datos personales, solo limpia las configuraciones de red.',q:'buena',a:'client',fb:'✓ Instrucción completa con ruta, acción y la aclaración importante de que no borra datos.'},
+    {t:'Vamos a restablecer los ajustes de red de su dispositivo. Vaya a Configuración > Sistema > Restablecer > Restablecer ajustes de red. Sus fotos y aplicaciones no se verán afectadas.',q:'buena',a:'client',fb:'✓ Correcto. Ruta exacta y tranquiliza al cliente sobre sus datos.'},
+    {t:'Haga un restablecimiento de fábrica completo para limpiar todo.',q:'mala',a:'client',fb:'✗ El restablecimiento de fábrica borra todos los datos del cliente. Solo se requiere restablecer ajustes de red.'},
+    {t:'Si nada funciona dígale que lleve el equipo a servicio técnico.',q:'mala',a:'none',fb:'✗ Antes de escalar hay que completar el TS completo incluyendo restablecer ajustes de red.'},
   ]},
 
-datos_activar:{cat:'TS · CONFIG 1/4',tipo:'libre',label:'TS 1 · Datos encendidos en terminal',ts:'TS: datos encendidos en terminal',
-  hint:'Primer paso del TS de Datos: verificar que los datos móviles estén activados en el dispositivo.',
-  kw:['datos','encendidos','activar','datos móviles','configuración','redes','encender','mobile'],
-  kw_label:'Palabras clave: datos · encendidos · activar · Configuración > Redes móviles · datos móviles',
-  fb_ok:'✓ Correcto. "Encender la opción Datos en la terminal y replicar escenario." Primer paso del TS.',
-  fb_miss:'⚠ Recuerda pedir al cliente: Configuración > Redes móviles > activar Datos Móviles.',
+datos_tscheck:{cat:'TS · VERIFICACIÓN',tipo:'opts',label:'Verificación · ¿El TS resolvió los datos?',ts:'Verificar si TS resolvió (antes del ticket)',
+  hint:'ANTES de levantar cualquier ticket, siempre verifica con el cliente si el servicio quedó funcionando.',
   opts:[
-    {t:'¿Puede verificar que los Datos Móviles estén encendidos? Configuración > Redes móviles.',q:'buena',a:'client',fb:'✓ Primer paso del TS de datos: datos encendidos.'},
-    {t:'Verifique que los datos estén activos y haga una prueba de navegación.',q:'buena',a:'client',fb:'✓ Verificar datos encendidos y replicar.'},
+    {t:'Muy bien, ya aplicamos todos los pasos. Le pido que intente abrir una página o una aplicación ahora mismo y me diga si ya le carga.',q:'buena',a:'client',fb:'✓ Correcto. Pides prueba en vivo inmediata antes de decidir si escalar.'},
+    {t:'¿Puede intentar navegar en este momento? Abra WhatsApp o el navegador y dígame si ya funciona.',q:'buena',a:'client',fb:'✓ Correcto. Prueba específica e inmediata para confirmar el resultado del TS.'},
+    {t:'Con los pasos que hicimos ya debe estar resuelto. Cerramos la llamada.',q:'mala',a:'none',fb:'✗ Nunca asumir que resolvió. Siempre pedir al cliente que haga una prueba antes de cerrar.'},
+    {t:'Voy a levantar el ticket ahora por si acaso.',q:'mala',a:'none',fb:'✗ El ticket solo se levanta si el cliente confirma que el problema persiste después del TS. Primero verificar.'},
   ]},
 
-datos_modo_red:{cat:'TS · CONFIG 2/4',tipo:'mixed',label:'TS 2 · Modo de Red Preferido (4G)',ts:'TS: Modo de Red Preferido 4G',
-  hint:'Segundo paso: configurar Modo de Red Preferido en 4G (recomendado). Del flujo oficial.',
-  kw:['modo','red','4g','preferido','configurar','lte','tipo de red','redes móviles'],
-  kw_label:'Palabras clave: modo de red · 4G · preferido · configurar · LTE · Redes móviles',
-  fb_ok:'✓ Correcto. Configurar el Modo de Red Preferido en 4G es el segundo paso del TS de datos.',
-  fb_miss:'⚠ Recuerda: Configuración > Redes móviles > Modo de red preferido > 4G.',
+datos_ticket:{cat:'ESCALACIÓN',tipo:'opts',label:'Escalación · Ticket Remedy – Falla de Datos',ts:'Ticket Remedy: Falla de Datos',
+  hint:'SOLO si el cliente confirmó que persiste. Ticket en Remedy con categoría correcta y evidencias.',
   opts:[
-    {t:'Vaya a Configuración > Redes móviles > Modo de red preferido y seleccione 4G (recomendado).',q:'buena',a:'client',fb:'✓ Segundo paso del TS: Modo de Red 4G.'},
-    {t:'¿En qué modo de red está su equipo? Debería estar en 4G para tener datos correctamente.',q:'buena',a:'client',fb:'✓ Verificar y corregir el modo de red.'},
-    {t:'El modo de red lo ajusta automáticamente la red, no hay que tocarlo.',q:'mala',a:'none',fb:'✗ El modo de red preferido se configura en el dispositivo y puede estar en 3G o 2G.'},
-    {t:'Con datos encendidos ya debería funcionar.',q:'mala',a:'none',fb:'✗ El modo de red es el segundo paso del TS oficial. Un equipo en 3G puede no tener datos.'},
-  ]},
-
-datos_apn:{cat:'TS · CONFIG 3/4',tipo:'libre',label:'TS 3 · Configurar APN del OMV',ts:'TS: APN del OMV configurado',
-  hint:'Tercer paso: verificar y configurar el APN según el OMV correspondiente. Ruta: Configuración > Redes móviles > APN.',
-  kw:['apn','punto de acceso','configuración','redes móviles','nombres de punto','mvno','operador'],
-  kw_label:'Palabras clave: APN · punto de acceso · Configuración > Redes > APN · operador · MVNO',
-  fb_ok:'✓ Correcto. "Configurar APN (según el OMV correspondiente)". Tercer paso del TS.',
-  fb_miss:'⚠ Recuerda: Configuración > Redes móviles > APN. El APN debe ser el del OMV del cliente.',
-  opts:[
-    {t:'Vaya a Configuración > Redes móviles > Nombres de punto de acceso (APN) y verifique el APN de su operador.',q:'buena',a:'client',fb:'✓ Tercer paso del TS: verificar y configurar el APN del OMV.'},
-    {t:'¿Me puede decir qué APN aparece configurado en su dispositivo en Configuración > Redes > APN?',q:'buena',a:'client',fb:'✓ Solicitar al cliente que revise el APN configurado.'},
-  ]},
-
-datos_restablecer:{cat:'TS · CONFIG 4/4',tipo:'mixed',label:'TS 4 · Restablecer ajustes de red',ts:'TS: restablecer ajustes de red',
-  hint:'Cuarto paso si persiste: Restablecer ajustes de Red. No borra datos personales.',
-  kw:['restablecer','ajustes de red','reiniciar','configuración','sistema'],
-  kw_label:'Palabras clave: restablecer · ajustes de red · Configuración > Sistema > Restablecer',
-  fb_ok:'✓ Correcto. "Restablecer ajustes de Red y replicar escenario." Cuarto paso antes del ticket.',
-  fb_miss:'⚠ Si persiste después del APN, el siguiente paso es restablecer ajustes de red.',
-  opts:[
-    {t:'Si aún persiste, vaya a Configuración > Sistema > Restablecer > Restablecer ajustes de red. No perderá sus datos.',q:'buena',a:'client',fb:'✓ Cuarto paso del TS: restablecer ajustes de red.'},
-    {t:'Le pido que reinicie el dispositivo para limpiar la configuración de red.',q:'neutra',a:'client',fb:'⚠ El reinicio puede ayudar, pero el paso oficial es restablecer ajustes de red específicamente.'},
-    {t:'Si el APN está correcto ya debería funcionar.',q:'mala',a:'none',fb:'✗ Si persiste, el siguiente paso oficial es restablecer ajustes de red antes del ticket.'},
-    {t:'Le pido un restablecimiento de fábrica completo.',q:'mala',a:'client',fb:'✗ El restablecimiento de fábrica borra todos los datos. Solo restablecer ajustes de red.'},
-  ]},
-
-datos_tscheck:{cat:'TS · VERIFICACIÓN',tipo:'libre',label:'Verificación · ¿El TS resolvió el problema?',ts:'Verificar si TS resolvió (antes del ticket)',
-  hint:'IMPORTANTE: siempre verifica con el cliente si el TS resolvió ANTES de levantar ticket. Si resolvió → cierra. Si no → entonces sí levanta el ticket.',
-  kw:['prueba','verificar','funciona','navegar','intentar','probar','confirmar','ahora','ya funciona'],
-  kw_label:'Palabras clave: prueba · ya funciona · intentar navegar · verificar ahora · confirmar',
-  fb_ok:'✓ Correcto. Verificas si el TS resolvió antes de decidir si escalar.',
-  fb_miss:'⚠ Siempre verifica con el cliente si el TS resolvió ANTES de levantar el ticket Remedy.',
-  opts:[
-    {t:'¿Puede hacer una prueba de navegación ahora mismo para confirmar si quedó resuelto?',q:'buena',a:'client',fb:'✓ Verificas con el cliente si el TS funcionó antes de escalar.'},
-    {t:'Por favor intente abrir una página o app y dígame si ya le funciona.',q:'buena',a:'client',fb:'✓ Correcto. Prueba en vivo para confirmar el resultado.'},
-    {t:'Levanto el ticket en Remedy ahora mismo sin verificar.',q:'mala',a:'none',fb:'✗ El ticket se levanta SOLO si el TS completo no resolvió. Primero verifica con el cliente.'},
-    {t:'Ya aplicamos los pasos, debe estar resuelto.',q:'mala',a:'none',fb:'✗ Nunca asumir que resolvió. Siempre verificar con el cliente antes de cerrar.'},
-  ]},
-
-datos_ticket:{cat:'ESCALACIÓN',tipo:'opts',label:'Ticket Remedy · Falla de Datos (solo si persiste)',ts:'Ticket Remedy: Falla de Datos',
-  hint:'SOLO si el TS completo no resolvió. Categoría: Falla de Datos. Capturas: datos encendidos + modo de red + APN.',
-  opts:[
-    {t:'Habiendo completado todo el TS sin resolución, levanto ticket en Remedy con categoría "Falla de Datos". Necesito las capturas de: datos encendidos, modo de red y APN de su dispositivo.',q:'buena',a:'client',fb:'✓ Ticket Remedy SOLO después del TS completo. Categoría correcta + capturas requeridas.'},
-    {t:'Escalo con toda la información del TS realizado y le proporciono folio de seguimiento y tiempo estimado.',q:'buena',a:'client',fb:'✓ Correcto. Folio + tiempo estimado siempre al escalar.'},
-    {t:'Le digo que espere a que se resuelva solo.',q:'mala',a:'client',fb:'✗ Si el TS completo no resolvió hay que levantar ticket Remedy con evidencia.'},
-    {t:'Escalo sin dar folio ni capturas.',q:'mala',a:'none',fb:'✗ Al escalar: dar folio al cliente e incluir capturas requeridas en el ticket.'},
+    {t:'Entendido. Ya que el problema persiste después de todos los pasos, voy a generar un ticket en Remedy con categoría Falla de Datos. Voy a necesitar las capturas de: datos encendidos, modo de red y APN de su dispositivo. Le asigno el folio y le informo el tiempo estimado de respuesta.',q:'buena',a:'client',fb:'✓ Ticket Remedy con contexto completo, categoría correcta, capturas requeridas, folio y tiempo estimado.'},
+    {t:'Procedo a escalar su caso. Le genero el folio de seguimiento ahora y el área técnica se comunicará en un plazo de 24 a 48 horas hábiles.',q:'buena',a:'client',fb:'✓ Escalación correcta con folio y tiempo estimado comunicado al cliente.'},
+    {t:'Le levanto el ticket aunque no sé si hay más pasos por hacer.',q:'mala',a:'none',fb:'✗ El ticket se levanta SOLO si se agotó el TS completo y el cliente confirmó que persiste.'},
+    {t:'Le digo que espere unas horas a ver si se resuelve solo.',q:'mala',a:'client',fb:'✗ Si el TS no resolvió, hay que escalar. No decirle que espere sin acción.'},
   ]},
 
 /* ═══ TS LLAMADAS ═══ */
 diag_llamadas:{cat:'DIAGNÓSTICO',tipo:'libre',label:'Diagnóstico · Falla de llamadas',ts:'¿Entrantes/salientes? ¿operador? ¿número?',
-  hint:'Del flujo oficial: ¿al hacer llamadas o al recibirlas? ¿Con qué operador? ¿Un número específico o todos?',
-  kw:['entrante','saliente','hacer','recibir','operador','número','marcar','específico','todos'],
-  kw_label:'Palabras clave: entrantes · salientes · hacer · recibir · operador · número específico',
-  fb_ok:'✓ Correcto. Identificas sentido (entrante/saliente), operador afectado y si es número específico.',
-  fb_miss:'⚠ Preguntar: ¿al hacer o recibir llamadas? ¿Con qué operador? ¿Un número o con todos?',
+  hint:'Necesitas saber: ¿falla al hacer llamadas, al recibirlas o en ambas? ¿Con qué operador? ¿Es solo un número o con todos?',
+  kw:['hacer llamadas','recibir','entrantes','salientes','operador','número específico','todos los números'],
+  kw_label:'Palabras clave: hacer llamadas · recibir · entrantes · salientes · operador · número específico',
+  fb_ok:'✓ Correcto. Identificas el sentido de la falla y el alcance para orientar el diagnóstico.',
+  fb_miss:'⚠ Pregunta: ¿el problema es al hacer llamadas, al recibirlas, o en ambas? ¿Con qué operador? ¿Es con un número específico o con todos?'},
+
+llamadas_datos:{cat:'TS · PASO 1',tipo:'libre',label:'TS Llamadas 1 · Explicar y verificar datos para VoLTE',ts:'TS: datos activos para VoLTE',
+  hint:'Explica al cliente por qué los datos son necesarios para VoLTE y pídele que los active si no los tiene.',
+  kw:['datos','volte','requiere','necesita','encienda','redes móviles','datos móviles','llamadas por 4g'],
+  kw_label:'Palabras clave: datos · VoLTE requiere datos · encienda · Redes móviles · llamadas por 4G',
+  fb_ok:'✓ Correcto. Explicas la razón (VoLTE requiere datos) e indicas cómo activarlos.',
+  fb_miss:'⚠ Explica al cliente: "Las llamadas VoLTE funcionan a través de la red de datos. Necesito que verifique que los datos móviles estén activos." Luego da la ruta si no los tiene encendidos.'},
+
+llamadas_volte:{cat:'TS · PASO 2',tipo:'libre',label:'TS Llamadas 2 · Guiar al cliente: activar VoLTE',ts:'TS: VoLTE activo en dispositivo',
+  hint:'Da la ruta exacta según el sistema operativo. Android: Configuración > Redes móviles > Llamadas VoLTE. iPhone: Ajustes > Datos móviles > Opciones > VoLTE.',
+  kw:['volte','configuración','redes móviles','llamadas volte','ajustes','datos móviles','opciones','active','activar'],
+  kw_label:'Palabras clave: VoLTE · Configuración > Redes móviles > Llamadas VoLTE · Ajustes > Datos móviles > Opciones · active',
+  fb_ok:'✓ Correcto. Guías al cliente con la ruta exacta para activar VoLTE en su dispositivo.',
+  fb_miss:'⚠ Android: Configuración > Redes móviles > Llamadas VoLTE > activar. iPhone: Ajustes > Datos móviles > Opciones > VoLTE > activar.'},
+
+llamadas_ims:{cat:'TS · PASO 3',tipo:'opts',label:'TS Llamadas 3 · Guiar al cliente: APN IMS',ts:'TS: APN IMS configurado',
+  hint:'Guía al cliente para verificar o crear el APN IMS con los valores exactos del flujo oficial.',
   opts:[
-    {t:'¿El problema es al hacer llamadas, al recibirlas, o en ambos? ¿Con qué operador le sucede?',q:'buena',a:'client',fb:'✓ Diagnóstico correcto de la falla de voz.'},
-    {t:'¿Es con un número específico o con todos? ¿Qué grabación o mensaje le aparece al marcar?',q:'buena',a:'client',fb:'✓ Correcto. Identificas el alcance y el tipo de error.'},
+    {t:'Vamos a revisar el APN IMS. Vaya a Configuración > Redes móviles > APN. Ahí debe existir uno de tipo IMS con estos valores: MCC 334, MNC 140, autenticación PAP, protocolo IPV4/IPV6. Si no existe, lo crearemos juntos.',q:'buena',a:'client',fb:'✓ Guías al cliente con ruta y valores exactos del flujo oficial.'},
+    {t:'Le voy a pedir que vaya a Configuración > Redes > APN. Busque si hay algún APN de tipo IMS. Si no lo tiene, vamos a crearlo con los valores MCC 334, MNC 140, tipo IMS, autenticación PAP.',q:'buena',a:'client',fb:'✓ Correcto. Ruta exacta y valores del APN IMS.'},
+    {t:'El APN IMS se configura solo cuando activa VoLTE, no hay que hacer nada.',q:'mala',a:'none',fb:'✗ El APN IMS puede no existir o estar mal configurado. Hay que verificarlo manualmente con los valores del flujo oficial.'},
+    {t:'Si VoLTE ya está activo el APN IMS no importa.',q:'mala',a:'none',fb:'✗ VoLTE activo no garantiza que el APN IMS esté bien configurado. Ambas cosas son necesarias.'},
   ]},
 
-llamadas_datos:{cat:'TS · CONFIG 1/5',tipo:'libre',label:'TS 1 · Datos encendidos (VoLTE los necesita)',ts:'TS: datos activos para VoLTE',
-  hint:'VoLTE requiere datos activos. Primer paso del TS de llamadas.',
-  kw:['datos','encendidos','activar','volte','voz','lte','encender','mobile'],
-  kw_label:'Palabras clave: datos · encendidos · VoLTE necesita datos · activar · Redes móviles',
-  fb_ok:'✓ Correcto. VoLTE requiere datos. "Encender la opción Datos en la terminal y replicar."',
-  fb_miss:'⚠ VoLTE requiere datos móviles activos. Verificar que estén encendidos.',
+llamadas_bloqueados:{cat:'TS · PASO 4',tipo:'opts',label:'TS Llamadas 4 · Verificar bloqueados / #31#',ts:'TS: bloqueados / código #31#',
+  hint:'Si es un número específico: guía para revisar la lista de bloqueados. Si son varios: indicar que marque #31# antes del número.',
   opts:[
-    {t:'VoLTE requiere datos activos. ¿Puede verificar que los datos móviles estén encendidos?',q:'buena',a:'client',fb:'✓ VoLTE requiere datos. Primer paso del TS de llamadas.'},
-    {t:'¿Tiene los datos móviles activos? Las llamadas VoLTE los necesitan para funcionar.',q:'buena',a:'client',fb:'✓ Explicar la dependencia de VoLTE con los datos.'},
+    {t:'Si el problema es con un número específico, le pido que vaya a los contactos o a la configuración de llamadas de su teléfono y verifique que ese número no esté en la lista de bloqueados. Si el problema es con varios números, marque #31# seguido del número y pruebe.',q:'buena',a:'client',fb:'✓ Instrucción diferenciada según si es uno o varios números.'},
+    {t:'Vaya a la configuración de llamadas de su dispositivo y busque la opción de Números bloqueados. Revise si hay algún número ahí que no debería estar. También puede marcar #31# más el número para desbloquear restricciones.',q:'buena',a:'client',fb:'✓ Ruta para revisar bloqueados y uso del código #31#.'},
+    {t:'Los números bloqueados no afectan el servicio de llamadas de la red.',q:'mala',a:'none',fb:'✗ Un número en lista de bloqueados impide recibir llamadas de ese contacto. Es parte del TS oficial.'},
+    {t:'Si VoLTE está activo, ya no hay más nada que revisar.',q:'mala',a:'none',fb:'✗ Faltan pasos del TS: bloqueados, código #31# y modo de red. VoLTE activo no es suficiente.'},
   ]},
 
-llamadas_volte:{cat:'TS · CONFIG 2/5',tipo:'libre',label:'TS 2 · Activar VoLTE',ts:'TS: VoLTE activo en dispositivo',
-  hint:'Android: Configuración > Redes móviles > Llamadas VoLTE. iOS: Datos móviles > Opciones > VoLTE.',
-  kw:['volte','activar','llamadas por lte','lte','redes móviles','datos móviles','opciones'],
-  kw_label:'Palabras clave: VoLTE · activar · Configuración > Redes > Llamadas VoLTE · iOS > Datos móviles',
-  fb_ok:'✓ Correcto. Android: Redes > Llamadas VoLTE. iOS: Datos móviles > Opciones > VoLTE.',
-  fb_miss:'⚠ Android: Configuración > Redes móviles > Llamadas VoLTE. iOS: Datos móviles > Opciones > VoLTE.',
+llamadas_modo_red:{cat:'TS · PASO 5',tipo:'libre',label:'TS Llamadas 5 · Guiar al cliente: Modo de Red 4G',ts:'TS: Modo de Red 4G para llamadas',
+  hint:'VoLTE solo funciona en red 4G. Guía al cliente para asegurarse de que el modo de red esté en 4G.',
+  kw:['4g','modo de red','configuración','redes móviles','seleccione 4g','modo preferido','lte'],
+  kw_label:'Palabras clave: 4G · modo de red · Configuración > Redes móviles · seleccione 4G · LTE',
+  fb_ok:'✓ Correcto. Guías al cliente para verificar que el modo de red esté en 4G, necesario para VoLTE.',
+  fb_miss:'⚠ Indica al cliente: Configuración > Redes móviles > Modo de red preferido > seleccione 4G o LTE.'},
+
+llamadas_tscheck:{cat:'TS · VERIFICACIÓN',tipo:'opts',label:'Verificación · ¿El TS resolvió las llamadas?',ts:'Verificar si TS resolvió las llamadas',
+  hint:'Verifica con el cliente si las llamadas funcionan antes de levantar ticket.',
   opts:[
-    {t:'Vaya a Configuración > Redes móviles y active la opción "Llamadas VoLTE" o "Llamadas por LTE".',q:'buena',a:'client',fb:'✓ TS 2: Activar VoLTE en el dispositivo.'},
-    {t:'En iPhone: Ajustes > Datos móviles > Opciones > VoLTE > activar. ¿Ya lo tiene activo?',q:'buena',a:'client',fb:'✓ Correcto. Ruta para iOS.'},
+    {t:'Ya aplicamos todos los pasos. Le pido que intente hacer una llamada de prueba ahora mismo y me diga qué sucede.',q:'buena',a:'client',fb:'✓ Prueba en vivo antes de decidir si escalar.'},
+    {t:'¿Puede marcar a algún número en este momento para verificar si ya le funciona? Dígame qué mensaje o qué escucha.',q:'buena',a:'client',fb:'✓ Prueba específica con instrucción de qué reportar.'},
+    {t:'Seguramente ya funciona con los cambios que hicimos. Cerramos.',q:'mala',a:'none',fb:'✗ Nunca asumir. El cliente debe confirmar que las llamadas ya funcionan antes de cerrar.'},
+    {t:'Le levanto el ticket aunque no hicimos la prueba.',q:'mala',a:'none',fb:'✗ El ticket solo procede si el cliente confirma que persiste después de verificar.'},
   ]},
 
-llamadas_ims:{cat:'TS · CONFIG 3/5',tipo:'mixed',label:'TS 3 · APN IMS (MCC 334 / MNC 140)',ts:'TS: APN IMS configurado',
-  hint:'APN IMS: MCC "334", MNC "140", autenticación "PAP", tipo APN "ims", protocolo "IPV4/IPV6".',
-  kw:['ims','apn','mcc','mnc','334','140','pap','protocolo'],
-  kw_label:'Palabras clave: APN IMS · MCC 334 · MNC 140 · PAP · tipo IMS · IPV4/IPV6',
-  fb_ok:'✓ Correcto. APN IMS con los valores del flujo oficial: MCC 334, MNC 140, PAP, tipo ims.',
-  fb_miss:'⚠ Configurar APN IMS: MCC 334, MNC 140, autenticación PAP, tipo APN "ims", IPV4/IPV6.',
+llamadas_ticket:{cat:'ESCALACIÓN',tipo:'opts',label:'Escalación · Ticket Remedy – Falla de Voz',ts:'Ticket Remedy: Falla de Voz',
+  hint:'SOLO si el cliente confirmó que persiste. Ticket con categoría Falla de Voz y evidencias.',
   opts:[
-    {t:'Verificamos el APN IMS: en APN debe haber uno de tipo "ims" con MCC 334, MNC 140, autenticación PAP, protocolo IPV4/IPV6.',q:'buena',a:'client',fb:'✓ Valores exactos del APN IMS del flujo oficial.'},
-    {t:'En Configuración > Redes > APN, verifique si tiene un APN de tipo "ims". Si no está, lo crearemos.',q:'buena',a:'client',fb:'✓ Verificar y crear el APN IMS si no existe.'},
-    {t:'El APN IMS se configura automáticamente al activar VoLTE.',q:'mala',a:'none',fb:'✗ El APN IMS puede necesitar configuración manual con los valores del flujo oficial.'},
-    {t:'Con VoLTE activo es suficiente.',q:'mala',a:'none',fb:'✗ El APN IMS es parte del flujo oficial de configuración de llamadas VoLTE.'},
-  ]},
-
-llamadas_bloqueados:{cat:'TS · CONFIG 4/5',tipo:'mixed',label:'TS 4 · Números bloqueados / código #31#',ts:'TS: bloqueados / código #31#',
-  hint:'Número específico: revisar lista de bloqueados. Varios números: usar #31# para deshabilitar restricciones.',
-  kw:['bloqueados','bloqueo','#31#','número','restringido','lista'],
-  kw_label:'Palabras clave: números bloqueados · lista negra · código #31# · restricción',
-  fb_ok:'✓ Correcto. Número específico → revisar bloqueados. Varios → código #31#.',
-  fb_miss:'⚠ Número específico: revisar bloqueados en el dispositivo. Varios números: marcar #31#.',
-  opts:[
-    {t:'¿Es con un número específico? Revise la lista de bloqueados. Si es con varios, marque #31# para deshabilitar restricciones.',q:'buena',a:'client',fb:'✓ Número específico → bloqueados. Varios → código #31#.'},
-    {t:'Verifique en su teléfono si ese número está bloqueado. Y pruebe marcar #31# seguido del número.',q:'buena',a:'client',fb:'✓ Verificar bloqueados y usar #31# son pasos del TS oficial.'},
-    {t:'Los bloqueos no existen en nuestra red.',q:'mala',a:'none',fb:'✗ Los dispositivos tienen listas de bloqueados. Es parte del TS oficial.'},
-    {t:'Si VoLTE está activo no puede haber bloqueos.',q:'mala',a:'none',fb:'✗ Los bloqueos son independientes de VoLTE.'},
-  ]},
-
-llamadas_modo_red:{cat:'TS · CONFIG 5/5',tipo:'libre',label:'TS 5 · Modo de Red Preferido (4G)',ts:'TS: Modo de Red 4G para llamadas',
-  hint:'VoLTE no funciona en 3G o 2G. Verificar que el modo de red esté en 4G.',
-  kw:['modo','red','4g','preferido','lte','tipo de red'],
-  kw_label:'Palabras clave: modo de red · 4G · preferido · LTE · Configuración > Redes',
-  fb_ok:'✓ Correcto. VoLTE requiere red 4G. Si está en 3G, las llamadas VoLTE fallarán.',
-  fb_miss:'⚠ Verificar que el Modo de Red Preferido esté en 4G. VoLTE no funciona en 3G.',
-  opts:[
-    {t:'Verifique que el Modo de Red Preferido esté en 4G. VoLTE no funciona en modo 3G o 2G.',q:'buena',a:'client',fb:'✓ TS 5: Modo de Red 4G para VoLTE.'},
-    {t:'En Configuración > Redes > Modo de red preferido, seleccione 4G.',q:'buena',a:'client',fb:'✓ Correcto. Ruta para configurar el modo de red.'},
-  ]},
-
-llamadas_tscheck:{cat:'TS · VERIFICACIÓN',tipo:'libre',label:'Verificación · ¿Resolvieron las llamadas?',ts:'Verificar si TS resolvió las llamadas',
-  hint:'Siempre verificar con el cliente si el TS resolvió antes de levantar ticket.',
-  kw:['prueba','llamada','funciona','intentar','probar','marcar','confirmar','ahora'],
-  kw_label:'Palabras clave: prueba de llamada · ya funciona · intentar marcar · confirmar',
-  fb_ok:'✓ Correcto. Verificas si el TS resolvió las llamadas antes de escalar.',
-  fb_miss:'⚠ Siempre pedir al cliente que haga una prueba de llamada antes de levantar el ticket.',
-  opts:[
-    {t:'¿Puede intentar hacer una llamada ahora mismo para verificar si quedó resuelto?',q:'buena',a:'client',fb:'✓ Prueba de llamada en vivo para confirmar.'},
-    {t:'Intente marcar a un número y dígame qué sucede.',q:'buena',a:'client',fb:'✓ Correcto. Prueba en vivo.'},
-  ]},
-
-llamadas_ticket:{cat:'ESCALACIÓN',tipo:'opts',label:'Ticket Remedy · Falla de Voz (solo si persiste)',ts:'Ticket Remedy: Falla de Voz',
-  hint:'SOLO si el TS completo no resolvió. Categoría: Falla de Voz. Con capturas de VoLTE y APN IMS.',
-  opts:[
-    {t:'Completé el TS completo sin resolución. Levanto ticket Remedy "Falla de Voz" con: tipo de llamadas afectadas, operador, capturas de VoLTE y APN IMS.',q:'buena',a:'client',fb:'✓ Ticket "Falla de Voz" SOLO después del TS completo + evidencias.'},
-    {t:'Escalo con información completa del diagnóstico, folio y tiempo estimado al cliente.',q:'buena',a:'client',fb:'✓ Folio + tiempo estimado siempre al escalar.'},
-    {t:'Escalo sin completar el TS de configuración.',q:'mala',a:'none',fb:'✗ El ticket se levanta SOLO después de agotar el TS completo.'},
-    {t:'Le digo que espere 24 horas.',q:'mala',a:'client',fb:'✗ Si el TS completo no resolvió, hay que levantar ticket. No decirle que espere.'},
+    {t:'Entendido. Voy a generar el ticket en Remedy con categoría Falla de Voz, incluyendo el tipo de llamadas afectadas, el operador y las capturas de VoLTE y APN IMS. Le asigno folio y le informo el tiempo estimado.',q:'buena',a:'client',fb:'✓ Ticket completo con categoría, evidencias, folio y tiempo estimado.'},
+    {t:'Procedo a escalar. Le genero el folio de seguimiento y el área técnica estará dando respuesta en 24 a 48 horas hábiles.',q:'buena',a:'client',fb:'✓ Escalación correcta con folio y tiempo estimado.'},
+    {t:'Escalo sin hacer la prueba de llamada primero.',q:'mala',a:'none',fb:'✗ Primero verificar si el TS resolvió. El ticket solo procede si el cliente confirmó que persiste.'},
+    {t:'Le digo que espere a que mejore la red.',q:'mala',a:'client',fb:'✗ Si el TS no resolvió, hay que escalar. No atribuir la falla a la red sin evidencia.'},
   ]},
 
 /* ═══ TS SMS ═══ */
 diag_sms:{cat:'DIAGNÓSTICO',tipo:'libre',label:'Diagnóstico · Falla de SMS',ts:'¿Envío o recepción? ¿operador? ¿A2P?',
-  hint:'¿Al enviar o al recibir? ¿Con qué operador? ¿Son mensajes A2P (banco/app)?',
-  kw:['enviar','recibir','sms','mensaje','operador','banco','app','a2p','texto'],
-  kw_label:'Palabras clave: enviar · recibir · SMS · operador · banco · app · A2P',
+  hint:'Necesitas saber: ¿falla al enviar o al recibir? ¿Con qué operador? ¿Son mensajes de banco o app (A2P)?',
+  kw:['enviar','recibir','con qué operador','banco','app','a2p','mensajes de texto','sms'],
+  kw_label:'Palabras clave: enviar · recibir · operador · banco · app · A2P · mensajes de texto',
   fb_ok:'✓ Correcto. Identificas sentido, operador y si son A2P para orientar el diagnóstico.',
-  fb_miss:'⚠ Preguntar: ¿al enviar o recibir? ¿Con qué operador? ¿Son mensajes de banco o app (A2P)?',
-  opts:[
-    {t:'¿El problema es al enviar mensajes, al recibirlos, o en ambos? ¿Con qué operador? ¿Son mensajes de alguna app o banco?',q:'buena',a:'client',fb:'✓ Diagnóstico completo de falla de SMS.'},
-    {t:'¿A qué tipo de número? ¿Es numeración corta de banco o app, o es a números normales?',q:'buena',a:'client',fb:'✓ Identificar si es A2P o P2P determina el flujo.'},
-  ]},
+  fb_miss:'⚠ Pregunta: ¿falla al enviar o al recibir? ¿Con qué operador? ¿Son mensajes de banco o aplicación (A2P)?'},
 
-sms_smsc:{cat:'TS · CONFIG',tipo:'libre',label:'TS · Centro de Servicio SMS (SMSC)',ts:'TS: SMSC +525584611810',
-  hint:'Mensajes > 3 puntos > Ajustes > Más ajustes > Mensajes de texto > Centro de servicio: +525584611810 (con el signo +).',
-  kw:['centro de servicio','smsc','+525584611810','ajustes','mensajes','servicio'],
-  kw_label:'Palabras clave: Centro de servicio · SMSC · +525584611810 · Ajustes > Mensajes',
-  fb_ok:'✓ Correcto. SMSC: Mensajes > Ajustes > Más ajustes > Centro de servicio: +525584611810 (con +).',
-  fb_miss:'⚠ Mensajes > 3 puntos > Ajustes > Más ajustes > Mensajes de texto > Centro de servicio: +525584611810.',
-  opts:[
-    {t:'En Mensajes > 3 puntos > Ajustes > Más ajustes > Mensajes de texto > edite "Centro de servicio": +525584611810 (con el signo +).',q:'buena',a:'client',fb:'✓ Correcto. SMSC con el valor oficial y el signo + incluido.'},
-    {t:'¿Qué número aparece en el Centro de Servicio de sus mensajes? Debe ser +525584611810.',q:'buena',a:'client',fb:'✓ Verificar y corregir el SMSC.'},
-  ]},
+sms_smsc:{cat:'TS · PASO 1',tipo:'libre',label:'TS SMS · Guiar al cliente: Centro de Servicio (SMSC)',ts:'TS: SMSC +525584611810',
+  hint:'Guía al cliente paso a paso para configurar el Centro de Servicio. El número debe ser +525584611810 con el signo +.',
+  kw:['mensajes','ajustes','más ajustes','mensajes de texto','centro de servicio','+525584611810','signo más'],
+  kw_label:'Palabras clave: ajustes de mensajes · más ajustes · Centro de servicio · +525584611810 · signo +',
+  fb_ok:'✓ Correcto. Guías al cliente para configurar el SMSC con la ruta exacta y el número correcto.',
+  fb_miss:'⚠ Ruta: Mensajes > 3 puntos > Ajustes > Más ajustes > Mensajes de texto > Centro de servicio. Debe quedar +525584611810 (con el signo +).'},
 
-sms_ticket:{cat:'ESCALACIÓN',tipo:'opts',label:'Ticket Remedy · Falla SMS (si persiste)',ts:'Ticket Remedy: Falla SMS',
+sms_ticket:{cat:'ESCALACIÓN',tipo:'opts',label:'Escalación · Ticket Remedy – Falla SMS',ts:'Ticket Remedy: Falla SMS',
   opts:[
-    {t:'Levanto ticket Remedy "Falla de SMS" con: número y operador origen + captura del SMSC configurado.',q:'buena',a:'client',fb:'✓ Ticket "Falla de SMS" con evidencia del SMSC y datos del origen.'},
-    {t:'Escalo con información completa, folio y tiempo estimado al cliente.',q:'buena',a:'client',fb:'✓ Folio + tiempo estimado.'},
-    {t:'Le digo que contacte a la otra persona para que le reenvíe.',q:'mala',a:'client',fb:'✗ No es solución técnica. Levantar ticket Remedy.'},
-    {t:'Escalo sin folio.',q:'mala',a:'none',fb:'✗ Al escalar siempre dar folio y tiempo estimado.'},
+    {t:'Ya configuramos el SMSC y el problema persiste. Procedo a generar el ticket en Remedy con categoría Falla de SMS, incluyendo el número y operador que origina el SMS y la captura del SMSC configurado.',q:'buena',a:'client',fb:'✓ Ticket SMS con contexto del TS realizado y evidencias requeridas.'},
+    {t:'Voy a escalar el caso con la información del diagnóstico. Le asigno el folio de seguimiento y el tiempo estimado de resolución.',q:'buena',a:'client',fb:'✓ Escalación con folio y tiempo estimado.'},
+    {t:'Le digo que contacte a la otra persona para que le mande el mensaje de otra forma.',q:'mala',a:'client',fb:'✗ No es una solución técnica. Si el SMSC no resolvió, hay que levantar ticket Remedy.'},
+    {t:'Le escalo sin decirle el folio ni cuánto tardará.',q:'mala',a:'none',fb:'✗ Al escalar siempre informar el folio y el tiempo estimado de respuesta al cliente.'},
   ]},
 
 /* ═══ SMS A2P ═══ */
-a2p_info:{cat:'DIAGNÓSTICO A2P',tipo:'libre',label:'SMS A2P · Recopilar información',ts:'A2P: banco/app/fecha/hora/medio/acción',
-  hint:'Del flujo A2P: banco/entidad/app, fecha y hora, tipo de operación, medio (app/web/llamada/sucursal).',
-  kw:['banco','aplicación','fecha','hora','operación','medio','app','web','bbva','banorte','hsbc','nombre'],
-  kw_label:'Palabras clave: banco · app · fecha · hora · operación · medio (app/web/llamada/sucursal)',
-  fb_ok:'✓ Correcto. Recopilar banco/app, fecha/hora, tipo de operación y medio es el primer paso A2P.',
-  fb_miss:'⚠ Recopilar: banco/app afectada + fecha/hora del intento + tipo de operación + medio.',
-  opts:[
-    {t:'¿Cuál es el banco o aplicación? ¿Fecha y hora del intento? ¿Qué acción realizaba? ¿Por qué medio (app, web, sucursal)?',q:'buena',a:'client',fb:'✓ Información completa del caso A2P.'},
-    {t:'¿Es de un banco o app? ¿Qué tipo de código espera: confirmación, NIP, notificación?',q:'buena',a:'client',fb:'✓ Identificar la dependencia y el tipo de SMS A2P.'},
-  ]},
+a2p_info:{cat:'DIAGNÓSTICO A2P',tipo:'libre',label:'SMS A2P · Recopilar información del caso',ts:'A2P: banco/app/fecha/hora/medio/acción',
+  hint:'Explica al cliente que necesitas datos específicos para escalar correctamente. Pide: banco/app, fecha, hora, tipo de operación y medio (app/web/llamada/sucursal).',
+  kw:['banco','aplicación','fecha','hora','qué operación','por qué medio','app','web','sucursal','nombre del banco'],
+  kw_label:'Palabras clave: banco · aplicación · fecha · hora · qué operación realizaba · por qué medio',
+  fb_ok:'✓ Correcto. Recopilas la información necesaria para escalar el caso A2P correctamente.',
+  fb_miss:'⚠ Necesitas preguntar: ¿cuál banco o app? ¿Fecha y hora del intento? ¿Qué operación realizaba (transferencia, consulta, etc.)? ¿Por qué medio (app, web, sucursal, llamada)?'},
 
-a2p_shortcode:{cat:'TS A2P',tipo:'libre',label:'SMS A2P · Short code y lista negra',ts:'A2P: short code / lista negra SMS',
-  hint:'Verificar si el cliente conoce el número corto (short code) y que no esté bloqueado en el dispositivo.',
-  kw:['short code','número corto','bloqueado','lista','negra','bloqueo'],
-  kw_label:'Palabras clave: short code · número corto · bloqueado · lista negra · bloqueos SMS',
-  fb_ok:'✓ Correcto. Verificar el short code y que no esté en la lista negra del dispositivo.',
-  fb_miss:'⚠ Verificar el número corto (short code) y que no esté bloqueado en el dispositivo.',
-  opts:[
-    {t:'¿Sabe de qué número corto proviene el mensaje? Verifique también que ese número no esté bloqueado en su dispositivo.',q:'buena',a:'client',fb:'✓ Verificar short code y lista negra.'},
-    {t:'En Mensajes revise si tiene bloqueado algún número corto del banco o aplicación.',q:'buena',a:'client',fb:'✓ Verificar lista negra de SMS.'},
-  ]},
+a2p_shortcode:{cat:'TS A2P',tipo:'libre',label:'SMS A2P · Verificar short code y lista negra',ts:'A2P: short code / lista negra SMS',
+  hint:'Guía al cliente para que verifique si el número corto del banco/app está bloqueado en su dispositivo.',
+  kw:['número corto','bloqueados','lista negra','mensajes','configuración','bloqueos','short code'],
+  kw_label:'Palabras clave: número corto · lista de bloqueados · mensajes · configuración de SMS · bloqueos',
+  fb_ok:'✓ Correcto. Guías al cliente para verificar que el número corto no esté en la lista de bloqueados.',
+  fb_miss:'⚠ Indica al cliente: vaya a la configuración de mensajes y busque la lista de números bloqueados. Verifique que el número corto del banco/app no esté ahí.'},
 
-a2p_reporte:{cat:'GESTIÓN A2P',tipo:'libre',label:'SMS A2P · Solicitar reporte externo',ts:'A2P: reporte externo banco/entidad',
-  hint:'Solicitar al usuario que también levante reporte con el banco/entidad/app. Complementario al ticket interno.',
-  kw:['reporte','banco','entidad','app','levantar','reportar','contactar','también'],
-  kw_label:'Palabras clave: reporte · banco · entidad · levantar reporte · también reportar',
-  fb_ok:'✓ Correcto. El reporte al banco/entidad es complementario al ticket interno. Parte del proceso A2P.',
-  fb_miss:'⚠ Solicitar al cliente que levante también reporte con el banco/entidad/app.',
-  opts:[
-    {t:'Le pedimos también que levante un reporte con su banco o aplicación. La resolución A2P requiere coordinación entre nuestra red y el proveedor del mensaje.',q:'buena',a:'client',fb:'✓ Reporte externo + explicación de por qué es necesario.'},
-    {t:'Adicionalmente, contáctese con su banco para reportar el problema de recepción de mensajes.',q:'buena',a:'client',fb:'✓ Reporte externo complementario.'},
-  ]},
+a2p_reporte:{cat:'GESTIÓN A2P',tipo:'libre',label:'SMS A2P · Indicar reporte externo al banco',ts:'A2P: reporte externo banco/entidad',
+  hint:'Explica al cliente que además del ticket interno, también debe reportar con su banco/app. Esto es parte del proceso A2P.',
+  kw:['reporte','banco','también','comunicarse','reportar','aplicación','entidad','coordinación'],
+  kw_label:'Palabras clave: reporte · banco · también reportar · comunicarse con el banco · coordinación',
+  fb_ok:'✓ Correcto. Explicas al cliente que necesita levantar reporte también con su banco/app.',
+  fb_miss:'⚠ Indica al cliente: "Le pedimos que también levante un reporte con su banco o aplicación, ya que la resolución requiere coordinación entre nuestra red y el proveedor del mensaje."'},
 
-a2p_ticket:{cat:'ESCALACIÓN',tipo:'opts',label:'Ticket Remedy · SMS A2P',ts:'Ticket Remedy: SMS A2P + capturas',
+a2p_ticket:{cat:'ESCALACIÓN',tipo:'opts',label:'Escalación · Ticket Remedy – SMS A2P',ts:'Ticket Remedy: SMS A2P + capturas',
   opts:[
-    {t:'Levanto ticket Remedy "Falla SMS A2P" con: medio, banco/app, tipo de operación, número corto, fecha/hora y capturas del aplicativo con la afectación.',q:'buena',a:'client',fb:'✓ Ticket A2P con todos los datos + capturas del aplicativo.'},
-    {t:'Escalo con información completa del caso A2P, folio y tiempo estimado.',q:'buena',a:'client',fb:'✓ Folio + tiempo estimado.'},
-    {t:'Como el cliente reportó con el banco, ya no hace falta ticket interno.',q:'mala',a:'none',fb:'✗ El reporte al banco es complementario. El ticket Remedy es siempre obligatorio.'},
-    {t:'Escalo sin pedir capturas.',q:'mala',a:'none',fb:'✗ Las capturas del aplicativo son evidencia obligatoria en el ticket A2P.'},
+    {t:'Voy a escalar el caso con toda la información: banco/app, tipo de operación, número corto, fecha/hora, medio y las capturas del aplicativo. Le asigno el folio y le informo el tiempo estimado.',q:'buena',a:'client',fb:'✓ Ticket A2P completo con todos los datos requeridos, folio y tiempo estimado.'},
+    {t:'Genero el ticket con categoría Falla SMS A2P incluyendo toda la información que recopilamos. Le doy el folio de seguimiento.',q:'buena',a:'client',fb:'✓ Ticket con categoría correcta, datos completos y folio.'},
+    {t:'Como el cliente ya reportó con el banco, ya no hace falta el ticket interno.',q:'mala',a:'none',fb:'✗ El reporte al banco es complementario. El ticket en Remedy es siempre obligatorio.'},
+    {t:'Escalo sin pedir las capturas del aplicativo al cliente.',q:'mala',a:'none',fb:'✗ Las capturas del aplicativo son evidencia obligatoria en el ticket A2P según el flujo oficial.'},
   ]},
 
 /* ═══ CIERRE ═══ */
-verificacion:{cat:'VERIFICACIÓN',tipo:'libre',label:'Verificación · Confirmar solución con el cliente',ts:'Verificación con el cliente (prueba en vivo)',
-  hint:'Pedir al cliente una prueba en vivo antes del cierre. Nunca asumir que quedó resuelto.',
-  kw:['prueba','verificar','funciona','intentar','probar','confirmar','ahora','navegar','llamar'],
-  kw_label:'Palabras clave: prueba · ya funciona · intentar · confirmar · ahora mismo',
-  fb_ok:'✓ Correcto. Pides prueba en vivo antes del cierre. Nunca asumir que resolvió.',
-  fb_miss:'⚠ Pedir al cliente una prueba inmediata antes de cerrar la llamada.',
+verificacion:{cat:'VERIFICACIÓN',tipo:'opts',label:'Verificación · Confirmar solución con el cliente',ts:'Verificación con el cliente (prueba en vivo)',
+  hint:'Antes de cerrar, pide siempre una prueba en vivo. Nunca asumir que el problema quedó resuelto.',
   opts:[
-    {t:'¿Puede hacer una prueba ahora mismo para confirmar que el servicio quedó funcionando?',q:'buena',a:'client',fb:'✓ Prueba en vivo antes del cierre.'},
-    {t:'Por favor intente [navegar/llamar/enviar mensaje] en este momento y dígame si ya funciona.',q:'buena',a:'client',fb:'✓ Prueba específica e inmediata.'},
+    {t:'Muy bien. Le pido que haga una prueba ahora mismo: intente [navegar/hacer una llamada/enviar un mensaje] y dígame si ya funciona correctamente.',q:'buena',a:'client',fb:'✓ Prueba en vivo con instrucción específica antes de cerrar.'},
+    {t:'Antes de terminar la llamada, por favor intente usar el servicio que tenía el problema y confírmeme si ya está funcionando.',q:'buena',a:'client',fb:'✓ Verificación explícita antes del cierre.'},
+    {t:'Con los pasos que hicimos ya debe estar resuelto. Cerramos la llamada.',q:'mala',a:'none',fb:'✗ Nunca asumir que resolvió. El cliente debe confirmar con una prueba antes de cerrar.'},
+    {t:'Si hay algún problema nos llama de nuevo.',q:'mala',a:'none',fb:'✗ No cerrar sin verificar. No dejar al cliente con la responsabilidad de detectar si el problema persiste.'},
   ]},
 
 cierre:{cat:'CIERRE',tipo:'opts',label:'Cierre profesional de llamada',ts:'Cierre con folio y despedida profesional',
   opts:[
-    {t:'Me da gusto haberle apoyado. Le dejo su folio de atención: [folio]. ¿Hay algo más en que pueda apoyarle? ¡Que tenga excelente día!',q:'buena',a:'client',fb:'✓ Cierre completo: folio, oferta de ayuda adicional, despedida profesional.'},
-    {t:'Quedó atendido su caso con el folio [folio]. Para cualquier duda puede contactarnos. Buen día.',q:'buena',a:'client',fb:'✓ Cierre profesional con folio y despedida.'},
-    {t:'Listo, hasta luego.',q:'mala',a:'none',fb:'✗ El cierre debe incluir folio y despedida profesional.'},
-    {t:'Si vuelve a fallar llámenos. Adiós.',q:'mala',a:'none',fb:'✗ No sugerir que el problema puede regresar. Cierre positivo con folio.'},
+    {t:'Me da mucho gusto haberle podido apoyar hoy. Le dejo su número de folio de atención: [número de folio]. Si necesita cualquier apoyo adicional no dude en contactarnos. ¡Que tenga excelente día!',q:'buena',a:'client',fb:'✓ Cierre completo: satisfacción, folio, oferta de ayuda adicional, despedida profesional.'},
+    {t:'Quedó atendido su caso con el folio [número de folio]. Cualquier duda adicional con gusto le apoyamos. Buen día.',q:'buena',a:'client',fb:'✓ Cierre profesional con folio y disponibilidad.'},
+    {t:'Listo, ya terminamos. Hasta luego.',q:'mala',a:'none',fb:'✗ El cierre debe incluir el folio de atención y una despedida profesional y cálida.'},
+    {t:'Si vuelve a tener el problema nos llama. Adiós.',q:'mala',a:'none',fb:'✗ No sugerir que el problema puede repetirse. Cierre positivo, con folio y con disposición de ayuda.'},
   ]},
 };
 
@@ -847,7 +759,7 @@ function clientReply(phKey){
     case 'diag_datos': return ['En todas las aplicaciones. WhatsApp no carga, el navegador tampoco. Nada de internet.'];
     case 'datos_activar': return ['Sí, los datos los tengo encendidos. El ícono está activo en la barra de notificaciones.'];
     case 'datos_modo_red': return [src==='equipo'?'Ahorita revisé y está en modo 3G. ¿Lo cambio a 4G?':'Está en 4G/LTE. ¿Está bien así?'];
-    case 'datos_apn': return [sd.red?.apn?.includes('otro')?'El APN que me aparece es "internet.otro-operador.mx". ¿Ese no es el correcto?':`El APN que veo es "${sd.red?.apn||'el del operador'}". ¿Está bien?`];
+    case 'datos_apn': return [src==='equipo'?'Entré a Configuración > Redes > APN. Veo un APN que dice "internet.otro-operador.mx". ¿Ese es el correcto?':'Entré a Configuración > Redes > APN. ¿Qué valor debe ir ahí exactamente?'];
     case 'datos_restablecer': return ['Listo, restablecí los ajustes de red. Ya lo hice.'];
     case 'datos_tscheck': return [src==='equipo'?'¡Sí! Ya cargó WhatsApp y el navegador también. ¡Ya funciona! Muchas gracias.':'No, todavía no funciona. Sigue sin cargar nada de internet.'];
     case 'datos_ticket': return ['Entendido. ¿En cuánto tiempo se resolverá? ¿Me llega algún aviso?'];
@@ -860,7 +772,7 @@ function clientReply(phKey){
     case 'llamadas_tscheck': return [src==='equipo'?'¡Sí! Ya pude hacer una llamada. ¡Funciona! Muchas gracias.':'No, todavía no funciona. Sigo sin poder llamar.'];
     case 'llamadas_ticket': return ['¿En cuánto tiempo me resuelven esto? ¿Me llaman de regreso?'];
     case 'diag_sms': return ['No puedo ni enviar ni recibir mensajes. Con todos los contactos.'];
-    case 'sms_smsc': return ['Ya entré a Ajustes de mensajes. ¿En dónde exactamente está el Centro de Servicio?'];
+    case 'sms_smsc': return ['Entré a Mensajes, luego a los tres puntos y a Ajustes. Encontré Centro de servicio. ¿Qué número debo poner?'];
     case 'sms_ticket': return ['Entendido. ¿Cuánto tarda?'];
     case 'a2p_info': return [`Es ${sd.a2p?.banco||'BBVA'}. Me manda un código cuando hago una transferencia. La última vez fue ayer como a las 3 pm desde la aplicación del banco.`];
     case 'a2p_shortcode': return ['El número del que venía el mensaje era el '+( sd.a2p?.sc||'226622')+'. No lo tengo bloqueado que yo sepa.'];
@@ -948,7 +860,19 @@ function buildHome(){
       </div>
     </button>`).join('');
 }
-function launch(m){G.exam=m==='e';launchSim(m==='s'?'simulacion':m==='t'?'tecnica':'examen','datos');}
+function launch(m){
+  G.exam=m==='e';
+  if(m==='s') launchSim('simulacion','datos','neutro');
+  else if(m==='t'){
+    // Avanzado: escenario aleatorio de mayor dificultad
+    const adv=['sms_a2p','llamadas','sms'];
+    launchSim('tecnica',adv[Math.floor(Math.random()*adv.length)],'enojado');
+  } else {
+    // Examen: aleatorio completo
+    const all=['datos','llamadas','sms','sms_a2p'];
+    launchSim('examen',all[Math.floor(Math.random()*all.length)],['neutro','enojado','tranquilo'][Math.floor(Math.random()*3)]);
+  }
+}
 function lq(i){const s=QUICK[i];launchSim('simulacion',s.fam,s.mood);}
 
 /* LANZAR SIMULACIÓN */
@@ -963,7 +887,7 @@ function launchSim(mode,fam,mood){
   buildTsUI(); buildSysTools();
 
   const mc=mood==='enojado'?'ctag-e':mood==='tranquilo'?'ctag-t':'ctag-n';
-  const ml={simulacion:'Simulación',tecnica:'Técnica',examen:'Examen'}[mode]||mode;
+  const ml={simulacion:'🌱 Nivel Básico',tecnica:'🚀 Nivel Avanzado',examen:'🎯 Modo Examen'}[mode]||mode;
   document.getElementById('ctags').innerHTML=
     `<span class="ctag ${mc}">${mood[0].toUpperCase()+mood.slice(1)}</span>
      <span class="ctag ctag-m">${ml}</span>`+
@@ -996,7 +920,8 @@ function renderPhase(){
   hideFB(); hideInputs(); markCurTs(ph.ts);
   if(!G.exam&&ph.hint) document.getElementById('stip').textContent=ph.hint;
 
-  const tipo=ph.tipo==='mixed'?(Math.random()<.45?'libre':'opts'):ph.tipo;
+  // mixed siempre muestra libre (con refs abajo). Básico: opts. Avanzado: libre sin refs. Examen: libre sin refs ni kws.
+  const tipo = ph.tipo==='mixed' ? 'libre' : ph.tipo;
   if(tipo==='libre') renderFree(ph);
   else renderOpts(ph);
 }
@@ -1022,7 +947,10 @@ function selOpt(idx){
   if(!G.exam) showFB(opt.q,opt.fb||'');
   G.sel.push({phase:phKey,cat:ph.cat||'',lbl:ph.label,q:opt.q,text:opt.t,ts:ph.ts});
   if(ph.ts) markTs(ph.ts,'done','✓');
-  if(opt.a==='system'&&opt.sys){consultTool(opt.sys,true);addMsg('ag',opt.t);}
+  if(opt.a==='system'&&opt.sys){
+    consultTool(opt.sys,true); // siempre llamar - internamente ya no regenera si existe
+    addMsg('ag',opt.t);
+  }
   else if(opt.a!=='none'){addMsg('ag',opt.t);sendClientReply(phKey);}
   else addMsg('ag',opt.t);
   document.getElementById('bnext').classList.add('on');
@@ -1033,18 +961,17 @@ function renderFree(ph){
   const fz=document.getElementById('fz'); fz.classList.add('on');
   document.getElementById('fl').textContent=ph.hint||'Escribe tu respuesta al cliente:';
   const kw=document.getElementById('fkw');
+  // Mostrar palabras clave SOLO en nivel básico Y si la fase las tiene
+  const phHasKw = ph.kw && ph.kw.length > 0;
+  const showKw = !G.exam && G.mode==='simulacion' && phHasKw;
   kw.innerHTML=(ph.kw||[]).map(k=>`<span class="fkw">${k}</span>`).join('');
-  kw.style.display=G.exam?'none':'flex';
+  kw.style.display=showKw?'flex':'none';
   const ta=document.getElementById('fta');ta.value='';ta.disabled=false;arTA(ta);
   document.getElementById('fsbtn').disabled=false;
 
-  // Reference opts
+  // Las fases tipo:'libre' ya no tienen opts de referencia
   const rg=document.getElementById('rg'); const rl=document.getElementById('fref-lbl');
-  if(ph.opts&&ph.opts.length&&!G.exam){
-    rl.style.display='block'; rg.style.display='grid';
-    const sh=[...ph.opts.map((o,i)=>({...o,oi:i}))].sort(()=>Math.random()-.5);
-    rg.innerHTML=sh.map(o=>`<button class="rbtn" onclick="selRef(${o.oi})" data-ri="${o.oi}">${o.t}</button>`).join('');
-  } else {rl.style.display='none';rg.style.display='none';}
+  rl.style.display='none'; rg.style.display='none';
 }
 
 function sendFree(){
@@ -1053,6 +980,17 @@ function sendFree(){
   ta.disabled=true; document.getElementById('fsbtn').disabled=true;
   document.querySelectorAll('.rbtn').forEach(b=>b.disabled=true);
   const kws=ph.kw||[]; const vl=val.toLowerCase();
+
+  // Detectar si el agente menciona consultar el sistema → abrir herramienta automáticamente
+  const sysKeywords=['verifico en sistema','reviso en sistema','consulto en sistema','voy a revisar en sistema','reviso en el sistema','verificar en sistema','consultar en sistema','reviso el sistema'];
+  const sysMap={equipo:['equipo','imei','modelo','compatible','homologado'],saldo:['oferta','saldo','plan','paquete','vigente'],view360:['sim','línea','activa','estado','suspendida','línea activa','view 360'],red:['apn','volte','ims','red','modo de red'],cobertura:['cobertura','zona','señal']};
+  if(sysKeywords.some(k=>vl.includes(k))){
+    // Detectar qué herramienta menciona
+    let toolFound=null;
+    for(const[tid,tkws] of Object.entries(sysMap)){if(tkws.some(k=>vl.includes(k))){toolFound=tid;break;}}
+    if(toolFound&&!G.tools.has(toolFound)){setTimeout(()=>consultTool(toolFound,false),400);}
+  }
+
   const hit=kws.some(k=>vl.includes(k.toLowerCase()));
   const q=hit?'buena':'neutra';
   const fb=hit?(ph.fb_ok||'✓ Correcto.'):(ph.fb_miss||'⚠ Revisa las palabras clave del proceso correcto.');
@@ -1071,7 +1009,10 @@ function selRef(idx){
   if(!G.exam) showFB(opt.q,opt.fb||'');
   G.sel.push({phase:phKey,cat:ph.cat||'',lbl:ph.label,q:opt.q,text:opt.t,ts:ph.ts});
   if(ph.ts) markTs(ph.ts,'done','✓');
-  if(opt.a==='system'&&opt.sys){consultTool(opt.sys,true);addMsg('ag',opt.t);}
+  if(opt.a==='system'&&opt.sys){
+    consultTool(opt.sys,true);
+    addMsg('ag',opt.t);
+  }
   else if(opt.a!=='none'){addMsg('ag',opt.t);sendClientReply(phKey);}
   else addMsg('ag',opt.t);
   document.getElementById('bnext').classList.add('on');
@@ -1121,8 +1062,11 @@ function buildSysTools(){
 function consultTool(id,auto=false){
   const btn=document.getElementById('stb-'+id); const res=document.getElementById('str-'+id);
   if(!btn||!res)return; btn.classList.add('done');
-  if(!auto) res.classList.toggle('on'); else res.classList.add('on');
-  G.tools.add(id); if(res.innerHTML.trim())return;
+  // Toggle manual; siempre expandir si viene de selOpt/auto
+  if(!auto){ res.classList.toggle('on'); } else { res.classList.add('on'); }
+  G.tools.add(id);
+  // Si ya tiene contenido, solo mostrar (no regenerar)
+  if(res.innerHTML.trim()) return;
   const sd=G.sd;
   const row=(l,v,c='')=>`<tr><td>${l}</td><td>${c?`<span class="${c}">${v}</span>`:v}</td></tr>`;
   let h='<table>';
@@ -1136,7 +1080,13 @@ function consultTool(id,auto=false){
   h+='</table>'; if(sd.nota)h+=`<div class="snote">💡 ${sd.nota}</div>`; res.innerHTML=h;
   const am={view360:['3. SIM activa (Estado del servicio)'],saldo:['2. Oferta Comercial Vigente'],equipo:['1. Equipo compatible (homologado B28)'],cobertura:['4. Cobertura Altán']};
   (am[id]||[]).forEach(s=>markTs(s,'sdone','◈'));
-  if(!auto)addSA(`🖥️ Sistema consultado: <strong>${TOOLS.find(t=>t.id===id)?.lbl||id}</strong>`);
+  // Mensaje en chat para el agente
+  const toolLbl = TOOLS.find(t=>t.id===id)?.lbl||id;
+  if(auto){
+    addSA('🖥️ Agente consultó sistema: <strong>'+toolLbl+'</strong> — ver resultado en sidebar 📋');
+  } else {
+    addSA('🖥️ Sistema consultado: <strong>'+toolLbl+'</strong> — ver datos en sidebar');
+  }
 }
 
 /* CHECKLIST TS */
