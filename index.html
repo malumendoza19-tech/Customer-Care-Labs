@@ -366,11 +366,12 @@ button{cursor:pointer;font-family:var(--fb)}
   </div>
   <div class="rsec"><div class="rsttl">✅ 4 Validaciones básicas</div><div id="r-val"></div></div>
   <div class="rsec"><div class="rsttl">🔍 Sondeo inicial</div><div id="r-son"></div></div>
+  <div class="rsec"><div class="rsttl">🤝 Empatía y orientación al cliente</div><div id="r-emp"></div></div>
   <div class="rsec"><div class="rsttl">⚙️ TS – Configuraciones</div><div id="r-ts"></div></div>
   <div class="rsec"><div class="rsttl">🖥️ Uso del sistema</div><div id="r-sys"></div></div>
   <div class="rsec" id="r-crw" style="display:none"><div class="rsttl">🚨 Errores críticos</div><div id="r-crit"></div></div>
   <div class="rsec"><div class="rsttl">💡 Tips y buenas prácticas</div><div id="r-tips"></div></div>
-  <div class="rsec"><div class="rsttl">📈 Cómo mejorar</div><div id="r-ej"></div></div>
+  <div class="rsec"><div class="rsttl">📈 Puntos de mejora</div><div id="r-ej"></div></div>
   <div class="resacts">
     <button class="bpri" onclick="retry()">🔄 Repetir escenario</button>
     <button class="bsec" onclick="goHome()">🏠 Elegir otro escenario</button>
@@ -388,13 +389,22 @@ button{cursor:pointer;font-family:var(--fb)}
 ═══════════════════════════════════════════════════════════════ */
 const PH = {
 
-greeting:{cat:'APERTURA',tipo:'opts',label:'Apertura y presentación',ts:'Identificación al inicio',
-  hint:'Preséntate con nombre e indica el OMV. Solicita el número de línea para comenzar.',
+greeting:{cat:'APERTURA',tipo:'opts',label:'Apertura · Presentación y bienvenida',ts:'Identificación al inicio',
+  hint:'El cliente ya se presentó y describió su problema. Ahora el agente responde: saluda con calidez, se presenta con su nombre, muestra disposición de ayuda y pide el número de línea para localizarlo en sistema.',
   opts:[
-    {t:'Gracias por contactar a Tu Telefonía. Mi nombre es [Agente], con gusto le apoyo. ¿Me permite su número de línea para comenzar?',q:'buena',a:'client',fb:'✓ Presentación completa: nombre, OMV y solicitud del número. Correcto.'},
-    {t:'Hola, ¿en qué le puedo ayudar hoy?',q:'neutra',a:'client',fb:'⚠ Falta presentarte por nombre. Siempre identificarse al inicio.'},
-    {t:'¿Ya reinició su equipo? Ese suele ser el problema.',q:'mala',a:'client',fb:'✗ No se propone solución antes de escuchar el problema ni de hacer el sondeo y las validaciones.'},
-    {t:'Dígame su problema rápidamente.',q:'mala',a:'client',fb:'✗ Tono inapropiado y falta presentación. El agente siempre se identifica primero.'},
+    {t:'Buen día, [nombre del cliente]. Mi nombre es [Agente] y con mucho gusto le voy a apoyar. Para poder localizar su línea en sistema, ¿me podría compartir su número de teléfono?',q:'buena',a:'client',fb:'✓ Perfecto. El agente saluda usando el nombre del cliente, se presenta, muestra disposición y pide el número con contexto claro.'},
+    {t:'Buenos días, gracias por comunicarse a Tu Telefonía. Le atiende [Agente]. Entiendo su situación, vamos a revisarlo. ¿Me permite su número de línea para buscarle en sistema?',q:'buena',a:'client',fb:'✓ Correcto. Presentación completa, reconocimiento del problema y solicitud del número de forma natural.'},
+    {t:'Sí, dígame. ¿Cuál es su número?',q:'mala',a:'client',fb:'✗ Falta presentación con nombre del agente y saludo cálido. El cliente ya describió su problema — hay que reconocerlo antes de pedir el número.'},
+    {t:'¿Bueno? ¿Su número de teléfono?',q:'mala',a:'client',fb:'✗ Apertura brusca sin presentación. Siempre presentarse con nombre, saludar y reconocer brevemente el problema antes de pedir el número.'},
+  ]},
+
+pedir_numero:{cat:'APERTURA',tipo:'opts',label:'Apertura · Solicitar número de línea',ts:'Solicitar número para buscar en sistema',
+  hint:'El cliente ya te describió su problema. Ahora solicita su número de línea de forma amable y con contexto, para poder localizarlo en sistema antes de continuar.',
+  opts:[
+    {t:'Qué pena lo que está pasando, [nombre]. Con mucho gusto le apoyamos a resolverlo. Para poder localizar su línea en sistema y empezar a revisarla, ¿me podría proporcionar su número de teléfono?',q:'buena',a:'client',fb:'✓ Excelente. Reconoces el problema, muestras disposición y pides el número con contexto natural (para localizarle en sistema).'},
+    {t:'Entiendo, [nombre], no se preocupe que lo vamos a atender. Para buscar su línea en nuestro sistema, ¿me comparte su número por favor?',q:'buena',a:'client',fb:'✓ Correcto. Validación breve y solicitud del número de forma fluida y natural.'},
+    {t:'¿Cuál es su número de teléfono?',q:'mala',a:'client',fb:'✗ Muy directo y sin contexto. Primero reconoce brevemente el problema que el cliente ya describió, luego pide el número explicando para qué: "para localizarle en sistema".'},
+    {t:'Espere, primero déjeme explicarle el proceso que seguiremos.',q:'mala',a:'client',fb:'✗ No expliques el proceso antes de tener los datos del cliente. Primero solicita el número para localizarlo en sistema y luego inicia el diagnóstico.'},
   ]},
 
 sondeo_contexto:{cat:'SONDEO',tipo:'libre',label:'Sondeo 1 · Contexto del problema',ts:'Sondeo: cuándo / primera vez / lugar',
@@ -417,6 +427,16 @@ sondeo_tipo:{cat:'SONDEO',tipo:'libre',label:'Sondeo 2 · Tipo y área del probl
   opts:[
     {t:'¿El problema es con llamadas, datos, mensajes, o con todo el servicio? ¿Le aparece algún mensaje de error?',q:'buena',a:'client',fb:'✓ Correcto. Identificas el tipo de falla y si hay mensaje de error.'},
     {t:'¿Está sin servicio del todo o es lentitud? ¿Puede hacer algo aunque sea parcialmente?',q:'buena',a:'client',fb:'✓ Correcto. Distinción entre sin servicio total vs. falla parcial.'},
+  ]},
+
+
+empatia_inicial:{cat:'EMPATÍA',tipo:'opts',label:'Empatía · Reconocer y validar al cliente',ts:'Empatía: reconocer el problema del cliente',
+  hint:'SIEMPRE después de escuchar el problema: reconoce lo que le pasa, valida su molestia (si la hay) y muéstrale que lo vas a apoyar. Esto es clave para la satisfacción del cliente.',
+  opts:[
+    {t:'Entiendo perfectamente, qué situación tan incómoda. Lamento que esté teniendo este inconveniente con su servicio. Le aseguro que haré todo lo que esté de mi parte para resolverlo con usted el día de hoy.',q:'buena',a:'client',fb:'✓ Excelente. Reconoces el problema, validas la molestia del cliente y generas confianza con un compromiso real.'},
+    {t:'Con gusto le apoyo. Entiendo que esta situación le está generando un inconveniente y vamos a trabajar juntos para solucionarlo.',q:'buena',a:'client',fb:'✓ Correcto. Empatía genuina y disposición de trabajo conjunto con el cliente.'},
+    {t:'Sí señor/señora, entendido. Voy a revisar.',q:'neutra',a:'client',fb:'⚠ Es correcto pero muy frío. Agrega una frase de reconocimiento antes de actuar: "Entiendo que es incómodo no tener servicio..."'},
+    {t:'Eso no debería pasar. Vamos a ver qué pasó.',q:'mala',a:'client',fb:'✗ La frase "eso no debería pasar" puede generar desconfianza. Mejor: "Entiendo lo incómodo que es, con gusto lo revisamos."'},
   ]},
 
 /* ── 4 VALIDACIONES BÁSICAS ── */
@@ -462,36 +482,50 @@ diag_datos:{cat:'DIAGNÓSTICO',tipo:'libre',label:'Diagnóstico · Falla de dato
   fb_ok:'✓ Correcto. Identificas si la falla es general de red o solo de una app/sitio.',
   fb_miss:'⚠ Pregunta si el problema es con todas las aplicaciones y sitios, o con uno en específico. Eso define si es falla de red o de la app.'},
 
-datos_activar:{cat:'TS · PASO 1',tipo:'libre',label:'TS Datos 1 · Guiar al cliente: datos encendidos',ts:'TS: datos encendidos en terminal',
-  hint:'Instruye al cliente para que verifique y active los datos móviles en su dispositivo. Da la ruta exacta.',
-  kw:['datos móviles','redes móviles','configuración','encienda','active','encender','activar','datos'],
-  kw_label:'Palabras clave: datos móviles · Configuración > Redes móviles · encienda · active los datos',
-  fb_ok:'✓ Correcto. Guías al cliente con la ruta exacta para activar los datos móviles.',
-  fb_miss:'⚠ Indica al cliente la ruta exacta: Configuración > Redes móviles > activar la opción de Datos Móviles. Luego pídele que pruebe.'},
-
-datos_modo_red:{cat:'TS · PASO 2',tipo:'opts',label:'TS Datos 2 · Guiar al cliente: Modo de Red 4G',ts:'TS: Modo de Red Preferido 4G',
-  hint:'Instruye al cliente para que cambie el modo de red a 4G. Da la ruta específica para que pueda hacerlo.',
+datos_activar:{cat:'TS · PASO 1',tipo:'opts',label:'TS Datos 1 · Verificar que los datos estén activos',ts:'TS: datos encendidos en terminal',
+  hint:'El primer paso es confirmar con el cliente que sus datos móviles estén activados. Guíalo con lenguaje claro y la ruta del dispositivo.',
   opts:[
-    {t:'Le pido que vaya a Configuración > Redes móviles > Modo de red preferido, y que seleccione la opción 4G o LTE. Luego haga una prueba de navegación.',q:'buena',a:'client',fb:'✓ Instrucción completa con ruta exacta y acción de verificación.'},
-    {t:'Por favor vaya a Configuración, entre a Redes móviles y busque la opción de Modo de red. Cámbielo a 4G que es el recomendado, y pruebe si ya navega.',q:'buena',a:'client',fb:'✓ Correcto. Ruta paso a paso y verificación al final.'},
-    {t:'La red se selecciona automáticamente, no hay nada que cambiar en el equipo.',q:'mala',a:'none',fb:'✗ El modo de red preferido se configura manualmente en el dispositivo. Puede estar en 3G o 2G y limitar el servicio.'},
-    {t:'Si tiene datos encendidos ya debería funcionar en 4G.',q:'mala',a:'none',fb:'✗ No necesariamente. El modo de red puede estar forzado a 3G o 2G. Hay que verificar y corregir.'},
+    {t:'Para empezar, me podría apoyar entrando a las Configuraciones o Ajustes de su dispositivo, luego a Conexiones o Redes, y dígame si tiene activa la opción de Datos Móviles. Si no la tiene encendida, por favor actívela y hacemos una prueba.',q:'buena',a:'client',fb:'✓ Excelente. Instrucción natural, paso a paso, con ruta clara y cierre con prueba.'},
+    {t:'Con mucho gusto le ayudo. Lo primero que haremos es revisar que sus datos móviles estén activados. ¿Podría entrar a Ajustes de su teléfono, luego a la sección de Redes o Conexiones, y verificar si los Datos Móviles tienen el interruptor encendido?',q:'buena',a:'client',fb:'✓ Correcto. Lenguaje amable, ruta guiada y pregunta de confirmación.'},
+    {t:'Reinicie su dispositivo y los datos se van a activar solos.',q:'mala',a:'client',fb:'✗ El reinicio no activa los datos si están apagados. Hay que guiar al cliente para activarlos manualmente.'},
+    {t:'Si el ícono de datos aparece en la pantalla, están activos. Continuemos.',q:'mala',a:'none',fb:'✗ El ícono puede aparecer aunque los datos estén limitados. Hay que verificar juntos que estén completamente activos.'},
   ]},
 
-datos_apn:{cat:'TS · PASO 3',tipo:'libre',label:'TS Datos 3 · Guiar al cliente: configurar APN',ts:'TS: APN del OMV configurado',
-  hint:'Guía al cliente para que revise y configure el APN correcto. Da la ruta completa paso a paso. El APN correcto lo indica el OMV.',
-  kw:['configuración','redes móviles','punto de acceso','apn','nombre del punto','modifique','cree','verifique el apn'],
-  kw_label:'Palabras clave: APN · punto de acceso · Configuración > Redes móviles > APN · modifique · cree el APN',
-  fb_ok:'✓ Correcto. Guías al cliente con la ruta exacta para verificar y configurar el APN del OMV.',
-  fb_miss:'⚠ Indica la ruta completa: Configuración > Redes móviles > Nombres de punto de acceso (APN). Guía al cliente para verificar o crear el APN correcto de su operador.'},
-
-datos_restablecer:{cat:'TS · PASO 4',tipo:'opts',label:'TS Datos 4 · Guiar al cliente: restablecer ajustes de red',ts:'TS: restablecer ajustes de red',
-  hint:'Si persisten los problemas, guía al cliente para restablecer ajustes de red. Aclarar que NO borra datos personales.',
+datos_modo_red:{cat:'TS · PASO 2',tipo:'opts',label:'TS Datos 2 · Configurar el Modo de Red en 4G',ts:'TS: Modo de Red Preferido 4G',
+  hint:'Guía al cliente para cambiar el modo de red a 4G. Usa lenguaje natural sin tecnicismos. Explica por qué es importante.',
   opts:[
-    {t:'Si después de los ajustes anteriores sigue sin funcionar, le pido que vaya a Configuración > Sistema > Restablecer > Restablecer ajustes de red. Tranquilo, este proceso no borra sus fotos ni datos personales, solo limpia las configuraciones de red.',q:'buena',a:'client',fb:'✓ Instrucción completa con ruta, acción y la aclaración importante de que no borra datos.'},
-    {t:'Vamos a restablecer los ajustes de red de su dispositivo. Vaya a Configuración > Sistema > Restablecer > Restablecer ajustes de red. Sus fotos y aplicaciones no se verán afectadas.',q:'buena',a:'client',fb:'✓ Correcto. Ruta exacta y tranquiliza al cliente sobre sus datos.'},
-    {t:'Haga un restablecimiento de fábrica completo para limpiar todo.',q:'mala',a:'client',fb:'✗ El restablecimiento de fábrica borra todos los datos del cliente. Solo se requiere restablecer ajustes de red.'},
-    {t:'Si nada funciona dígale que lleve el equipo a servicio técnico.',q:'mala',a:'none',fb:'✗ Antes de escalar hay que completar el TS completo incluyendo restablecer ajustes de red.'},
+    {t:'Perfecto. Ahora lo que haremos es asegurarnos de que su equipo esté usando la red más rápida. ¿Me podría apoyar entrando nuevamente a Ajustes, luego a Conexiones o Redes Móviles, y buscar una opción que diga Modo de Red o Tipo de Red? Ahí por favor seleccione la opción 4G o LTE. Eso le dará la mejor conexión disponible.',q:'buena',a:'client',fb:'✓ Instrucción completa: ruta guiada, lenguaje accesible y explicación del beneficio.'},
+    {t:'Bien, sigamos. Ahora necesito que entre a Configuraciones, luego a Redes Móviles o Conexiones, y busque donde dice Modo de Red preferido. Seleccione 4G, que es el recomendado. Una vez hecho eso, pruebe si ya le carga internet.',q:'buena',a:'client',fb:'✓ Correcto. Ruta paso a paso con verificación al final.'},
+    {t:'El modo de red lo selecciona el dispositivo automáticamente según la señal disponible.',q:'mala',a:'none',fb:'✗ No siempre. El modo puede quedarse fijo en 3G o 2G si así fue configurado. Hay que verificar y cambiarlo manualmente a 4G.'},
+    {t:'Con los datos activos ya debería conectarse a 4G solo.',q:'mala',a:'none',fb:'✗ Datos activos y modo de red son configuraciones independientes. El equipo puede tener datos encendidos pero estar en modo 3G.'},
+  ]},
+
+datos_apn:{cat:'TS · PASO 3',tipo:'opts',label:'TS Datos 3 · Verificar y configurar el APN',ts:'TS: APN del OMV configurado',
+  hint:'El APN es el "puente" que conecta el equipo con la red del operador. Guía al cliente para que lo revise sin usar tecnicismos.',
+  opts:[
+    {t:'Muy bien, vamos con el siguiente paso. Necesito que entre a Configuraciones, luego a Redes Móviles o Conexiones, y busque una opción que diga Nombres de Punto de Acceso o APN. Ahí me puede decir qué nombre tiene el que aparece configurado, para verificar que sea el correcto de su operador.',q:'buena',a:'client',fb:'✓ Excelente. Explicas qué buscar sin usar siglas técnicas solas y pides confirmación del valor actual.'},
+    {t:'El siguiente paso es revisar la configuración de acceso a internet de su equipo. Vaya a Ajustes, luego a Redes o Conexiones, y busque la opción de Punto de Acceso o APN. Dígame qué nombre aparece ahí y juntos verificamos si es el correcto para su servicio.',q:'buena',a:'client',fb:'✓ Correcto. Lenguaje claro, ruta guiada y trabajo en conjunto con el cliente.'},
+    {t:'¿Sabe cuál es su APN? Díganoslo para verificarlo.',q:'mala',a:'client',fb:'✗ El cliente no conoce el término técnico APN. El agente debe guiarlo para encontrarlo en el dispositivo.'},
+    {t:'El APN lo configura automáticamente la red al insertar la SIM.',q:'mala',a:'none',fb:'✗ No siempre. El APN puede estar incorrecto por múltiples razones. Siempre hay que verificarlo en el dispositivo.'},
+  ]},
+
+datos_restablecer:{cat:'TS · PASO 4',tipo:'opts',label:'TS Datos 4 · Restablecer ajustes de red',ts:'TS: restablecer ajustes de red',
+  hint:'Si los pasos anteriores no resolvieron, guía al cliente para limpiar la configuración de red. Tranquilízalo: no borra sus fotos ni apps.',
+  opts:[
+    {t:'No se preocupe, vamos a hacer una limpieza de las configuraciones de red de su dispositivo, que muchas veces resuelve este tipo de situaciones. Esto no afectará sus fotos, contactos ni aplicaciones. Entre a Ajustes o Configuraciones, luego busque la opción de Sistema o Administración general, después Restablecer, y seleccione Restablecer configuración de red. Hecho eso, pruebe el internet.',q:'buena',a:'client',fb:'✓ Instrucción tranquilizadora, ruta completa y verificación final.'},
+    {t:'Vamos a intentar algo más. Lo que haremos es limpiar únicamente las configuraciones de red, sus datos personales no se tocarán. En Ajustes busque Sistema o Administración, luego Restablecer, y finalmente la opción de Restablecer ajustes de red. Le avisa cuando lo haya hecho.',q:'buena',a:'client',fb:'✓ Correcto. Tranquiliza al cliente, da ruta clara y espera confirmación.'},
+    {t:'Haga un restablecimiento de fábrica completo para limpiar todo el equipo.',q:'mala',a:'client',fb:'✗ El restablecimiento de fábrica borra TODOS los datos. Solo se debe restablecer la configuración de red, no el equipo completo.'},
+    {t:'Si llegamos a este punto ya no hay más que hacer, hay que escalar.',q:'mala',a:'none',fb:'✗ Restablecer ajustes de red es el cuarto paso del TS y debe hacerse antes de escalar al ticket Remedy.'},
+  ]},
+
+
+empatia_ts:{cat:'EMPATÍA',tipo:'opts',label:'Empatía · Durante el proceso técnico',ts:'Empatía durante el TS',
+  hint:'Durante el TS, si el problema persiste o el cliente se frustra, valida su paciencia y explica el proceso. El cliente debe sentir que no está solo.',
+  opts:[
+    {t:'Le agradezco mucho su paciencia, sé que esto puede ser frustrante. Vamos paso a paso y lo vamos a resolver. ¿Me ayuda con el siguiente paso?',q:'buena',a:'client',fb:'✓ Excelente. Agradeces la paciencia, reconoces la frustración y mantienes el proceso. Esto mejora la experiencia del cliente.'},
+    {t:'Gracias por quedarse en la línea. Entiendo que estos pasos toman tiempo, pero son necesarios para encontrar y resolver la causa exacta del problema.',q:'buena',a:'client',fb:'✓ Correcto. Explicas el propósito de cada paso y agradeces al cliente por acompañarte en el proceso.'},
+    {t:'Tranquilo, esto es normal, pasa seguido.',q:'mala',a:'client',fb:'✗ Decirle que "pasa seguido" puede generar desconfianza en el servicio. Mejor: "Vamos a resolverlo juntos."'},
+    {t:'Si no funciona este paso vamos a tener que escalar.',q:'mala',a:'none',fb:'✗ No anticipar el fracaso durante el proceso. Mantén una actitud de solución: "Vamos paso a paso para encontrar la causa."'},
   ]},
 
 datos_tscheck:{cat:'TS · VERIFICACIÓN',tipo:'opts',label:'Verificación · ¿El TS resolvió los datos?',ts:'Verificar si TS resolvió (antes del ticket)',
@@ -520,44 +554,50 @@ diag_llamadas:{cat:'DIAGNÓSTICO',tipo:'libre',label:'Diagnóstico · Falla de l
   fb_ok:'✓ Correcto. Identificas el sentido de la falla y el alcance para orientar el diagnóstico.',
   fb_miss:'⚠ Pregunta: ¿el problema es al hacer llamadas, al recibirlas, o en ambas? ¿Con qué operador? ¿Es con un número específico o con todos?'},
 
-llamadas_datos:{cat:'TS · PASO 1',tipo:'libre',label:'TS Llamadas 1 · Explicar y verificar datos para VoLTE',ts:'TS: datos activos para VoLTE',
-  hint:'Explica al cliente por qué los datos son necesarios para VoLTE y pídele que los active si no los tiene.',
-  kw:['datos','volte','requiere','necesita','encienda','redes móviles','datos móviles','llamadas por 4g'],
-  kw_label:'Palabras clave: datos · VoLTE requiere datos · encienda · Redes móviles · llamadas por 4G',
-  fb_ok:'✓ Correcto. Explicas la razón (VoLTE requiere datos) e indicas cómo activarlos.',
-  fb_miss:'⚠ Explica al cliente: "Las llamadas VoLTE funcionan a través de la red de datos. Necesito que verifique que los datos móviles estén activos." Luego da la ruta si no los tiene encendidos.'},
-
-llamadas_volte:{cat:'TS · PASO 2',tipo:'libre',label:'TS Llamadas 2 · Guiar al cliente: activar VoLTE',ts:'TS: VoLTE activo en dispositivo',
-  hint:'Da la ruta exacta según el sistema operativo. Android: Configuración > Redes móviles > Llamadas VoLTE. iPhone: Ajustes > Datos móviles > Opciones > VoLTE.',
-  kw:['volte','configuración','redes móviles','llamadas volte','ajustes','datos móviles','opciones','active','activar'],
-  kw_label:'Palabras clave: VoLTE · Configuración > Redes móviles > Llamadas VoLTE · Ajustes > Datos móviles > Opciones · active',
-  fb_ok:'✓ Correcto. Guías al cliente con la ruta exacta para activar VoLTE en su dispositivo.',
-  fb_miss:'⚠ Android: Configuración > Redes móviles > Llamadas VoLTE > activar. iPhone: Ajustes > Datos móviles > Opciones > VoLTE > activar.'},
-
-llamadas_ims:{cat:'TS · PASO 3',tipo:'opts',label:'TS Llamadas 3 · Guiar al cliente: APN IMS',ts:'TS: APN IMS configurado',
-  hint:'Guía al cliente para verificar o crear el APN IMS con los valores exactos del flujo oficial.',
+llamadas_datos:{cat:'TS · PASO 1',tipo:'opts',label:'TS Llamadas 1 · Verificar datos activos para VoLTE',ts:'TS: datos activos para VoLTE',
+  hint:'Las llamadas en red 4G (VoLTE) necesitan que los datos estén activos. Explícaselo al cliente y guíalo para verificarlos.',
   opts:[
-    {t:'Vamos a revisar el APN IMS. Vaya a Configuración > Redes móviles > APN. Ahí debe existir uno de tipo IMS con estos valores: MCC 334, MNC 140, autenticación PAP, protocolo IPV4/IPV6. Si no existe, lo crearemos juntos.',q:'buena',a:'client',fb:'✓ Guías al cliente con ruta y valores exactos del flujo oficial.'},
-    {t:'Le voy a pedir que vaya a Configuración > Redes > APN. Busque si hay algún APN de tipo IMS. Si no lo tiene, vamos a crearlo con los valores MCC 334, MNC 140, tipo IMS, autenticación PAP.',q:'buena',a:'client',fb:'✓ Correcto. Ruta exacta y valores del APN IMS.'},
-    {t:'El APN IMS se configura solo cuando activa VoLTE, no hay que hacer nada.',q:'mala',a:'none',fb:'✗ El APN IMS puede no existir o estar mal configurado. Hay que verificarlo manualmente con los valores del flujo oficial.'},
-    {t:'Si VoLTE ya está activo el APN IMS no importa.',q:'mala',a:'none',fb:'✗ VoLTE activo no garantiza que el APN IMS esté bien configurado. Ambas cosas son necesarias.'},
+    {t:'Le comento que las llamadas en nuestra red funcionan a través de los datos móviles, así que lo primero es asegurarnos de que los tenga activos. ¿Me podría ayudar entrando a Ajustes, luego a Conexiones o Redes Móviles, y verificar si el interruptor de Datos Móviles está encendido?',q:'buena',a:'client',fb:'✓ Excelente. Explicas el motivo (VoLTE requiere datos) y guías con ruta natural.'},
+    {t:'Para que las llamadas funcionen correctamente necesitamos tener activos los datos móviles. ¿Podría revisar en Ajustes, en la sección de Redes o Conexiones, que la opción de Datos Móviles esté activa? Si no la tiene, por favor actívela y probamos.',q:'buena',a:'client',fb:'✓ Correcto. Justificas el paso y das ruta guiada.'},
+    {t:'Las llamadas no necesitan datos, son servicios independientes.',q:'mala',a:'none',fb:'✗ En redes 4G (VoLTE) las llamadas de voz se transmiten a través del canal de datos. Es necesario que los datos estén activos.'},
+    {t:'Si puede enviar mensajes de texto, los datos no tienen relación con las llamadas.',q:'mala',a:'none',fb:'✗ SMS y datos móviles son canales distintos. VoLTE sí requiere datos activos para funcionar.'},
   ]},
 
-llamadas_bloqueados:{cat:'TS · PASO 4',tipo:'opts',label:'TS Llamadas 4 · Verificar bloqueados / #31#',ts:'TS: bloqueados / código #31#',
-  hint:'Si es un número específico: guía para revisar la lista de bloqueados. Si son varios: indicar que marque #31# antes del número.',
+llamadas_volte:{cat:'TS · PASO 2',tipo:'opts',label:'TS Llamadas 2 · Activar llamadas por 4G (VoLTE)',ts:'TS: VoLTE activo en dispositivo',
+  hint:'Guía al cliente para activar la función de llamadas por 4G. El nombre varía según el dispositivo: "VoLTE", "Llamadas por LTE" o "Llamadas HD".',
   opts:[
-    {t:'Si el problema es con un número específico, le pido que vaya a los contactos o a la configuración de llamadas de su teléfono y verifique que ese número no esté en la lista de bloqueados. Si el problema es con varios números, marque #31# seguido del número y pruebe.',q:'buena',a:'client',fb:'✓ Instrucción diferenciada según si es uno o varios números.'},
-    {t:'Vaya a la configuración de llamadas de su dispositivo y busque la opción de Números bloqueados. Revise si hay algún número ahí que no debería estar. También puede marcar #31# más el número para desbloquear restricciones.',q:'buena',a:'client',fb:'✓ Ruta para revisar bloqueados y uso del código #31#.'},
-    {t:'Los números bloqueados no afectan el servicio de llamadas de la red.',q:'mala',a:'none',fb:'✗ Un número en lista de bloqueados impide recibir llamadas de ese contacto. Es parte del TS oficial.'},
-    {t:'Si VoLTE está activo, ya no hay más nada que revisar.',q:'mala',a:'none',fb:'✗ Faltan pasos del TS: bloqueados, código #31# y modo de red. VoLTE activo no es suficiente.'},
+    {t:'Ahora necesitamos activar las llamadas a través de la red 4G. ¿Me podría apoyar entrando a Ajustes, luego a Conexiones o Redes Móviles, y buscar una opción que diga Llamadas VoLTE, Llamadas por LTE o Llamadas HD? Por favor actívela si está desactivada. En iPhone la encuentra en Ajustes, Datos Móviles, Opciones, y ahí busca VoLTE.',q:'buena',a:'client',fb:'✓ Instrucción completa con nombre en lenguaje del cliente y ruta diferenciada por Android e iOS.'},
+    {t:'El siguiente paso es activar la función que permite hacer llamadas con mejor calidad en la red 4G. En Android va a Ajustes, Redes Móviles, y busca Llamadas VoLTE o Llamadas por LTE y actívela. Si tiene iPhone, entre a Ajustes, luego Datos Móviles, Opciones, y active VoLTE.',q:'buena',a:'client',fb:'✓ Correcto. Ruta clara para ambos sistemas operativos.'},
+    {t:'VoLTE se activa automáticamente cuando hay buena señal 4G.',q:'mala',a:'none',fb:'✗ VoLTE requiere activación manual en el dispositivo. No se activa automáticamente aunque haya señal 4G.'},
+    {t:'Si ya tiene datos activos, VoLTE ya está funcionando.',q:'mala',a:'none',fb:'✗ Datos activos y VoLTE activo son configuraciones distintas. VoLTE requiere habilitarse por separado en el dispositivo.'},
   ]},
 
-llamadas_modo_red:{cat:'TS · PASO 5',tipo:'libre',label:'TS Llamadas 5 · Guiar al cliente: Modo de Red 4G',ts:'TS: Modo de Red 4G para llamadas',
-  hint:'VoLTE solo funciona en red 4G. Guía al cliente para asegurarse de que el modo de red esté en 4G.',
-  kw:['4g','modo de red','configuración','redes móviles','seleccione 4g','modo preferido','lte'],
-  kw_label:'Palabras clave: 4G · modo de red · Configuración > Redes móviles · seleccione 4G · LTE',
-  fb_ok:'✓ Correcto. Guías al cliente para verificar que el modo de red esté en 4G, necesario para VoLTE.',
-  fb_miss:'⚠ Indica al cliente: Configuración > Redes móviles > Modo de red preferido > seleccione 4G o LTE.'},
+llamadas_ims:{cat:'TS · PASO 3',tipo:'opts',label:'TS Llamadas 3 · Verificar configuración IMS de llamadas',ts:'TS: APN IMS configurado',
+  hint:'El IMS es la configuración que permite las llamadas por 4G. Guía al cliente para verificarla sin usar tecnicismos complejos.',
+  opts:[
+    {t:'Muy bien, vamos con el siguiente paso. Necesito que entre nuevamente a Ajustes, luego a Redes Móviles o Conexiones, y busque la opción de Puntos de Acceso o APN. Ahí debe haber uno que diga IMS o que sea de tipo IMS. ¿Puede decirme si lo encuentra? Si no está, lo crearemos juntos con los datos correctos.',q:'buena',a:'client',fb:'✓ Guías sin tecnicismos: el cliente sabe qué buscar y sabe que lo ayudarás si no lo encuentra.'},
+    {t:'Para que las llamadas funcionen en 4G necesitamos verificar una configuración adicional. Entre a Ajustes, Redes Móviles, Puntos de Acceso. Debe existir un punto de acceso de tipo IMS. Si no lo tiene, no se preocupe, lo configuramos juntos ahora mismo.',q:'buena',a:'client',fb:'✓ Correcto. Lenguaje accesible, ruta guiada y respaldo al cliente.'},
+    {t:'El sistema configura automáticamente todos los puntos de acceso que se necesitan.',q:'mala',a:'none',fb:'✗ El APN IMS puede no existir en el equipo o estar mal configurado. Siempre verificar manualmente.'},
+    {t:'Con VoLTE activo no hace falta revisar el APN IMS.',q:'mala',a:'none',fb:'✗ VoLTE activo y APN IMS son dos cosas distintas. Las llamadas VoLTE necesitan ambas configuraciones correctas.'},
+  ]},
+
+llamadas_bloqueados:{cat:'TS · PASO 4',tipo:'opts',label:'TS Llamadas 4 · Verificar números bloqueados',ts:'TS: bloqueados / código #31#',
+  hint:'Si falla solo un número: puede estar bloqueado en el dispositivo. Si son varios: hay una restricción que se libera marcando #31#.',
+  opts:[
+    {t:'Ahora vamos a revisar si hay alguna restricción en las llamadas. Si el problema es con un número específico, le pido que entre a la aplicación de Teléfono o Contactos, busque la opción de Números Bloqueados y verifique que ese número no esté ahí. Si el problema es con varios números, pruebe marcando #31# antes del número, así: #31# y luego el número completo. Esto libera ciertas restricciones.',q:'buena',a:'client',fb:'✓ Instrucción clara y diferenciada según si es un número específico o varios.'},
+    {t:'Para descartar restricciones en su dispositivo: entre a la app de Teléfono, luego a Configuración o los tres puntos, y busque Números Bloqueados. Revise que el número que le falla no esté ahí. También puede intentar marcar #31# seguido del número para ver si así conecta.',q:'buena',a:'client',fb:'✓ Ruta guiada y uso del código #31# bien explicado.'},
+    {t:'Si el número no está bloqueado en sus contactos, no hay restricciones.',q:'mala',a:'none',fb:'✗ Los bloqueos se configuran en la app de Teléfono, no en Contactos. Hay que revisar en el lugar correcto.'},
+    {t:'Con VoLTE y datos activos ya se resolvió, no hace falta revisar bloqueados.',q:'mala',a:'none',fb:'✗ VoLTE y datos son solo dos pasos del TS. Faltan verificar bloqueados y modo de red antes de considerar escalación.'},
+  ]},
+
+llamadas_modo_red:{cat:'TS · PASO 5',tipo:'opts',label:'TS Llamadas 5 · Confirmar red 4G para las llamadas',ts:'TS: Modo de Red 4G para llamadas',
+  hint:'Las llamadas VoLTE solo funcionan en red 4G. Guía al cliente para asegurarse de que el equipo esté en ese modo.',
+  opts:[
+    {t:'Ya casi terminamos los pasos. Necesito que entre a Ajustes, luego a Redes Móviles o Conexiones, y busque donde dice Modo de Red o Tipo de Red. Asegúrese de que esté seleccionado 4G o LTE. Eso es necesario para que las llamadas funcionen con la mejor calidad.',q:'buena',a:'client',fb:'✓ Instrucción clara con justificación y ruta completa.'},
+    {t:'Un paso más: entre a Ajustes, Conexiones o Redes Móviles, y confirme que el Modo de Red esté configurado en 4G. Si está en 3G o automático sin 4G, cámbielo a 4G y luego intente hacer una llamada de prueba.',q:'buena',a:'client',fb:'✓ Correcto. Ruta exacta con verificación al final.'},
+    {t:'Si hay señal 4G en la pantalla, el modo ya está en 4G.',q:'mala',a:'none',fb:'✗ El ícono de señal puede mostrar 4G aunque el modo de red esté configurado en otro. Hay que verificarlo en la configuración del dispositivo.'},
+    {t:'El modo de red no afecta las llamadas, solo los datos.',q:'mala',a:'none',fb:'✗ VoLTE requiere específicamente red 4G. Si el equipo está en 3G, las llamadas VoLTE no funcionarán correctamente.'},
+  ]},
 
 llamadas_tscheck:{cat:'TS · VERIFICACIÓN',tipo:'opts',label:'Verificación · ¿El TS resolvió las llamadas?',ts:'Verificar si TS resolvió las llamadas',
   hint:'Verifica con el cliente si las llamadas funcionan antes de levantar ticket.',
@@ -585,12 +625,14 @@ diag_sms:{cat:'DIAGNÓSTICO',tipo:'libre',label:'Diagnóstico · Falla de SMS',t
   fb_ok:'✓ Correcto. Identificas sentido, operador y si son A2P para orientar el diagnóstico.',
   fb_miss:'⚠ Pregunta: ¿falla al enviar o al recibir? ¿Con qué operador? ¿Son mensajes de banco o aplicación (A2P)?'},
 
-sms_smsc:{cat:'TS · PASO 1',tipo:'libre',label:'TS SMS · Guiar al cliente: Centro de Servicio (SMSC)',ts:'TS: SMSC +525584611810',
-  hint:'Guía al cliente paso a paso para configurar el Centro de Servicio. El número debe ser +525584611810 con el signo +.',
-  kw:['mensajes','ajustes','más ajustes','mensajes de texto','centro de servicio','+525584611810','signo más'],
-  kw_label:'Palabras clave: ajustes de mensajes · más ajustes · Centro de servicio · +525584611810 · signo +',
-  fb_ok:'✓ Correcto. Guías al cliente para configurar el SMSC con la ruta exacta y el número correcto.',
-  fb_miss:'⚠ Ruta: Mensajes > 3 puntos > Ajustes > Más ajustes > Mensajes de texto > Centro de servicio. Debe quedar +525584611810 (con el signo +).'},
+sms_smsc:{cat:'TS · PASO 1',tipo:'opts',label:'TS SMS · Configurar el Centro de Mensajes',ts:'TS: SMSC +525584611810',
+  hint:'El Centro de Mensajes (SMSC) es el número que enruta los SMS. Guía al cliente para configurarlo con lenguaje claro.',
+  opts:[
+    {t:'Vamos a verificar la configuración del centro de mensajes de su dispositivo. Por favor abra su aplicación de Mensajes, toque los tres puntos o el menú de opciones, entre a Ajustes, luego a Más Ajustes o Ajustes de SMS, y ahí busque una opción que diga Centro de servicio o Número del centro. Dígame qué número aparece ahí.',q:'buena',a:'client',fb:'✓ Guía completa y natural para encontrar el SMSC sin usar siglas técnicas.'},
+    {t:'Para revisar los mensajes haremos lo siguiente: abra la app de Mensajes, entre al menú o los tres puntos, luego Ajustes, después Más Ajustes, y busque donde dice Centro de Mensajes o Centro de Servicio. El número que debe estar ahí es +525584611810 con el signo + al inicio. Si es diferente, por favor cámbielo a ese valor.',q:'buena',a:'client',fb:'✓ Ruta completa con el valor correcto y la aclaración del signo +.'},
+    {t:'¿Sabe cuál es el número de su Centro de Servicio SMS? Díganoslo.',q:'mala',a:'client',fb:'✗ El cliente no conoce ese término ni dónde encontrarlo. El agente debe guiarlo paso a paso por la ruta del dispositivo.'},
+    {t:'El Centro de Servicio lo configura automáticamente el operador, no hay que tocarlo.',q:'mala',a:'none',fb:'✗ El SMSC puede estar vacío o incorrecto, especialmente en equipos portados. Siempre verificarlo como parte del TS de SMS.'},
+  ]},
 
 sms_ticket:{cat:'ESCALACIÓN',tipo:'opts',label:'Escalación · Ticket Remedy – Falla SMS',ts:'Ticket Remedy: Falla SMS',
   opts:[
@@ -640,6 +682,16 @@ verificacion:{cat:'VERIFICACIÓN',tipo:'opts',label:'Verificación · Confirmar 
     {t:'Si hay algún problema nos llama de nuevo.',q:'mala',a:'none',fb:'✗ No cerrar sin verificar. No dejar al cliente con la responsabilidad de detectar si el problema persiste.'},
   ]},
 
+
+cordialidad:{cat:'EMPATÍA',tipo:'opts',label:'Cordialidad · Lenguaje positivo y profesional',ts:'Cordialidad y lenguaje positivo',
+  hint:'Antes de cerrar, asegúrate de usar lenguaje positivo. Evita frases que impliquen culpar al cliente o que suenen a obligación. La cordialidad se mantiene de inicio a fin.',
+  opts:[
+    {t:'Ha sido un placer apoyarle el día de hoy. Cualquier situación adicional que se le presente, con todo gusto le atendemos. ¡Que tenga un excelente día!',q:'buena',a:'client',fb:'✓ Lenguaje positivo, cálido y profesional. Invita al cliente a regresar sin sonar a que habrá más problemas.'},
+    {t:'Gracias a usted por su paciencia y por acompañarme en el proceso. Fue un placer atenderle. Cuídese mucho.',q:'buena',a:'client',fb:'✓ Correcto. Agradeces al cliente, reconoces su paciencia y cierras con calidez genuina.'},
+    {t:'Listo, ya quedó. Si tiene otro problema nos llama.',q:'mala',a:'none',fb:'✗ "Si tiene otro problema" anticipa fallas. Mejor: "Para cualquier apoyo adicional, estamos a sus órdenes."'},
+    {t:'Eso es todo, hasta luego.',q:'mala',a:'none',fb:'✗ Cierre frío y abrupto. El agente debe cerrar con agradecimiento, folio y una despedida cálida y profesional.'},
+  ]},
+
 cierre:{cat:'CIERRE',tipo:'opts',label:'Cierre profesional de llamada',ts:'Cierre con folio y despedida profesional',
   opts:[
     {t:'Me da mucho gusto haberle podido apoyar hoy. Le dejo su número de folio de atención: [número de folio]. Si necesita cualquier apoyo adicional no dude en contactarnos. ¡Que tenga excelente día!',q:'buena',a:'client',fb:'✓ Cierre completo: satisfacción, folio, oferta de ayuda adicional, despedida profesional.'},
@@ -653,12 +705,15 @@ cierre:{cat:'CIERRE',tipo:'opts',label:'Cierre profesional de llamada',ts:'Cierr
    FLUJOS — ticket siempre es el ÚLTIMO paso
 ═══════════════════════════════════════════════════════════════ */
 const FLOWS = {
-  datos_equipo:   ['greeting','sondeo_contexto','sondeo_tipo','val_equipo','val_oferta','val_sim','val_cobertura','diag_datos','datos_activar','datos_modo_red','datos_apn','datos_restablecer','datos_tscheck','datos_ticket','verificacion','cierre'],
-  datos_linea:    ['greeting','sondeo_contexto','sondeo_tipo','val_equipo','val_oferta','val_sim','val_cobertura','diag_datos','datos_activar','datos_apn','datos_tscheck','datos_ticket','verificacion','cierre'],
-  llamadas_equipo:['greeting','sondeo_contexto','sondeo_tipo','val_equipo','val_oferta','val_sim','val_cobertura','diag_llamadas','llamadas_datos','llamadas_volte','llamadas_ims','llamadas_bloqueados','llamadas_modo_red','llamadas_tscheck','llamadas_ticket','verificacion','cierre'],
-  llamadas_linea: ['greeting','sondeo_contexto','sondeo_tipo','val_equipo','val_oferta','val_sim','val_cobertura','diag_llamadas','llamadas_datos','llamadas_bloqueados','llamadas_modo_red','llamadas_tscheck','llamadas_ticket','verificacion','cierre'],
-  sms:            ['greeting','sondeo_contexto','sondeo_tipo','val_equipo','val_oferta','val_sim','val_cobertura','diag_sms','sms_smsc','datos_tscheck','sms_ticket','verificacion','cierre'],
-  sms_a2p:        ['greeting','sondeo_contexto','sondeo_tipo','val_equipo','val_oferta','val_sim','val_cobertura','a2p_info','a2p_shortcode','a2p_reporte','a2p_ticket','cierre'],
+  // empatia_inicial: después del sondeo, antes de validaciones
+  // empatia_ts: después de varios pasos de TS, antes de verificación
+  // cordialidad: antes del cierre formal
+  datos_equipo:   ['greeting','pedir_numero','sondeo_contexto','sondeo_tipo','empatia_inicial','val_equipo','val_oferta','val_sim','val_cobertura','diag_datos','datos_activar','datos_modo_red','datos_apn','datos_restablecer','empatia_ts','datos_tscheck','datos_ticket','verificacion','cordialidad','cierre'],
+  datos_linea:    ['greeting','pedir_numero','sondeo_contexto','sondeo_tipo','empatia_inicial','val_equipo','val_oferta','val_sim','val_cobertura','diag_datos','datos_activar','datos_apn','empatia_ts','datos_tscheck','datos_ticket','verificacion','cordialidad','cierre'],
+  llamadas_equipo:['greeting','pedir_numero','sondeo_contexto','sondeo_tipo','empatia_inicial','val_equipo','val_oferta','val_sim','val_cobertura','diag_llamadas','llamadas_datos','llamadas_volte','llamadas_ims','llamadas_bloqueados','llamadas_modo_red','empatia_ts','llamadas_tscheck','llamadas_ticket','verificacion','cordialidad','cierre'],
+  llamadas_linea: ['greeting','pedir_numero','sondeo_contexto','sondeo_tipo','empatia_inicial','val_equipo','val_oferta','val_sim','val_cobertura','diag_llamadas','llamadas_datos','llamadas_bloqueados','llamadas_modo_red','empatia_ts','llamadas_tscheck','llamadas_ticket','verificacion','cordialidad','cierre'],
+  sms:            ['greeting','pedir_numero','sondeo_contexto','sondeo_tipo','empatia_inicial','val_equipo','val_oferta','val_sim','val_cobertura','diag_sms','sms_smsc','empatia_ts','datos_tscheck','sms_ticket','verificacion','cordialidad','cierre'],
+  sms_a2p:        ['greeting','pedir_numero','sondeo_contexto','sondeo_tipo','empatia_inicial','val_equipo','val_oferta','val_sim','val_cobertura','a2p_info','a2p_shortcode','a2p_reporte','a2p_ticket','cordialidad','cierre'],
 };
 
 const QUICK = [
@@ -678,14 +733,14 @@ const QUICK = [
 
 const TS_CFG = {
   datos:{
-    s:['Contexto: cuándo / primera vez / lugar','Tipo: ¿todas las apps o una específica?'],
+    s:['Saludo cálido con nombre del agente','Solicitar número de línea al cliente','Contexto: cuándo / primera vez / lugar','Tipo: ¿todas las apps o una específica?','Empatía: reconocer y validar al cliente'],
     v:['1. Equipo compatible (homologado B28)','2. Oferta Comercial Vigente','3. SIM activa (Estado del servicio)','4. Cobertura Altán'],
     c:['TS 1: Datos encendidos en terminal','TS 2: Modo de Red Preferido 4G','TS 3: APN del OMV configurado','TS 4: Restablecer ajustes de red','Verificar si TS resolvió con el cliente'],
-    e:['Ticket Remedy: Falla de Datos (solo si no resolvió)','Capturas: Datos + Modo Red + APN'],
+    e:['Ticket Remedy: Falla de Datos (solo si no resolvió)','Capturas: Datos + Modo Red + APN','Cordialidad y lenguaje positivo en el cierre'],
     tip:'TS Datos: 1.Datos ON → 2.Modo Red 4G → 3.APN OMV → 4.Restablecer red → Verificar con cliente → Ticket SOLO si persiste.',
   },
   llamadas:{
-    s:['Contexto: cuándo / primera vez / lugar','Tipo: ¿entrantes/salientes? ¿operador? ¿número?'],
+    s:['Saludo cálido con nombre del agente','Solicitar número de línea al cliente','Contexto: cuándo / primera vez / lugar','Tipo: ¿entrantes/salientes? ¿operador? ¿número?','Empatía: reconocer y validar al cliente'],
     v:['1. Equipo compatible (homologado B28)','2. Oferta Comercial Vigente','3. SIM activa (Estado del servicio)','4. Cobertura Altán'],
     c:['TS 1: Datos activos (VoLTE los necesita)','TS 2: VoLTE activo en dispositivo','TS 3: APN IMS (MCC 334/MNC 140/PAP)','TS 4: Números bloqueados / código #31#','TS 5: Modo de Red Preferido 4G','Verificar si TS resolvió con el cliente'],
     e:['Ticket Remedy: Falla de Voz (solo si no resolvió)','Capturas: VoLTE + APN IMS + modo red'],
@@ -740,10 +795,88 @@ function clientReply(phKey){
   const sd=G.sd||{};const fam=G.fam;const src=G.src;const mood=G.mood;
   const n=rOf(NOMBRES); const msisdn=sd.view360?.msisdn||'5512345678';
   switch(phKey){
-    case 'greeting': return {
-      enojado:[`¡Llevo rato con este problema y nadie me soluciona! Soy ${n}, número ${msisdn}.`,`Buenas. ${n}, número ${msisdn}. Estoy muy molesto, ya llamé varias veces.`],
-      neutro:[`Hola, soy ${n}. Mi número es ${msisdn}. Tengo un problema con el servicio.`,`Buenos días, ${n}, número ${msisdn}. Necesito apoyo.`],
-      tranquilo:[`Hola, ${n}. Mi línea es ${msisdn}. Tengo una situación con el servicio.`,`Muy buenas, ${n}. Número ${msisdn}. ¿Me pueden apoyar?`],
+    case 'greeting': {
+      // El cliente inicia: da su NOMBRE + describe el PROBLEMA. Sin número — ese lo pide el agente después.
+      const problemaDesc = {
+        datos:{
+          enojado:[
+            `Mire, mi nombre es ${n} y llevo días sin poder navegar en internet. Tengo los datos encendidos pero no carga nada, ni WhatsApp ni el navegador. Estoy muy molesto porque los necesito para trabajar.`,
+            `Buenos días, soy ${n}. El problema es que no tengo internet desde hace días y nadie me ha resuelto nada. Espero que ahora sí me puedan apoyar.`,
+          ],
+          neutro:[
+            `Hola, buenos días. Me llamo ${n} y le llamo porque mis datos móviles no funcionan. No puedo navegar en ninguna aplicación aunque el ícono aparece activo.`,
+            `Buenas, soy ${n}. Tengo un problema con internet en mi celular, no carga nada. ¿Me pueden apoyar?`,
+          ],
+          tranquilo:[
+            `Buenos días, soy ${n}. Le comento que tengo un detalle con mis datos, no me carga internet aunque el ícono aparece como activo. ¿Me podrían ayudar a revisarlo?`,
+            `Hola, me llamo ${n}. Con calma, no tengo urgencia, pero mis datos no están funcionando bien. ¿Me pueden apoyar?`,
+          ],
+        },
+        llamadas:{
+          enojado:[
+            `Buen día, mi nombre es ${n}. Estoy muy molesto porque no puedo hacer ni recibir llamadas desde hace días y es urgente, las necesito para trabajar.`,
+            `Hola, soy ${n}. No tengo servicio de llamadas. Ya había llamado antes y no me resolvieron nada. Espero que esta vez sí puedan ayudarme.`,
+          ],
+          neutro:[
+            `Buenos días, soy ${n}. Le llamo porque tengo problemas con las llamadas. No puedo hacerlas ni recibirlas. ¿Me pueden apoyar?`,
+            `Hola, me llamo ${n}. Las llamadas no me funcionan, ni las salientes ni las entrantes. Quisiera que me ayuden a revisarlo.`,
+          ],
+          tranquilo:[
+            `Hola, buenos días. Soy ${n}. Tengo una situación con las llamadas, no puedo hacer ni recibir. Sin urgencia pero quisiera resolverlo.`,
+            `Buenos días, me llamo ${n}. Las llamadas no me están funcionando bien. ¿Me podrían apoyar a revisarlo?`,
+          ],
+        },
+        sms:{
+          enojado:[
+            `Hola, soy ${n}. Estoy muy molesto porque no me llegan ni salen los mensajes de texto desde hace varios días. Necesito que lo resuelvan urgente.`,
+            `Buenos días, mi nombre es ${n}. Mis mensajes SMS no funcionan. No puedo enviar ni recibir nada y ya estoy desesperado.`,
+          ],
+          neutro:[
+            `Hola, buenos días. Me llamo ${n}. Tengo un problema con los mensajes de texto, no puedo enviarlos ni recibirlos. ¿Me pueden ayudar?`,
+            `Buenos días, soy ${n}. Los mensajes SMS no me llegan ni puedo mandar. Quisiera que me apoyaran a revisarlo.`,
+          ],
+          tranquilo:[
+            `Hola, soy ${n}. Le llamo porque los mensajes de texto no me están funcionando. Sin urgencia, pero quisiera resolverlo.`,
+            `Buenos días, me llamo ${n}. Tengo un detalle con los mensajes SMS, no salen ni entran. ¿Me podrían ayudar?`,
+          ],
+        },
+        sms_a2p:{
+          enojado:[
+            `Buen día, mi nombre es ${n}. Necesito que me resuelvan esto urgente. No me llegan los mensajes de confirmación del banco para hacer transferencias y tengo pagos pendientes. Llevo días así.`,
+            `Hola, soy ${n}. Estoy muy molesto porque el banco me manda un código por mensaje para aprobar operaciones y ya no me llega. No puedo hacer nada en mi cuenta.`,
+          ],
+          neutro:[
+            `Hola, buenos días. Me llamo ${n}. El banco me manda un código de confirmación por mensaje para verificar mis operaciones y ya no me llega. ¿Me pueden apoyar?`,
+            `Buenos días, soy ${n}. No recibo los mensajes con código que me manda la aplicación del banco. Quisiera revisarlo con ustedes.`,
+          ],
+          tranquilo:[
+            `Hola, buenos días. Soy ${n}. Tengo un detalle, el banco me manda mensajes con código de seguridad y ya no los recibo. No es urgente pero quisiera resolverlo. ¿Me pueden apoyar?`,
+            `Buenos días, me llamo ${n}. Una app o banco me manda mensajes de confirmación y ya no me llegan. ¿Me podrían ayudar a revisar qué pasa?`,
+          ],
+        },
+      };
+      return (problemaDesc[fam]?.[mood] || [`Hola, buenos días. Mi nombre es ${n} y tengo un problema con mi servicio. ¿Me pueden apoyar?`]);
+    }
+    case 'pedir_numero': return [
+      `Sí, claro. Es el ${msisdn}.`,
+      `Por supuesto, mi número es el ${msisdn}.`,
+      `Sí, anótelo: ${msisdn}.`,
+      `Claro, el ${msisdn}.`,
+    ];
+    case 'empatia_inicial': return {
+      enojado:['Pues sí, llevo tiempo con esto y es muy molesto. Espero que ahora sí me puedan ayudar.','Gracias. Sí, es frustrante porque necesito el servicio para trabajar.','Ojalá que sí puedan resolverlo, ya tengo días con este problema.'],
+      neutro:['Gracias, le agradezco la disposición.','Sí, se lo agradezco. Espero que se pueda resolver hoy.','De acuerdo, gracias por el apoyo.'],
+      tranquilo:['Muchas gracias, se lo agradezco mucho.','Gracias, no hay prisa. Lo que importa es que se resuelva.','Con calma, gracias por atenderme.'],
+    }[mood]||[];
+    case 'empatia_ts': return {
+      enojado:['Bueno, espero que sea el último paso porque ya llevo un rato.','Está bien. La verdad ya me está dando desesperación pero entiendo.','Okay, pero ya son varios pasos. ¿Cuánto más falta?'],
+      neutro:['De acuerdo, gracias por la explicación. Sigo en línea.','Entendido, vamos paso a paso entonces.','Sí, con gusto. Gracias por explicarme para qué sirve cada cosa.'],
+      tranquilo:['No se preocupe, aquí estoy. Vamos a lo que sigue.','Muchas gracias por la paciencia también. Seguimos.','De acuerdo, sin prisa. Esto es importante que quede bien.'],
+    }[mood]||[];
+    case 'cordialidad': return {
+      enojado:['Gracias. Ojalá no haya más problemas, pero bueno, así es.','Está bien. Solo espero que no se repita. Hasta luego.','De acuerdo. Gracias al final.'],
+      neutro:['Muchas gracias por su ayuda. Fue una atención muy buena.','Igualmente, fue un placer. Cuídese.','Gracias a usted. Hasta luego.'],
+      tranquilo:['Muchas gracias, fue una atención excelente. Buen día.','Igualmente, gracias por toda la paciencia. Hasta luego.','Gracias, muy amable. Que le vaya bien.'],
     }[mood]||[];
     case 'sondeo_contexto': return [`Desde ${rOf(['ayer','hace dos días','esta mañana','anoche','hace una semana'])} empezó el problema. ${rOf(['Es la primera vez que me pasa.','Ya me había pasado antes pero se resolvía solo.'])} ${fam==='datos'?'Me pasa en mi casa y en el trabajo.':'Me pasa en todos lados.'}`];
     case 'sondeo_tipo': return {
@@ -757,22 +890,37 @@ function clientReply(phKey){
     case 'val_sim': return [sd.view360?.estatus&&sd.view360.estatus!=='Activo'?'No sé por qué estaría suspendida. Yo pago al corriente. ¿Qué pasó?':'Sí, la SIM está bien puesta. Es la misma que siempre he tenido.'];
     case 'val_cobertura': return [`Estoy en ${sd.cobertura?.zona||'la ciudad'}. Normalmente tengo buena señal aquí.`];
     case 'diag_datos': return ['En todas las aplicaciones. WhatsApp no carga, el navegador tampoco. Nada de internet.'];
-    case 'datos_activar': return ['Sí, los datos los tengo encendidos. El ícono está activo en la barra de notificaciones.'];
-    case 'datos_modo_red': return [src==='equipo'?'Ahorita revisé y está en modo 3G. ¿Lo cambio a 4G?':'Está en 4G/LTE. ¿Está bien así?'];
-    case 'datos_apn': return [src==='equipo'?'Entré a Configuración > Redes > APN. Veo un APN que dice "internet.otro-operador.mx". ¿Ese es el correcto?':'Entré a Configuración > Redes > APN. ¿Qué valor debe ir ahí exactamente?'];
-    case 'datos_restablecer': return ['Listo, restablecí los ajustes de red. Ya lo hice.'];
+    case 'datos_activar': return [
+      src==='equipo'?'Entré a Ajustes, luego a Conexiones. Veo la opción de Datos Móviles. Sí está encendida, tiene el interruptor en azul.':
+      'Entré a Ajustes y a Redes. Los datos están activos. Aunque tengo datos, no me carga nada de internet.'
+    ];
+    case 'datos_modo_red': return [
+      src==='equipo'?'Ya entré a Ajustes y a Redes Móviles. La opción de Modo de Red la encontré y dice 3G. Ya lo cambié a 4G. ¿Hago una prueba de internet?':
+      'Revisé en Ajustes y en Redes Móviles. El Modo de Red ya estaba en 4G. ¿Cuál es el siguiente paso?'
+    ];
+    case 'datos_apn': return [
+      src==='equipo'?'Ya entré a Ajustes, luego a Redes Móviles y encontré los Puntos de Acceso. El que aparece dice "internet.otro-operador.mx". ¿Ese es el correcto o hay que cambiarlo?':
+      'Entré a Ajustes y a Redes Móviles. Encontré los Puntos de Acceso. ¿Qué nombre debe tener el que está configurado ahí?'
+    ];
+    case 'datos_restablecer': return ['Listo, ya lo hice. Entré a Ajustes, luego a Sistema, después a Restablecer y seleccioné la opción de configuración de red. Ya reinició. ¿Hago una prueba ahora?'];
     case 'datos_tscheck': return [src==='equipo'?'¡Sí! Ya cargó WhatsApp y el navegador también. ¡Ya funciona! Muchas gracias.':'No, todavía no funciona. Sigue sin cargar nada de internet.'];
     case 'datos_ticket': return ['Entendido. ¿En cuánto tiempo se resolverá? ¿Me llega algún aviso?'];
     case 'diag_llamadas': return [src==='linea'?'Las salientes no puedo hacer. Las entrantes tampoco llegan. Con todos los operadores.':'No puedo hacer llamadas. Cuando marco no conecta o me dice que no se puede realizar la llamada.'];
-    case 'llamadas_datos': return ['Sí, mis datos están encendidos. De hecho estoy navegando por ahí ahorita.'];
-    case 'llamadas_volte': return [src==='equipo'?'Busqué la opción de VoLTE y estaba desactivada. La activé. ¿Hago una prueba?':'Revisé y el VoLTE ya estaba activo. Siempre lo ha estado.'];
-    case 'llamadas_ims': return [src==='equipo'?'No tenía configurado ningún APN de tipo IMS. ¿Cómo lo creo?':'Veo un APN de tipo IMS. ¿Está configurado correctamente?'];
+    case 'llamadas_datos': return ['Sí, entré a Ajustes y a Conexiones. Los Datos Móviles están activos, tiene el interruptor encendido. De hecho pude revisar el correo ahorita con datos.'];
+    case 'llamadas_volte': return [
+      src==='equipo'?'Entré a Ajustes, luego a Redes Móviles. Encontré una opción que dice Llamadas VoLTE. Estaba desactivada. Ya la activé. ¿Pruebo hacer una llamada?':
+      'Entré a Ajustes y a Redes Móviles. La opción de Llamadas VoLTE ya estaba activada desde antes. ¿Hay algo más que revisar?'
+    ];
+    case 'llamadas_ims': return [
+      src==='equipo'?'Entré a Ajustes, Redes Móviles y encontré los Puntos de Acceso. Veo un listado pero ninguno dice IMS. ¿Cómo lo creamos?':
+      'Ya entré a los Puntos de Acceso. Veo uno que dice IMS en el tipo. ¿Está bien configurado o hay que cambiarle algo?'
+    ];
     case 'llamadas_bloqueados': return ['Revisé los bloqueados y no hay ninguno. También usé el #31# y sigue sin funcionar.'];
-    case 'llamadas_modo_red': return ['Ya lo cambié a 4G. ¿Hago una prueba de llamada?'];
+    case 'llamadas_modo_red': return [src==='equipo'?'Entré a Ajustes, luego a Redes Móviles. Encontré el Modo de Red y estaba en 3G. Ya lo puse en 4G. ¿Hago la prueba de llamada?':'Entré a Redes Móviles. El modo ya estaba en 4G. ¿Qué más puedo intentar?'];
     case 'llamadas_tscheck': return [src==='equipo'?'¡Sí! Ya pude hacer una llamada. ¡Funciona! Muchas gracias.':'No, todavía no funciona. Sigo sin poder llamar.'];
     case 'llamadas_ticket': return ['¿En cuánto tiempo me resuelven esto? ¿Me llaman de regreso?'];
     case 'diag_sms': return ['No puedo ni enviar ni recibir mensajes. Con todos los contactos.'];
-    case 'sms_smsc': return ['Entré a Mensajes, luego a los tres puntos y a Ajustes. Encontré Centro de servicio. ¿Qué número debo poner?'];
+    case 'sms_smsc': return ['Ya entré a la app de Mensajes, toqué los tres puntos y fui a Ajustes, luego a Más Ajustes. Encontré donde dice Centro de Mensajes. El número que aparece es diferente al que me indicó. ¿Lo cambio al +525584611810?'];
     case 'sms_ticket': return ['Entendido. ¿Cuánto tarda?'];
     case 'a2p_info': return [`Es ${sd.a2p?.banco||'BBVA'}. Me manda un código cuando hago una transferencia. La última vez fue ayer como a las 3 pm desde la aplicación del banco.`];
     case 'a2p_shortcode': return ['El número del que venía el mensaje era el '+( sd.a2p?.sc||'226622')+'. No lo tengo bloqueado que yo sepa.'];
@@ -803,7 +951,9 @@ function calcEval(){
   const tech=techOpts.length?Math.round(techOpts.filter(o=>o.q==='buena').length/techOpts.length*100):65;
   const sys=Math.min(100,Math.round(G.tools.size/4*100));
   const sonOpts=opts.filter(o=>/SONDEO|APERTURA/.test(o.cat||''));
-  const emp=sonOpts.length?Math.round(sonOpts.filter(o=>o.q==='buena').length/sonOpts.length*100):60;
+  const empOpts=opts.filter(o=>/EMPATÍA/.test(o.cat||''));
+  const allSoftOpts=[...sonOpts,...empOpts];
+  const emp=allSoftOpts.length?Math.round(allSoftOpts.filter(o=>o.q==='buena').length/allSoftOpts.length*100):60;
   const clOpts=opts.filter(o=>/CIERRE|VERIFICACIÓN/.test(o.cat||''));
   const clo=clOpts.length?Math.round(clOpts.filter(o=>o.q==='buena').length/clOpts.length*100):60;
   const overall=Math.round(tech*.40+sys*.20+emp*.20+clo*.20);
@@ -828,12 +978,19 @@ function calcEval(){
   const critical=opts.filter(o=>o.q==='mala').map(o=>`${o.lbl}: "${o.text.substring(0,60)}"`);
 
   const tips_map={
-    datos:['TS Datos: 1.Datos encendidos → 2.Modo Red 4G → 3.APN del OMV → 4.Restablecer red → Verificar → Ticket SOLO si persiste.','El APN corresponde al OMV del cliente, no es el mismo para todos.','Verifica con el cliente si el TS resolvió ANTES de levantar el ticket Remedy.'],
-    llamadas:['TS Llamadas: 1.Datos ON (VoLTE los necesita) → 2.VoLTE activo → 3.APN IMS → 4.Bloqueados/#31# → 5.Modo Red 4G → Verificar → Ticket SOLO si persiste.','VoLTE requiere datos móviles activos. Sin datos, las llamadas VoLTE no funcionan.','APN IMS: MCC 334, MNC 140, tipo IMS, autenticación PAP, protocolo IPV4/IPV6.'],
+    datos:['TS Datos: 1.Datos encendidos → 2.Modo Red 4G → 3.APN del OMV → 4.Restablecer red → Verificar → Ticket SOLO si persiste.','Empatía: reconoce el problema del cliente antes de empezar el diagnóstico. Valida su molestia si la hay.','Cordialidad: lenguaje positivo de inicio a fin. Evita anticipar fallas. Di: "para cualquier apoyo adicional, estamos a sus órdenes."','El APN corresponde al OMV del cliente, no es el mismo para todos.','Verifica con el cliente si el TS resolvió ANTES de levantar el ticket Remedy.'],
+    llamadas:['TS Llamadas: 1.Datos ON (VoLTE los necesita) → 2.VoLTE activo → 3.APN IMS → 4.Bloqueados/#31# → 5.Modo Red 4G → Verificar → Ticket SOLO si persiste.','Empatía: agradece la paciencia durante el TS largo. Explica para qué sirve cada paso.','Cordialidad: el lenguaje cálido mejora la percepción aunque el problema tarde en resolverse.','Empatía: durante el TS largo agradece la paciencia del cliente. Explica para qué sirve cada paso.','Cordialidad: el lenguaje positivo y cálido mejora la percepción del servicio aunque el problema tarde en resolverse.','VoLTE requiere datos móviles activos. Sin datos, las llamadas VoLTE no funcionan.','APN IMS: MCC 334, MNC 140, tipo IMS, autenticación PAP, protocolo IPV4/IPV6.'],
     sms:['SMSC: +525584611810 siempre con el signo +. Mensajes > 3 puntos > Ajustes > Más ajustes > Mensajes de texto > Centro de servicio.','Si persiste → Remedy con número/operador origen y evidencia del SMSC.'],
     sms_a2p:['SMS A2P: recopilar banco/app + fecha/hora + medio + acción → verificar short code → reporte externo → Remedy con capturas.','El reporte al banco es COMPLEMENTARIO al ticket interno, no lo reemplaza.'],
   };
-  const examples=['En lugar de ir directo al APN, primero verifica que los datos móviles estén encendidos (paso 1 del flujo oficial).','En lugar de escalar sin verificar, pregunta: "¿Puede hacer una prueba ahora para confirmar si quedó resuelto?"','En lugar de asumir el estatus de la línea, consúltalo en View 360: "Verifico en sistema el estado de su línea."'];
+  const examples=[];
+  if(bad>0){
+    const firstBad=opts.find(o=>o.q==='mala');
+    if(firstBad&&/EMPATÍA/.test(firstBad.cat||'')) examples.push('Empatía: en lugar de "'+firstBad.text.substring(0,40)+'..." intenta: "Entiendo lo incómodo que es esta situación, con mucho gusto le apoyo a resolverlo hoy."');
+    else if(firstBad&&/TS|CONFIG/.test(firstBad.cat||'')) examples.push('Técnica: guía al cliente con la ruta completa. En lugar de términos técnicos solos, di: "Entre a Ajustes, luego a Conexiones y busque la opción de Datos Móviles."');
+  }
+  if(!G.tools.has('view360')) examples.push('Sistema: al verificar la SIM di: "Permítame un momento, estoy consultando el estado de su línea en sistema." Luego abre View 360 en el sidebar.');
+  if(examples.length===0) examples.push('¡Buen desempeño general! Sigue practicando para mantener la consistencia en todas las llamadas.');
 
   return {overall,grade,gm:gm[grade],tech,sys,emp,clo,good,bad,neu,total,comm_good,comm_improve,critical,tips:tips_map[G.fam]||tips_map.datos,examples};
 }
@@ -1123,6 +1280,33 @@ function renderResults(ev){
   if(son.length) son.forEach(s=>addEv(rs,s.q==='buena'?'g':s.q==='mala'?'b':'w',`${s.q==='buena'?'✓':'⚠'} <strong>${s.lbl}:</strong> "${s.text.substring(0,70)}"`));
   else addEv(rs,'b','✗ No se realizó el sondeo inicial. El sondeo es el primer paso del flujo oficial.');
 
+  /* Empatía y orientación al cliente */
+  const remp=document.getElementById('r-emp');remp.innerHTML='';
+  const empSel=G.sel.filter(o=>/EMPATÍA/.test(o.cat||''));
+  const apertSel=G.sel.find(o=>o.phase==='greeting');
+  // Apertura
+  if(apertSel){
+    const aok=apertSel.q==='buena';
+    addEv(remp,aok?'g':'b',`${aok?'✓':'✗'} <strong>Apertura:</strong> ${aok?'Presentación cálida con nombre y solicitud del número de línea con contexto.':'Falta presentación completa o solicitud del número de línea.'}`);
+  }
+  // Fases de empatía
+  const empInicial=G.sel.find(o=>o.phase==='empatia_inicial');
+  const empTS=G.sel.find(o=>o.phase==='empatia_ts');
+  const cordSel=G.sel.find(o=>o.phase==='cordialidad');
+  if(empInicial){const ok=empInicial.q==='buena';addEv(remp,ok?'g':empInicial.q==='neutra'?'w':'b',`${ok?'✓':empInicial.q==='neutra'?'⚠':'✗'} <strong>Empatía inicial:</strong> ${ok?'Reconociste el problema del cliente y generaste confianza antes de iniciar el diagnóstico.':empInicial.q==='neutra'?'Respondiste pero sin mostrar empatía genuina. El cliente necesita sentirse escuchado primero.':'No mostraste empatía al inicio. Es clave validar la molestia del cliente antes de diagnosticar.'}`);}
+  else addEv(remp,'b','✗ <strong>Empatía inicial:</strong> No se reconoció ni validó el problema del cliente. Este paso es obligatorio antes de las validaciones técnicas.');
+  if(empTS){const ok=empTS.q==='buena';addEv(remp,ok?'g':empTS.q==='neutra'?'w':'b',`${ok?'✓':empTS.q==='neutra'?'⚠':'✗'} <strong>Empatía durante el TS:</strong> ${ok?'Agradeciste la paciencia del cliente durante el proceso técnico y explicaste el propósito de los pasos.':empTS.q==='neutra'?'Continuaste el proceso pero sin reconocer el esfuerzo del cliente. Agradece su paciencia.':'No agradeciste la paciencia ni explicaste el proceso. Los clientes se frustran si no entienden para qué sirve cada paso.'}`);}
+  else addEv(remp,'w','⚠ <strong>Empatía durante el TS:</strong> No se validó la paciencia del cliente durante el proceso técnico.');
+  if(cordSel){const ok=cordSel.q==='buena';addEv(remp,ok?'g':cordSel.q==='neutra'?'w':'b',`${ok?'✓':cordSel.q==='neutra'?'⚠':'✗'} <strong>Cordialidad en el cierre:</strong> ${ok?'Usaste lenguaje positivo y cálido al cerrar. El cliente termina con una buena impresión del servicio.':cordSel.q==='neutra'?'El cierre fue correcto pero frío. Agrega calidez y agradecimiento al cliente.':'El cierre no fue profesional ni cordial. Evita frases que impliquen que el problema puede repetirse.'}`);}
+  else addEv(remp,'b','✗ <strong>Cordialidad en el cierre:</strong> No se evaluó el cierre con lenguaje positivo.');
+  // Orientación al cliente
+  const orientOk=G.sel.filter(o=>/TS/.test(o.cat||'')).some(o=>o.q==='buena');
+  if(orientOk) addEv(remp,'g','✓ <strong>Orientación al cliente:</strong> Guiaste al cliente con instrucciones claras y paso a paso durante el proceso técnico.');
+  else addEv(remp,'w','⚠ <strong>Orientación al cliente:</strong> Las instrucciones técnicas necesitan ser más claras y guiadas. El cliente debe saber exactamente qué hacer y por qué.');
+  // Score empatía
+  const empScore=ev.emp||0;
+  addEv(remp,empScore>=80?'g':empScore>=60?'w':'b',`📊 <strong>Score de empatía y habilidades blandas: ${empScore}%</strong> — ${empScore>=80?'Excelente manejo de la interacción con el cliente.':empScore>=60?'Buen nivel, con oportunidades de mejora en validación emocional.':'Necesitas practicar más las habilidades de empatía, cordialidad y orientación al cliente.'}`);
+
   /* TS */
   const rt=document.getElementById('r-ts');rt.innerHTML='';
   const tss=G.sel.filter(o=>!/SONDEO|APERTURA|CIERRE|VERIFICACIÓN/.test(o.cat||'')&&!/VALIDACIÓN/.test(o.cat||''));
@@ -1149,9 +1333,33 @@ function renderResults(ev){
   const rti=document.getElementById('r-tips');rti.innerHTML='';
   ev.tips.forEach(t=>addEv(rti,'t','💡 '+t));
 
-  /* Ejemplos */
+  /* Puntos de mejora — concretos y por categoría */
   const rej=document.getElementById('r-ej');rej.innerHTML='';
-  ev.examples.forEach(e=>addEv(rej,'i','📝 '+e));
+  // Calcular puntos de mejora desde las respuestas
+  const mejoras=[];
+  // Empatía
+  const noEmp=!G.sel.find(o=>o.phase==='empatia_inicial'&&o.q==='buena');
+  const noEmpTS=!G.sel.find(o=>o.phase==='empatia_ts'&&o.q==='buena');
+  const noCord=!G.sel.find(o=>o.phase==='cordialidad'&&o.q==='buena');
+  if(noEmp) mejoras.push({cat:'Empatía',txt:'Al inicio de la llamada siempre reconoce el problema del cliente antes de preguntar o diagnosticar. Ejemplo: "Entiendo lo incómodo que es no tener servicio, con mucho gusto le apoyo a resolverlo."'});
+  if(noEmpTS) mejoras.push({cat:'Paciencia',txt:'Durante el proceso técnico agradece la paciencia del cliente. Ejemplo: "Le agradezco mucho que me acompañe en este proceso, sé que toma tiempo pero es para encontrar la causa exacta."'});
+  if(noCord) mejoras.push({cat:'Cordialidad',txt:'En el cierre usa lenguaje positivo. Evita "si hay otro problema llámenos". Mejor: "Para cualquier situación adicional, con gusto le atendemos. Fue un placer apoyarle."'});
+  // Técnico
+  const malos=G.sel.filter(o=>o.q==='mala'&&/TS|CONFIGURACIÓN/.test(o.cat||''));
+  if(malos.length) mejoras.push({cat:'Técnica',txt:`Tuviste ${malos.length} respuesta(s) incorrecta(s) en el proceso técnico. Revisa el orden del TS oficial y asegúrate de completar cada paso antes de escalar al ticket Remedy.`});
+  if(!G.tools.has('view360')) mejoras.push({cat:'Sistema',txt:'No consultaste View 360 para verificar el estado de la línea. Esta es la validación 3 del flujo obligatorio y nunca debe omitirse.'});
+  if(!G.tools.has('saldo')) mejoras.push({cat:'Sistema',txt:'No verificaste la Oferta Comercial Vigente en sistema. Sin oferta activa no hay servicio — siempre verificar como validación 2.'});
+  // Sondeo
+  const noSondeo=G.sel.filter(o=>/SONDEO/.test(o.cat||'')).every(o=>o.q!=='buena');
+  if(noSondeo) mejoras.push({cat:'Sondeo',txt:'El sondeo de contexto fue incompleto. Siempre preguntar: ¿cuándo comenzó? ¿Es primera vez? ¿En algún lugar específico? Esto orienta el diagnóstico desde el inicio.'});
+  // Mostrar mejoras
+  if(mejoras.length){
+    mejoras.forEach(m=>addEv(rej,'i',`📌 <strong>${m.cat}:</strong> ${m.txt}`));
+  } else {
+    addEv(rej,'g','✅ ¡Sin puntos de mejora críticos! Mantén este nivel de desempeño en cada llamada.');
+  }
+  // Tips adicionales del cálculo original
+  if(ev.examples&&ev.examples.length) ev.examples.forEach(e=>addEv(rej,'w','💬 '+e));
 
   showScr('res');
 }
